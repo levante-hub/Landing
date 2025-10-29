@@ -3,6 +3,9 @@ import { LandingChatDemo } from "@/components/LandingChatDemo";
 import { PartnersSection } from "@/components/PartnersSection";
 import { BuiltWithSection } from "@/components/BuiltWithSection";
 import { MeetTheTeamSection } from "@/components/MeetTheTeamSection";
+import { AboutSection } from "@/components/AboutSection";
+import { ContributeSection } from "@/components/ContributeSection";
+import { TryNowSection } from "@/components/TryNowSection";
 
 export default function Home() {
   return (
@@ -166,6 +169,12 @@ export default function Home() {
       <BuiltWithSection />
 
       <MeetTheTeamSection />
+
+      <AboutSection />
+
+      <ContributeSection />
+
+      <TryNowSection />
     </div>
   );
 }
