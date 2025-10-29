@@ -86,7 +86,7 @@ export const LandingChatDemo = () => {
   return (
     <div className={cn(
       "flex flex-col h-full bg-white transition-all duration-300",
-      userMessage ? "min-h-[700px]" : "min-h-[500px]"
+      userMessage ? "min-h-[700px]" : toolsOpen || modelOpen ? "min-h-[500px]" : "min-h-[400px]"
     )}>
       <div className="flex-1 flex flex-col items-center justify-start px-4 pt-12 pb-16">
         <div className="w-full max-w-3xl flex flex-col items-center gap-8">

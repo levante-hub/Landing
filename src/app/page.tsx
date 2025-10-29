@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { LandingChatDemo } from "@/components/LandingChatDemo";
+import { PartnersSection } from "@/components/PartnersSection";
 
 export default function Home() {
   return (
@@ -22,13 +23,13 @@ export default function Home() {
           <a href="#" className="text-white text-sm">Features</a>
         </div>
 
-        <button className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+        <button className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer">
           Download
           <span>↓</span>
         </button>
       </nav>
 
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-32">
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-4">
         <div className="relative min-h-[900px] rounded-2xl">
           {/* Background Image Container - Limited to top half */}
           <div className="absolute top-0 left-0 right-0 h-[55%] rounded-2xl overflow-hidden shadow-xl">
@@ -60,7 +61,7 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
-              <button className="bg-white text-black rounded-full text-base font-medium flex items-center justify-center gap-2 w-[239px] h-[50px] hover:bg-gray-100 transition-colors">
+              <button className="bg-white text-black rounded-full text-base font-medium flex items-center justify-center gap-2 w-[239px] h-[50px] hover:bg-gray-100 transition-colors cursor-pointer">
                 Download
                 <span>↓</span>
               </button>
@@ -78,6 +79,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <PartnersSection />
     </div>
   );
 }
