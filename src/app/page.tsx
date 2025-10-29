@@ -81,6 +81,85 @@ export default function Home() {
       </section>
 
       <PartnersSection />
+
+      {/* Features Section */}
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Feature 01 */}
+          <div className="relative rounded-xl overflow-hidden">
+            {/* Background Image */}
+            <Image
+              src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Group-1426344.webp"
+              alt="Background 1"
+              width={640}
+              height={640}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="w-full h-auto"
+            />
+
+            {/* Overlay Content */}
+            <div className="absolute inset-0 flex flex-col justify-between p-8">
+              {/* Mockup Image */}
+              <div className="flex-1 flex items-start justify-center pt-8">
+                <div className="w-[85%] max-w-[500px]">
+                  <Image
+                    src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Captura%20de%20pantalla%202025-10-29%20a%20las%2010.38.07.png"
+                    alt="Feature 01 Mockup"
+                    width={600}
+                    height={400}
+                    className="w-full h-auto rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
+                  />
+                </div>
+              </div>
+
+              {/* Text Content */}
+              <div className="text-white">
+                <h3 className="text-2xl font-semibold mb-3">Feature 01</h3>
+                <p className="text-sm opacity-90">
+                  Add your own custom MCPs to the platform or import them directly from the integrated Store marketplace.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Feature 02 */}
+          <div className="relative rounded-xl overflow-hidden">
+            {/* Background Image */}
+            <Image
+              src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Group%201426344%20%281%29.png"
+              alt="Background 2"
+              width={640}
+              height={640}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="w-full h-auto"
+            />
+
+            {/* Overlay Content */}
+            <div className="absolute inset-0 flex flex-col justify-between p-8">
+              {/* Mockup Image */}
+              <div className="flex-1 flex items-start justify-center pt-8">
+                <div className="w-[85%] max-w-[500px]">
+                  <Image
+                    src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Captura%20de%20pantalla%202025-10-29%20a%20las%2010.40.45.png"
+                    alt="Feature 02 Mockup"
+                    width={600}
+                    height={400}
+                    className="w-full h-auto rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
+                  />
+                </div>
+              </div>
+
+              {/* Text Content */}
+              <div className="text-white">
+                <h3 className="text-2xl font-semibold mb-3">Feature 02</h3>
+                <p className="text-sm opacity-90">
+                  Select from hundreds of available AI models across multiple providers to match your specific requirements.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
