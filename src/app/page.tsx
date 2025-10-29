@@ -12,9 +12,12 @@ import { AboutSection } from "@/components/AboutSection";
 import { ContributeSection } from "@/components/ContributeSection";
 import { TryNowSection } from "@/components/TryNowSection";
 import { Questionnaire } from "@/components/questionnaire";
+import { useLatestRelease } from "@/hooks/useLatestRelease";
 
 export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
+  const { downloadUrl, error: releaseError, platform } = useLatestRelease()
   
   // Track UTM parameters and handle social media deep links
   useUTMTracking()
@@ -31,6 +34,40 @@ export default function Home() {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
+  }
+
+  const handleDownload = (location: 'navbar' | 'hero' | 'footer') => {
+    // Track download event with location
+    safeCapture('download_button_clicked', { location })
+    
+    if (downloadUrl) {
+      setIsDownloading(true)
+
+      // Crear un elemento <a> temporal para forzar la descarga sin abrir nueva pestaña
+      const link = document.createElement('a')
+      link.href = downloadUrl
+      link.download = '' // Esto sugiere al navegador descargar en lugar de navegar
+      link.style.display = 'none'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      // Reset después de 2 segundos
+      setTimeout(() => {
+        setIsDownloading(false)
+      }, 2000)
+    }
+  }
+
+  const getPlatformLabel = () => {
+    const labels = {
+      'windows': 'Windows',
+      'macos-intel': 'Mac (Intel)',
+      'macos-arm': 'Mac (Apple Silicon)',
+      'linux': 'Linux',
+      'unknown': ''
+    }
+    return labels[platform] || ''
   }
 
   return (
@@ -73,12 +110,22 @@ export default function Home() {
           </button>
         </div>
 
-        <button 
-          onClick={() => safeCapture('download_button_clicked', { location: 'navbar' })}
-          className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors"
+        <button
+          onClick={() => handleDownload('navbar')}
+          disabled={!downloadUrl || isDownloading}
+          className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Download
-          <span>↓</span>
+          {isDownloading ? (
+            <>
+              <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
+              Downloading...
+            </>
+          ) : (
+            <>
+              {getPlatformLabel() ? `Download for ${getPlatformLabel()}` : 'Download'}
+              <span>↓</span>
+            </>
+          )}
         </button>
       </nav>
 
@@ -114,13 +161,28 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
-              <button 
-                onClick={() => safeCapture('download_button_clicked', { location: 'hero' })}
-                className="bg-white text-black rounded-full text-base font-medium flex items-center justify-center gap-2 w-[239px] h-[50px] hover:bg-gray-100 transition-colors cursor-pointer"
-              >
-                Download
-                <span>↓</span>
-              </button>
+              <div className="flex flex-col items-center">
+                <button
+                  onClick={() => handleDownload('hero')}
+                  disabled={!downloadUrl || isDownloading}
+                  className="bg-white text-black rounded-full text-base font-medium flex items-center justify-center gap-2 min-w-[239px] h-[50px] px-6 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isDownloading ? (
+                    <>
+                      <span className="animate-spin inline-block w-5 h-5 border-2 border-black border-t-transparent rounded-full" />
+                      Downloading...
+                    </>
+                  ) : (
+                    <>
+                      {getPlatformLabel() ? `Download for ${getPlatformLabel()}` : 'Download'}
+                      <span>↓</span>
+                    </>
+                  )}
+                </button>
+                {releaseError && (
+                  <span className="text-red-400 text-xs mt-1">{releaseError}</span>
+                )}
+              </div>
               <button
                 onClick={openQuestionnaire}
                 className="text-white text-base underline hover:no-underline transition-all cursor-pointer bg-transparent border-none"
@@ -228,7 +290,12 @@ export default function Home() {
 
       <ContributeSection onOpenQuestionnaire={openQuestionnaire} />
 
-      <TryNowSection />
+      <TryNowSection 
+        onDownload={() => handleDownload('footer')}
+        isDownloading={isDownloading}
+        downloadUrl={downloadUrl}
+        getPlatformLabel={getPlatformLabel}
+      />
 
       <Questionnaire
         isOpen={isQuestionnaireOpen}

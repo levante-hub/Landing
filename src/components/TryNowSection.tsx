@@ -1,7 +1,29 @@
 import Image from "next/image";
 import { safeCapture } from '@/lib/posthog';
 
-export const TryNowSection = () => {
+interface TryNowSectionProps {
+  onDownload?: () => void;
+  isDownloading?: boolean;
+  downloadUrl?: string;
+  getPlatformLabel?: () => string;
+}
+
+export const TryNowSection = ({ 
+  onDownload, 
+  isDownloading = false, 
+  downloadUrl, 
+  getPlatformLabel 
+}: TryNowSectionProps) => {
+  const handleDownload = () => {
+    // Track download event
+    safeCapture('download_button_clicked', { location: 'footer' });
+    
+    // Call parent download handler
+    if (onDownload) {
+      onDownload();
+    }
+  };
+
   return (
     <footer className="relative w-full min-h-[600px] md:min-h-[700px] flex items-center justify-center mt-16">
       {/* Background Image */}
@@ -17,11 +39,21 @@ export const TryNowSection = () => {
       {/* Download Button */}
       <div className="relative z-10">
         <button 
-          onClick={() => safeCapture('download_button_clicked', { location: 'footer' })}
-          className="bg-white text-black px-10 py-4 rounded-full text-base font-medium hover:bg-gray-100 transition-colors cursor-pointer shadow-lg flex items-center gap-2"
+          onClick={handleDownload}
+          disabled={!downloadUrl || isDownloading}
+          className="bg-white text-black px-10 py-4 rounded-full text-base font-medium hover:bg-gray-100 transition-colors cursor-pointer shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Download
-          <span>↓</span>
+          {isDownloading ? (
+            <>
+              <span className="animate-spin inline-block w-5 h-5 border-2 border-black border-t-transparent rounded-full" />
+              Downloading...
+            </>
+          ) : (
+            <>
+              {getPlatformLabel && getPlatformLabel() ? `Download for ${getPlatformLabel()}` : 'Download'}
+              <span>↓</span>
+            </>
+          )}
         </button>
       </div>
     </footer>
