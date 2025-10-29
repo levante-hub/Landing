@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export const AboutSection = () => {
   return (
-    <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 mt-16">
+    <section id="about" className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 mt-16">
       {/* Logo */}
       <div className="mb-8">
         <Image

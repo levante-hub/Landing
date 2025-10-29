@@ -17,6 +17,13 @@ export default function Home() {
   const openQuestionnaire = () => setIsQuestionnaireOpen(true)
   const closeQuestionnaire = () => setIsQuestionnaireOpen(false)
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }
+
   return (
     <div>
       <nav className="flex items-center justify-between px-8 py-6">
@@ -31,13 +38,33 @@ export default function Home() {
         </div>
 
         <div className="flex items-center gap-8">
-          <a href="#" className="text-white text-sm">Features</a>
-          <a href="#" className="text-white text-sm">Features</a>
-          <a href="#" className="text-white text-sm">Features</a>
-          <a href="#" className="text-white text-sm">Features</a>
+          <button
+            onClick={() => scrollToSection('features')}
+            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+          >
+            Features
+          </button>
+          <button
+            onClick={() => scrollToSection('team')}
+            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+          >
+            Team
+          </button>
+          <button
+            onClick={() => scrollToSection('about')}
+            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+          >
+            About
+          </button>
+          <button
+            onClick={openQuestionnaire}
+            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+          >
+            Contribute
+          </button>
         </div>
 
-        <button className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer">
+        <button className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors">
           Download
           <span>↓</span>
         </button>
@@ -100,7 +127,7 @@ export default function Home() {
       <PartnersSection />
 
       {/* Features Section */}
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
+      <section id="features" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Feature 01 */}
           <div className="relative rounded-xl overflow-hidden">
