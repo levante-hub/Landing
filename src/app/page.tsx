@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import Image from "next/image";
 import { LandingChatDemo } from "@/components/LandingChatDemo";
 import { PartnersSection } from "@/components/PartnersSection";
@@ -6,8 +9,14 @@ import { MeetTheTeamSection } from "@/components/MeetTheTeamSection";
 import { AboutSection } from "@/components/AboutSection";
 import { ContributeSection } from "@/components/ContributeSection";
 import { TryNowSection } from "@/components/TryNowSection";
+import { Questionnaire } from "@/components/questionnaire";
 
 export default function Home() {
+  const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false)
+
+  const openQuestionnaire = () => setIsQuestionnaireOpen(true)
+  const closeQuestionnaire = () => setIsQuestionnaireOpen(false)
+
   return (
     <div>
       <nav className="flex items-center justify-between px-8 py-6">
@@ -70,9 +79,12 @@ export default function Home() {
                 Download
                 <span>↓</span>
               </button>
-              <a href="#" className="text-white text-base underline hover:no-underline transition-all">
+              <button
+                onClick={openQuestionnaire}
+                className="text-white text-base underline hover:no-underline transition-all cursor-pointer bg-transparent border-none"
+              >
                 Start contributing
-              </a>
+              </button>
             </div>
 
             {/* Product Mockup - Interactive Chat Component */}
@@ -172,9 +184,14 @@ export default function Home() {
 
       <AboutSection />
 
-      <ContributeSection />
+      <ContributeSection onOpenQuestionnaire={openQuestionnaire} />
 
       <TryNowSection />
+
+      <Questionnaire
+        isOpen={isQuestionnaireOpen}
+        onClose={closeQuestionnaire}
+      />
     </div>
   );
 }

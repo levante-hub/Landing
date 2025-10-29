@@ -1,6 +1,10 @@
 import Image from "next/image";
 
-export const ContributeSection = () => {
+interface ContributeSectionProps {
+  onOpenQuestionnaire: () => void
+}
+
+export const ContributeSection = ({ onOpenQuestionnaire }: ContributeSectionProps) => {
   return (
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
       <div className="relative rounded-xl overflow-hidden min-h-[500px] md:min-h-[600px]">
@@ -39,7 +43,10 @@ export const ContributeSection = () => {
             </p>
 
             {/* CTA Button */}
-            <button className="bg-black text-white px-10 py-4 rounded-full text-base font-medium hover:bg-gray-800 transition-colors cursor-pointer">
+            <button
+              onClick={onOpenQuestionnaire}
+              className="bg-black text-white px-10 py-4 rounded-full text-base font-medium hover:bg-gray-800 transition-colors cursor-pointer"
+            >
               Contribute
             </button>
           </div>
