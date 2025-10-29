@@ -4,7 +4,7 @@ import { safeCapture } from '@/lib/posthog';
 interface TryNowSectionProps {
   onDownload?: () => void;
   isDownloading?: boolean;
-  downloadUrl?: string;
+  downloadUrl?: string | null;
   getPlatformLabel?: () => string;
 }
 
