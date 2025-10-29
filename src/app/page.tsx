@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Image from "next/image";
 import { safeCapture } from '@/lib/posthog'
+import { useUTMTracking } from '@/hooks/useUTMTracking'
 import { LandingChatDemo } from "@/components/LandingChatDemo";
 import { PartnersSection } from "@/components/PartnersSection";
 import { BuiltWithSection } from "@/components/BuiltWithSection";
@@ -14,6 +15,9 @@ import { Questionnaire } from "@/components/questionnaire";
 
 export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false)
+  
+  // Track UTM parameters and handle social media deep links
+  useUTMTracking()
 
   const openQuestionnaire = () => {
     safeCapture('contribution_questionnaire_opened')
