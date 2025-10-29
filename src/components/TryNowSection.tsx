@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { safeCapture } from '@/lib/posthog';
 
 export const TryNowSection = () => {
   return (
@@ -15,7 +16,10 @@ export const TryNowSection = () => {
 
       {/* Download Button */}
       <div className="relative z-10">
-        <button className="bg-white text-black px-10 py-4 rounded-full text-base font-medium hover:bg-gray-100 transition-colors cursor-pointer shadow-lg flex items-center gap-2">
+        <button 
+          onClick={() => safeCapture('download_button_clicked', { location: 'footer' })}
+          className="bg-white text-black px-10 py-4 rounded-full text-base font-medium hover:bg-gray-100 transition-colors cursor-pointer shadow-lg flex items-center gap-2"
+        >
           Download
           <span>↓</span>
         </button>

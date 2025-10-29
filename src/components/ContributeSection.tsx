@@ -1,4 +1,5 @@
 import Image from "next/image";
+import posthog from 'posthog-js';
 
 interface ContributeSectionProps {
   onOpenQuestionnaire: () => void
@@ -44,7 +45,10 @@ export const ContributeSection = ({ onOpenQuestionnaire }: ContributeSectionProp
 
             {/* CTA Button */}
             <button
-              onClick={onOpenQuestionnaire}
+              onClick={() => {
+                posthog.capture('contribute_button_clicked');
+                onOpenQuestionnaire();
+              }}
               className="bg-black text-white px-10 py-4 rounded-full text-base font-medium hover:bg-gray-800 transition-colors cursor-pointer"
             >
               Contribute

@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { X, ArrowRight, ArrowLeft } from "lucide-react"
 import { submitQuestionnaire } from "@/lib/supabase/queries"
+import posthog from 'posthog-js'
 
 interface QuestionnaireProps {
   isOpen: boolean
@@ -127,6 +128,13 @@ export function Questionnaire({ isOpen, onClose }: QuestionnaireProps) {
       })
 
       setSubmissionStatus('success')
+      posthog.capture('questionnaire-submitted', {
+        intention: data.intention,
+        role: data.role,
+        experience: data.experience,
+        time_commitment: data.timeCommitment,
+        completed_path: data.completedPath
+      })
     } catch (error) {
       console.error('Error submitting questionnaire:', error)
       setSubmissionStatus('error')
@@ -173,6 +181,11 @@ export function Questionnaire({ isOpen, onClose }: QuestionnaireProps) {
   }
 
   const handleClose = () => {
+    posthog.capture('questionnaire-closed', {
+      current_step: currentStep,
+      total_steps: getTotalSteps(),
+      submission_status: submissionStatus
+    })
     // Reset completo
     setCurrentStep(1)
     setFormData({

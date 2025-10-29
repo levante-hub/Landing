@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image";
+import { safeCapture } from '@/lib/posthog'
 import { LandingChatDemo } from "@/components/LandingChatDemo";
 import { PartnersSection } from "@/components/PartnersSection";
 import { BuiltWithSection } from "@/components/BuiltWithSection";
@@ -14,10 +15,14 @@ import { Questionnaire } from "@/components/questionnaire";
 export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false)
 
-  const openQuestionnaire = () => setIsQuestionnaireOpen(true)
+  const openQuestionnaire = () => {
+    safeCapture('contribution_questionnaire_opened')
+    setIsQuestionnaireOpen(true)
+  }
   const closeQuestionnaire = () => setIsQuestionnaireOpen(false)
 
   const scrollToSection = (sectionId: string) => {
+    safeCapture('section_navigated', { section_id: sectionId })
     const element = document.getElementById(sectionId)
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -64,7 +69,10 @@ export default function Home() {
           </button>
         </div>
 
-        <button className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors">
+        <button 
+          onClick={() => safeCapture('download_button_clicked', { location: 'navbar' })}
+          className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors"
+        >
           Download
           <span>↓</span>
         </button>
@@ -102,7 +110,10 @@ export default function Home() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
-              <button className="bg-white text-black rounded-full text-base font-medium flex items-center justify-center gap-2 w-[239px] h-[50px] hover:bg-gray-100 transition-colors cursor-pointer">
+              <button 
+                onClick={() => safeCapture('download_button_clicked', { location: 'hero' })}
+                className="bg-white text-black rounded-full text-base font-medium flex items-center justify-center gap-2 w-[239px] h-[50px] hover:bg-gray-100 transition-colors cursor-pointer"
+              >
                 Download
                 <span>↓</span>
               </button>
