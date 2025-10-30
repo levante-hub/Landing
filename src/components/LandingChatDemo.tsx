@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import posthog from 'posthog-js';
 import {
   SendIcon,
   Wrench,
@@ -62,6 +63,13 @@ export const LandingChatDemo = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
+
+    posthog.capture('landing_chat_message_sent', {
+      selected_model: selectedModel,
+      web_search_enabled: webSearch,
+      mcp_tools_enabled: mcpTools,
+      message_length: input.length
+    });
 
     setUserMessage(input);
     setInput('');
@@ -286,6 +294,11 @@ export const LandingChatDemo = () => {
                                   key={model.id}
                                   type="button"
                                   onClick={() => {
+                                    posthog.capture('landing_chat_model_selected', {
+                                      model_id: model.id,
+                                      model_name: model.name,
+                                      previous_model_id: selectedModel
+                                    });
                                     setSelectedModel(model.id);
                                     setModelOpen(false);
                                     setModelSearchQuery('');

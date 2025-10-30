@@ -1,4 +1,5 @@
 import Image from "next/image";
+import posthog from "posthog-js";
 
 export const MeetTheTeamSection = () => {
   const teamMembers = [
@@ -53,7 +54,10 @@ export const MeetTheTeamSection = () => {
             The visionaries behind the revolution
           </p>
         </div>
-        <button className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors">
+        <button
+          onClick={() => posthog.capture('join-us-clicked', { location: 'meet-the-team-section' })}
+          className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors"
+        >
           Join Us
         </button>
       </div>
@@ -102,18 +106,21 @@ export const MeetTheTeamSection = () => {
                   <div className="flex items-center gap-4">
                     <a
                       href={member.socials.linkedin}
+                      onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'linkedin' })}
                       className="text-gray-400 hover:text-white transition-colors text-xs"
                     >
                       LinkedIn
                     </a>
                     <a
                       href={member.socials.github}
+                      onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'github' })}
                       className="text-gray-400 hover:text-white transition-colors text-xs"
                     >
                       Github
                     </a>
                     <a
                       href={member.socials.twitter}
+                      onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'twitter' })}
                       className="text-gray-400 hover:text-white transition-colors text-xs"
                     >
                       Twitter (X)

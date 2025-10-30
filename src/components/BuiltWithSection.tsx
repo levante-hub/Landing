@@ -1,3 +1,5 @@
+import posthog from 'posthog-js';
+
 export const BuiltWithSection = () => {
   const tools = [
     {
@@ -25,6 +27,7 @@ export const BuiltWithSection = () => {
           <div
             key={tool.title}
             className="bg-[#2A2A2A] rounded-2xl p-8 hover:bg-[#323232] transition-colors"
+            onClick={() => posthog.capture('tool_card_clicked', { tool_name: tool.title })}
           >
             <h3 className="text-white text-2xl font-medium mb-4">
               {tool.title}

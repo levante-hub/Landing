@@ -1,7 +1,9 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import Image from "next/image";
+import { safeCapture } from "@/lib/posthog";
+import { useUTMTracking } from "@/hooks/useUTMTracking";
 import { LandingChatDemo } from "@/components/LandingChatDemo";
 import { PartnersSection } from "@/components/PartnersSection";
 import { BuiltWithSection } from "@/components/BuiltWithSection";
@@ -13,79 +15,84 @@ import { Questionnaire } from "@/components/questionnaire";
 import { useLatestRelease } from "@/hooks/useLatestRelease";
 
 export default function Home() {
-  const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false)
-  const [isDownloading, setIsDownloading] = useState(false)
-  const { downloadUrl, error: releaseError, platform } = useLatestRelease()
+  const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const { downloadUrl, error: releaseError, platform } = useLatestRelease();
 
-  const openQuestionnaire = () => setIsQuestionnaireOpen(true)
-  const closeQuestionnaire = () => setIsQuestionnaireOpen(false)
+  // Track UTM parameters and handle social media deep links
+  useUTMTracking();
+
+  const openQuestionnaire = () => {
+    safeCapture("contribution_questionnaire_opened");
+    setIsQuestionnaireOpen(true);
+  };
+  const closeQuestionnaire = () => setIsQuestionnaireOpen(false);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId)
+    safeCapture("section_navigated", { section_id: sectionId });
+    const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }
+  };
 
-  const handleDownload = () => {
+  const handleDownload = (location: "navbar" | "hero" | "footer") => {
+    // Track download event with location
+    safeCapture("download_button_clicked", { location });
+
     if (downloadUrl) {
-      setIsDownloading(true)
+      setIsDownloading(true);
 
       // Crear un elemento <a> temporal para forzar la descarga sin abrir nueva pestaña
-      const link = document.createElement('a')
-      link.href = downloadUrl
-      link.download = '' // Esto sugiere al navegador descargar en lugar de navegar
-      link.style.display = 'none'
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = ""; // Esto sugiere al navegador descargar en lugar de navegar
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       // Reset después de 2 segundos
       setTimeout(() => {
-        setIsDownloading(false)
-      }, 2000)
+        setIsDownloading(false);
+      }, 2000);
     }
-  }
+  };
 
   const getPlatformLabel = () => {
     const labels = {
-      'windows': 'Windows',
-      'macos-intel': 'Mac (Intel)',
-      'macos-arm': 'Mac (Apple Silicon)',
-      'linux': 'Linux',
-      'unknown': ''
-    }
-    return labels[platform] || ''
-  }
+      windows: "Windows",
+      "macos-intel": "Mac (Intel)",
+      "macos-arm": "Mac (Apple Silicon)",
+      linux: "Linux",
+      unknown: "",
+    };
+    return labels[platform] || "";
+  };
 
   return (
     <div>
       <nav className="flex items-center justify-between px-8 py-6">
         <div className="flex items-center gap-3">
-          <Image
-            src="/Logo.svg"
-            alt="Logo"
-            width={32}
-            height={32}
-          />
+          <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
           <span className="text-white text-lg font-normal">Levante</span>
         </div>
 
         <div className="flex items-center gap-8">
           <button
-            onClick={() => scrollToSection('features')}
+            onClick={() => scrollToSection("features")}
             className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
           >
             Features
           </button>
           <button
-            onClick={() => scrollToSection('team')}
+            onClick={() => scrollToSection("team")}
             className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
           >
             Team
           </button>
           <button
-            onClick={() => scrollToSection('about')}
+            onClick={() => scrollToSection("about")}
             className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
           >
             About
@@ -99,7 +106,7 @@ export default function Home() {
         </div>
 
         <button
-          onClick={handleDownload}
+          onClick={() => handleDownload("navbar")}
           disabled={!downloadUrl || isDownloading}
           className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
@@ -110,7 +117,9 @@ export default function Home() {
             </>
           ) : (
             <>
-              {getPlatformLabel() ? `Download for ${getPlatformLabel()}` : 'Download'}
+              {getPlatformLabel()
+                ? `Download for ${getPlatformLabel()}`
+                : "Download"}
               <span>↓</span>
             </>
           )}
@@ -128,7 +137,7 @@ export default function Home() {
               priority
               sizes="(max-width: 1280px) 100vw, 1280px"
               className="object-cover object-center"
-              style={{ objectPosition: 'center' }}
+              style={{ objectPosition: "center" }}
             />
 
             {/* Dark Overlay for contrast */}
@@ -145,13 +154,14 @@ export default function Home() {
             </h1>
 
             <p className="text-white text-center mb-8 max-w-[450px] text-lg sm:text-xl">
-              Join the open-source mission to democratize Model Context Protocols
+              Join the open-source mission to democratize Model Context
+              Protocols
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
               <div className="flex flex-col items-center">
                 <button
-                  onClick={handleDownload}
+                  onClick={() => handleDownload("hero")}
                   disabled={!downloadUrl || isDownloading}
                   className="bg-white text-black rounded-full text-base font-medium flex items-center justify-center gap-2 min-w-[239px] h-[50px] px-6 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -162,13 +172,17 @@ export default function Home() {
                     </>
                   ) : (
                     <>
-                      {getPlatformLabel() ? `Download for ${getPlatformLabel()}` : 'Download'}
+                      {getPlatformLabel()
+                        ? `Download for ${getPlatformLabel()}`
+                        : "Download"}
                       <span>↓</span>
                     </>
                   )}
                 </button>
                 {releaseError && (
-                  <span className="text-red-400 text-xs mt-1">{releaseError}</span>
+                  <span className="text-red-400 text-xs mt-1">
+                    {releaseError}
+                  </span>
                 )}
               </div>
               <button
@@ -192,7 +206,10 @@ export default function Home() {
       <PartnersSection />
 
       {/* Features Section */}
-      <section id="features" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
+      <section
+        id="features"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Feature 01 */}
           <div className="relative rounded-xl overflow-hidden">
@@ -225,7 +242,8 @@ export default function Home() {
               <div className="text-white">
                 <h3 className="text-2xl font-semibold mb-3">Feature 01</h3>
                 <p className="text-sm opacity-90">
-                  Add your own custom MCPs to the platform or import them directly from the integrated Store marketplace.
+                  Add your own custom MCPs to the platform or import them
+                  directly from the integrated Store marketplace.
                 </p>
               </div>
             </div>
@@ -262,7 +280,8 @@ export default function Home() {
               <div className="text-white">
                 <h3 className="text-2xl font-semibold mb-3">Feature 02</h3>
                 <p className="text-sm opacity-90">
-                  Select from hundreds of available AI models across multiple providers to match your specific requirements.
+                  Select from hundreds of available AI models across multiple
+                  providers to match your specific requirements.
                 </p>
               </div>
             </div>
@@ -278,7 +297,12 @@ export default function Home() {
 
       <ContributeSection onOpenQuestionnaire={openQuestionnaire} />
 
-      <TryNowSection />
+      <TryNowSection
+        onDownload={() => handleDownload("footer")}
+        isDownloading={isDownloading}
+        downloadUrl={downloadUrl}
+        getPlatformLabel={getPlatformLabel}
+      />
 
       <Questionnaire
         isOpen={isQuestionnaireOpen}
