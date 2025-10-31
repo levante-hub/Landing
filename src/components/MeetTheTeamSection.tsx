@@ -1,7 +1,11 @@
 import Image from "next/image";
 import posthog from "posthog-js";
 
-export const MeetTheTeamSection = () => {
+interface MeetTheTeamSectionProps {
+  onOpenQuestionnaire: () => void;
+}
+
+export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionProps) => {
   const teamMembers = [
     {
       name: "Saúl Gómez",
@@ -55,7 +59,10 @@ export const MeetTheTeamSection = () => {
           </p>
         </div>
         <button
-          onClick={() => posthog.capture('join-us-clicked', { location: 'meet-the-team-section' })}
+          onClick={() => {
+            posthog.capture('join-us-clicked', { location: 'meet-the-team-section' });
+            onOpenQuestionnaire();
+          }}
           className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors"
         >
           Join Us

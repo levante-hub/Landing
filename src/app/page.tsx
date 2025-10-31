@@ -289,7 +289,7 @@ export default function Home() {
 
       <BuiltWithSection />
 
-      <MeetTheTeamSection />
+      <MeetTheTeamSection onOpenQuestionnaire={openQuestionnaire} />
 
       <AboutSection />
 
