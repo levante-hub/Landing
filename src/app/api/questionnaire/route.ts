@@ -113,11 +113,11 @@ export async function POST(request: NextRequest) {
     }
 
     // 8. INSERCIÓN EN SUPABASE
-    const { data, error } = await supabaseAdmin
+    const { data, error } = (await supabaseAdmin
       .from('questionnaire_responses')
-      .insert(questionnaireData)
+      .insert(questionnaireData as any)
       .select()
-      .single()
+      .single()) as { data: any; error: any }
 
     if (error) {
       console.error('Supabase error:', error)

@@ -1,5 +1,11 @@
 import posthog from 'posthog-js'
 
+declare global {
+  interface Window {
+    posthog?: typeof posthog
+  }
+}
+
 export const initPostHog = () => {
   // Log environment check for debugging
   console.log('PostHog Init Check:', {
@@ -23,7 +29,6 @@ export const initPostHog = () => {
         element_allowlist: ['button', 'a'], // Only track buttons and links
       },
       session_recording: {
-        enabled: true,
         recordCrossOriginIframes: true,
         maskAllInputs: true,
         maskInputOptions: {
