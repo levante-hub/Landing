@@ -29,9 +29,9 @@ export const AboutSection = () => {
       <div className="text-white">
         <p className="text-base mb-1">Sincerely,</p>
         <p className="text-lg" style={{ fontFamily: 'Figma Hand, cursive' }}>
-          El equipo humano de minte y CLAi, desde{" "}
-          <span className="text-blue-400">Alicante</span> y{" "}
-          <span className="text-blue-400">Granada</span> españa
+          The human team from minte and CLAi, from{" "}
+          <span className="text-blue-400">Alicante</span> and{" "}
+          <span className="text-blue-400">Granada</span>, Spain
         </p>
       </div>
     </section>

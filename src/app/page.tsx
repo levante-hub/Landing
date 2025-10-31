@@ -117,9 +117,7 @@ export default function Home() {
             </>
           ) : (
             <>
-              {getPlatformLabel()
-                ? `Download for ${getPlatformLabel()}`
-                : "Download"}
+              Download
               <span>↓</span>
             </>
           )}
@@ -240,7 +238,7 @@ export default function Home() {
 
               {/* Text Content */}
               <div className="text-white">
-                <h3 className="text-2xl font-semibold mb-3">Feature 01</h3>
+                <h3 className="text-2xl font-semibold mb-3">Add your own MCPs</h3>
                 <p className="text-sm opacity-90">
                   Add your own custom MCPs to the platform or import them
                   directly from the integrated Store marketplace.
@@ -278,7 +276,7 @@ export default function Home() {
 
               {/* Text Content */}
               <div className="text-white">
-                <h3 className="text-2xl font-semibold mb-3">Feature 02</h3>
+                <h3 className="text-2xl font-semibold mb-3">Hundreds of models available</h3>
                 <p className="text-sm opacity-90">
                   Select from hundreds of available AI models across multiple
                   providers to match your specific requirements.
