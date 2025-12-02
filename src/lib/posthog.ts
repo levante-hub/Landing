@@ -21,7 +21,7 @@ export const initPostHog = () => {
       person_profiles: 'identified_only',
       capture_pageview: false, // We'll handle this manually
       capture_pageleave: true,
-      
+
       // Enable key features
       autocapture: {
         dom_event_allowlist: ['click'], // Only capture clicks
@@ -36,20 +36,20 @@ export const initPostHog = () => {
           email: false,
         }
       },
-      
+
       // Privacy settings
       respect_dnt: true,
       mask_all_element_attributes: false,
       mask_all_text: false,
-      
+
       // Performance
       capture_performance: true,
       property_denylist: [], // Don't block any properties
-      
+
       // Debug mode disabled to reduce console noise
       debug: false,
     })
-    
+
     // Log initialization in development
     if (process.env.NODE_ENV === 'development') {
       console.log('PostHog initialized for analytics tracking')
@@ -65,7 +65,7 @@ export const initPostHog = () => {
 // Get UTM parameters from URL
 export const getUTMParams = () => {
   if (typeof window === 'undefined') return {}
-  
+
   const urlParams = new URLSearchParams(window.location.search)
   return {
     utm_source: urlParams.get('utm_source'),
@@ -79,7 +79,7 @@ export const getUTMParams = () => {
 
 // Safe capture function that checks if PostHog is initialized
 export const safeCapture = (eventName: string, properties?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && window.posthog && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true') {
+  if (typeof window !== 'undefined' && (window as any).posthog && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true') {
     const utmParams = getUTMParams()
     posthog.capture(eventName, {
       timestamp: new Date().toISOString(),
@@ -88,7 +88,7 @@ export const safeCapture = (eventName: string, properties?: Record<string, any>)
       ...utmParams,
       ...properties
     })
-  } 
+  }
   // Removed development logging to reduce console noise
 }
 

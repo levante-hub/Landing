@@ -103,6 +103,12 @@ export default function Home() {
           >
             Contribute
           </button>
+          <a
+            href="/feedback"
+            className="text-white text-sm hover:text-white/80 transition-colors no-underline"
+          >
+            Feedback
+          </a>
         </div>
 
         <button

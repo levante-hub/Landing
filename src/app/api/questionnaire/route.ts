@@ -161,7 +161,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         message: 'Questionnaire response saved successfully',
-        id: data.id,
+        id: (data as any).id,
         memberNumber: memberNumber
       },
       { status: 201 }

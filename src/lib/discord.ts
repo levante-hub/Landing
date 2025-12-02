@@ -67,3 +67,65 @@ export async function sendDiscordNotification(data: DiscordNotificationData) {
     console.error('Error sending Discord notification:', error)
   }
 }
+
+interface DiscordFeedbackData {
+  content: string
+  authorName?: string | null
+  feedbackId: string
+}
+
+export async function sendDiscordFeedback(data: DiscordFeedbackData) {
+  const webhookUrl = process.env.DISCORD_FEEDBACK_WEBHOOK_URL
+
+  if (!webhookUrl) {
+    console.warn('Discord webhook URL not configured')
+    return
+  }
+
+  try {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://levante.clai.com"; // Fallback or env
+    const feedbackUrl = `${appUrl}/feedback`;
+
+    const embed = {
+      title: "💬 New Feedback Received",
+      description: data.content,
+      color: 0x9b59b6, // Purple
+      fields: [
+        {
+          name: "Author",
+          value: data.authorName || "Anonymous",
+          inline: true
+        },
+        {
+          name: "Action",
+          value: `[Dar like](${feedbackUrl})`,
+          inline: true
+        }
+      ],
+      timestamp: new Date().toISOString(),
+      footer: {
+        text: "Levante Feedback Wall"
+      }
+    }
+
+    const message = {
+      embeds: [embed]
+    }
+
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    })
+
+    if (!response.ok) {
+      console.error('Failed to send Discord feedback notification:', response.statusText)
+    } else {
+      console.log('Discord feedback notification sent successfully')
+    }
+  } catch (error) {
+    console.error('Error sending Discord feedback notification:', error)
+  }
+}

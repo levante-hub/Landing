@@ -42,6 +42,46 @@ export type Database = {
           updated_at?: string
         }
       }
+      feedback: {
+        Row: {
+          id: string
+          created_at: string
+          content: string
+          author_display_name: string | null
+          author_client_id: string
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          content: string
+          author_display_name?: string | null
+          author_client_id: string
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          content?: string
+          author_display_name?: string | null
+          author_client_id?: string
+        }
+      }
+      feedback_likes: {
+        Row: {
+          feedback_id: string
+          voter_client_id: string
+          created_at: string
+        }
+        Insert: {
+          feedback_id: string
+          voter_client_id: string
+          created_at?: string
+        }
+        Update: {
+          feedback_id?: string
+          voter_client_id?: string
+          created_at?: string
+        }
+      }
     }
   }
 }
