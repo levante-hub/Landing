@@ -17,11 +17,11 @@ export const AboutSection = () => {
       {/* Main Text */}
       <div className="space-y-6 mb-8">
         <p className="text-white text-xl md:text-2xl leading-relaxed">
-          At Levante we have designed a suite of artificial intelligence tools specifically designed to boost e-commerce.
+          Levante is an open-source, MCP-native AI workspace that brings your models, tools, and data together in one secure desktop client.
         </p>
 
         <p className="text-white text-xl md:text-2xl leading-relaxed">
-          Our goal is to help you automate processes, improve customer experience, and make decisions based on real data, all from an intuitive and secure platform.
+          Connect to any MCP server, run local or cloud models, and guide users with interactive apps while keeping workflows intuitive, observable, and under your control.
         </p>
       </div>
 

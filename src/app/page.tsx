@@ -134,14 +134,13 @@ export default function Home() {
         <div className="relative min-h-[900px] rounded-2xl">
           {/* Background Image Container - Limited to top half */}
           <div className="absolute top-0 left-0 right-0 h-[55%] rounded-2xl overflow-hidden shadow-xl">
-            <Image
-              src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/image-_4_.webp"
-              alt="Background"
-              fill
-              priority
-              sizes="(max-width: 1280px) 100vw, 1280px"
-              className="object-cover object-center"
-              style={{ objectPosition: "center" }}
+            <video
+              src="/wizard-background.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover object-center"
             />
 
             {/* Dark Overlay for contrast */}
@@ -219,7 +218,7 @@ export default function Home() {
           <div className="relative rounded-xl overflow-hidden">
             {/* Background Image */}
             <Image
-              src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Group-1426344.webp"
+              src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Group%201426350.jpg"
               alt="Background 1"
               width={640}
               height={640}

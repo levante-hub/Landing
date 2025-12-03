@@ -3,23 +3,23 @@ import posthog from 'posthog-js';
 export const BuiltWithSection = () => {
   const tools = [
     {
-      title: "MCPs",
-      description: "The universal plug-in system for AI agents",
+      title: "MCP-native features",
+      description: "First-class support for tools, resources, and prompts from all your MCP servers.",
     },
     {
-      title: "Turso",
-      description: "Ultra-fast edge database built on libSQL for modern applications",
+      title: "Interactive MCP Apps",
+      description: "Render MCP-UI apps as native views inside the interface for richer, guided interactions.",
     },
     {
-      title: "Electron",
-      description: "Cross-platform desktop framework enabling web technologies for native apps",
+      title: "Image models via Hugging Face",
+      description: "Generate images using open-source models through our Hugging Face integration -- no extra setup required",
     },
   ];
 
   return (
     <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 mt-16">
       <h2 className="text-white text-3xl sm:text-4xl font-medium mb-12">
-        Built with the best tools
+        Built for MCP-native workflows
       </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
