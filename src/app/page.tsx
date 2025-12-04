@@ -245,7 +245,7 @@ export default function Home() {
       </nav>
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-4">
-        <div className="relative min-h-[900px] rounded-2xl">
+        <div className="relative min-h-[545px] rounded-2xl">
           {/* Background Image Container - Limited to top half */}
           <div className="absolute top-0 left-0 right-0 h-[55%] rounded-2xl overflow-hidden shadow-xl">
             <video
@@ -265,7 +265,7 @@ export default function Home() {
           </div>
 
           {/* Content Layer */}
-          <div className="relative z-20 flex flex-col items-center justify-start pt-8 sm:pt-12 md:pt-14 px-4 sm:px-8">
+          <div className="relative z-20 flex flex-col items-center justify-start pt-8 sm:pt-12 md:pt-14 pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8">
             <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em]">
               Implement MCPs easily
             </h1>
