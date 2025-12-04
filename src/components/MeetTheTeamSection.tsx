@@ -11,11 +11,8 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
       name: "Saúl Gómez",
       role: "Co-Founder & CEO",
       image: "https://media.licdn.com/dms/image/v2/D4D03AQFpXxxCGGjcXQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1732099622701?e=1763596800&v=beta&t=hi_evjdu99_7NT1Le0dTDDAqlY4h1uIZdRehjYXBAsc",
-      quote: "MCPs are complex and unintuitive. Current tools have unfriendly interfaces that create barriers for most users.",
       socials: {
-        linkedin: "#",
-        github: "#",
-        twitter: "#"
+        linkedin: "https://www.linkedin.com/in/saul-gomez-jimenez-47b30328b/"
       }
     },
     {
@@ -23,25 +20,23 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
       role: "Co-Founder & CTO",
       image: "https://media.licdn.com/dms/image/v2/C4D03AQGmxOUCws574A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1516791451112?e=1763596800&v=beta&t=BM_TOjRqJ8-u-4YQhzFEd7_Bgu1WZWC54AkMt1alBsg",
       socials: {
-        linkedin: "#",
-        github: "#",
-        twitter: "#"
+        linkedin: "https://www.linkedin.com/in/olivermontes/"
       }
     },
     {
       name: "Dennis Montes",
       role: "Product Designer",
       image: "https://media.licdn.com/dms/image/v2/C4D03AQHOMHyJj3dz6g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1601410707035?e=1763596800&v=beta&t=glJNRskSA0dqKrFQh_WozfDPkYdvNLakaV3Xg7S42AY",
-      quote: "MCPs are complex and unintuitive. Current tools have unfriendly interfaces that create barriers for most users."
+      socials: {
+        linkedin: "https://www.linkedin.com/in/dennis-montes/"
+      }
     },
     {
       name: "Alejandro Gómez Cerezo",
       role: "Full Stack Developer",
       image: "https://media.licdn.com/dms/image/v2/D4D03AQGSFhNBTXvfGA/profile-displayphoto-shrink_800_800/B4DZaromkUHQAo-/0/1746636270284?e=1763596800&v=beta&t=sNBNdr7QHP3_nMUYbjOxLNsNQnW_5k7U-GlY3kxx7WU",
       socials: {
-        linkedin: "#",
-        github: "#",
-        twitter: "#"
+        linkedin: "https://www.linkedin.com/in/alejandro-gomez-cerezo/"
       }
     }
   ];
@@ -117,20 +112,6 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
                       className="text-gray-400 hover:text-white transition-colors text-xs"
                     >
                       LinkedIn
-                    </a>
-                    <a
-                      href={member.socials.github}
-                      onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'github' })}
-                      className="text-gray-400 hover:text-white transition-colors text-xs"
-                    >
-                      Github
-                    </a>
-                    <a
-                      href={member.socials.twitter}
-                      onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'twitter' })}
-                      className="text-gray-400 hover:text-white transition-colors text-xs"
-                    >
-                      Twitter (X)
                     </a>
                   </div>
                 ) : null}
