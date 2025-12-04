@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Menu, X } from "lucide-react";
 import { safeCapture } from "@/lib/posthog";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
 import { LandingChatDemo } from "@/components/LandingChatDemo";
@@ -17,6 +18,7 @@ import { useLatestRelease } from "@/hooks/useLatestRelease";
 export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { downloadUrl, error: releaseError, platform } = useLatestRelease();
 
   // Track UTM parameters and handle social media deep links
@@ -70,15 +72,24 @@ export default function Home() {
     return labels[platform] || "";
   };
 
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  const handleNavClick = (sectionId: string) => {
+    scrollToSection(sectionId);
+    closeMobileMenu();
+  };
+
   return (
     <div>
-      <nav className="flex items-center justify-between px-8 py-6">
+      <nav className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6 relative">
+        {/* Logo */}
         <div className="flex items-center gap-3">
           <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
           <span className="text-white text-lg font-normal">Levante</span>
         </div>
 
-        <div className="flex items-center gap-8">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center gap-8">
           <button
             onClick={() => scrollToSection("features")}
             className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
@@ -111,10 +122,11 @@ export default function Home() {
           </a>
         </div>
 
+        {/* Desktop Download Button */}
         <button
           onClick={() => handleDownload("navbar")}
           disabled={!downloadUrl || isDownloading}
-          className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="hidden md:flex bg-white text-black px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isDownloading ? (
             <>
@@ -128,6 +140,108 @@ export default function Home() {
             </>
           )}
         </button>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="md:hidden text-white p-2 bg-transparent border-none cursor-pointer"
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div
+            className="fixed inset-0 bg-black/60 z-40 md:hidden"
+            onClick={closeMobileMenu}
+          />
+        )}
+
+        {/* Mobile Menu */}
+        <div
+          className={`fixed top-0 right-0 h-full w-[280px] bg-[#1a1a1a] z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="flex flex-col h-full">
+            {/* Mobile Menu Header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+              <div className="flex items-center gap-3">
+                <Image src="/Logo.svg" alt="Logo" width={28} height={28} />
+                <span className="text-white text-base font-normal">Levante</span>
+              </div>
+              <button
+                onClick={closeMobileMenu}
+                className="text-white p-1 bg-transparent border-none cursor-pointer"
+                aria-label="Close menu"
+              >
+                <X size={22} />
+              </button>
+            </div>
+
+            {/* Mobile Menu Links */}
+            <div className="flex flex-col py-4">
+              <button
+                onClick={() => handleNavClick("features")}
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => handleNavClick("team")}
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Team
+              </button>
+              <button
+                onClick={() => handleNavClick("about")}
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                About
+              </button>
+              <button
+                onClick={() => {
+                  openQuestionnaire();
+                  closeMobileMenu();
+                }}
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Contribute
+              </button>
+              <a
+                href="/feedback"
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors no-underline"
+              >
+                Feedback
+              </a>
+            </div>
+
+            {/* Mobile Download Button */}
+            <div className="mt-auto p-6 border-t border-white/10">
+              <button
+                onClick={() => {
+                  handleDownload("navbar");
+                  closeMobileMenu();
+                }}
+                disabled={!downloadUrl || isDownloading}
+                className="w-full bg-white text-black px-6 py-3 rounded-full text-sm font-medium flex items-center justify-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isDownloading ? (
+                  <>
+                    <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
+                    Downloading...
+                  </>
+                ) : (
+                  <>
+                    Download
+                    <span>↓</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
       </nav>
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-4">
