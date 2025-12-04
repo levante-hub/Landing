@@ -28,7 +28,7 @@ export const AboutSection = () => {
       {/* Signature */}
       <div className="text-white">
         <p className="text-base mb-1">Sincerely,</p>
-        <p className="text-lg" style={{ fontFamily: 'Figma Hand, cursive' }}>
+        <p className="text-lg italic">
           The human team from minte and CLAi, from{" "}
           <span className="text-blue-400">Alicante</span> and{" "}
           <span className="text-blue-400">Granada</span>, Spain

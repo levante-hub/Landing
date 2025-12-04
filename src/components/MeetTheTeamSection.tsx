@@ -10,7 +10,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
     {
       name: "Saúl Gómez",
       role: "Co-Founder & CEO",
-      image: "https://media.licdn.com/dms/image/v2/D4D03AQFpXxxCGGjcXQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1732099622701?e=1763596800&v=beta&t=hi_evjdu99_7NT1Le0dTDDAqlY4h1uIZdRehjYXBAsc",
+      image: "/saul-img.png",
       quote: "MCPs are complex and unintuitive. Current tools have unfriendly interfaces that create barriers for most users.",
       socials: {
         linkedin: "#",
@@ -21,7 +21,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
     {
       name: "Oliver Montes",
       role: "Co-Founder & CTO",
-      image: "https://media.licdn.com/dms/image/v2/C4D03AQGmxOUCws574A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1516791451112?e=1763596800&v=beta&t=BM_TOjRqJ8-u-4YQhzFEd7_Bgu1WZWC54AkMt1alBsg",
+      image: "/oliver-img.png",
       socials: {
         linkedin: "#",
         github: "#",
@@ -31,7 +31,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
     {
       name: "Dennis Montes",
       role: "Product Designer",
-      image: "https://media.licdn.com/dms/image/v2/C4D03AQHOMHyJj3dz6g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1601410707035?e=1763596800&v=beta&t=glJNRskSA0dqKrFQh_WozfDPkYdvNLakaV3Xg7S42AY",
+      image: "/dennis-img.png",
       quote: "MCPs are complex and unintuitive. Current tools have unfriendly interfaces that create barriers for most users."
     },
     {
@@ -85,6 +85,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
                     alt={member.name}
                     fill
                     className="object-cover"
+                    unoptimized
                   />
                 </div>
               </div>
