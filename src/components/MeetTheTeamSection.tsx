@@ -10,7 +10,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
     {
       name: "Saúl Gómez",
       role: "Co-Founder & CEO",
-      image: "https://media.licdn.com/dms/image/v2/D4D03AQFpXxxCGGjcXQ/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1732099622701?e=1763596800&v=beta&t=hi_evjdu99_7NT1Le0dTDDAqlY4h1uIZdRehjYXBAsc",
+      image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Perfiles%20Linkedin/saul.jpeg",
       socials: {
         linkedin: "https://www.linkedin.com/in/saul-gomez-jimenez-47b30328b/"
       }
@@ -18,7 +18,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
     {
       name: "Oliver Montes",
       role: "Co-Founder & CTO",
-      image: "https://media.licdn.com/dms/image/v2/C4D03AQGmxOUCws574A/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1516791451112?e=1763596800&v=beta&t=BM_TOjRqJ8-u-4YQhzFEd7_Bgu1WZWC54AkMt1alBsg",
+      image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Perfiles%20Linkedin/oliver.jpeg",
       socials: {
         linkedin: "https://www.linkedin.com/in/olivermontes/"
       }
@@ -26,7 +26,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
     {
       name: "Dennis Montes",
       role: "Product Designer",
-      image: "https://media.licdn.com/dms/image/v2/C4D03AQHOMHyJj3dz6g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1601410707035?e=1763596800&v=beta&t=glJNRskSA0dqKrFQh_WozfDPkYdvNLakaV3Xg7S42AY",
+      image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Perfiles%20Linkedin/Dennis.jpeg",
       socials: {
         linkedin: "https://www.linkedin.com/in/dennis-montes/"
       }
@@ -34,7 +34,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
     {
       name: "Alejandro Gómez Cerezo",
       role: "Full Stack Developer",
-      image: "https://media.licdn.com/dms/image/v2/D4D03AQGSFhNBTXvfGA/profile-displayphoto-shrink_800_800/B4DZaromkUHQAo-/0/1746636270284?e=1763596800&v=beta&t=sNBNdr7QHP3_nMUYbjOxLNsNQnW_5k7U-GlY3kxx7WU",
+      image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Perfiles%20Linkedin/Alejandro.jpeg",
       socials: {
         linkedin: "https://www.linkedin.com/in/alejandro-gomez-cerezo/"
       }
@@ -47,7 +47,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
       <div className="flex items-start justify-between mb-10">
         <div>
           <h2 className="text-white text-2xl sm:text-3xl font-medium mb-2">
-            Meet the Team
+            Founders
           </h2>
           <p className="text-gray-400 text-sm">
             The visionaries behind the revolution
