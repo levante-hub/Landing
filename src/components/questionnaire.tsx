@@ -527,7 +527,7 @@ export function Questionnaire({ isOpen, onClose }: QuestionnaireProps) {
                       Join our Discord community to connect with the team
                     </p>
                     <a
-                      href="https://discord.gg/JppqE6e3pG"
+                      href="https://discord.gg/Ane83d2EFG"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block bg-white text-black font-medium px-6 py-3 rounded-full hover:bg-white/90 transition-colors text-sm"
