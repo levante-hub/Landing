@@ -47,7 +47,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
   ];
 
   return (
-    <section id="team" className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
+    <section id="team" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
       {/* Header */}
       <div className="flex items-start justify-between mb-10">
         <div>
