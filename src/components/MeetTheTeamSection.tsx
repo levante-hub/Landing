@@ -37,7 +37,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
     {
       name: "Alejandro Gómez Cerezo",
       role: "Full Stack Developer",
-      image: "https://media.licdn.com/dms/image/v2/D4D03AQGSFhNBTXvfGA/profile-displayphoto-shrink_800_800/B4DZaromkUHQAo-/0/1746636270284?e=1763596800&v=beta&t=sNBNdr7QHP3_nMUYbjOxLNsNQnW_5k7U-GlY3kxx7WU",
+      image: "/Alejandro-img.jpeg",
       socials: {
         linkedin: "#",
         github: "#",
