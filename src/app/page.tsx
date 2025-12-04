@@ -325,7 +325,7 @@ export default function Home() {
       {/* Features Section */}
       <section
         id="features"
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12 mt-6 md:mt-16"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Feature 01 */}
