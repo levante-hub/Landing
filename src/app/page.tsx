@@ -344,7 +344,7 @@ export default function Home() {
             <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 md:p-8">
               {/* Mockup Image */}
               <div className="flex-1 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
-                <div className="w-[75%] sm:w-[80%] md:w-[85%] max-w-[500px]">
+                <div className="w-[90%] sm:w-[85%] md:w-[85%] max-w-[500px]">
                   <Image
                     src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Captura%20de%20pantalla%202025-10-29%20a%20las%2010.38.07.png"
                     alt="Feature 01 Mockup"
@@ -382,7 +382,7 @@ export default function Home() {
             <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 md:p-8">
               {/* Mockup Image */}
               <div className="flex-1 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
-                <div className="w-[75%] sm:w-[80%] md:w-[85%] max-w-[500px]">
+                <div className="w-[90%] sm:w-[85%] md:w-[85%] max-w-[500px]">
                   <Image
                     src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Captura%20de%20pantalla%202025-10-29%20a%20las%2010.40.45.png"
                     alt="Feature 02 Mockup"
