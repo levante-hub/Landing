@@ -72,62 +72,64 @@ export default function Home() {
 
   return (
     <div>
-      <nav className="flex items-center justify-between px-8 py-6">
-        <div className="flex items-center gap-3">
-          <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
-          <span className="text-white text-lg font-normal">Levante</span>
-        </div>
+      <nav className="w-full px-4 sm:px-6 lg:px-8 py-6">
+        <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
+            <span className="text-white text-lg font-normal">Levante</span>
+          </div>
 
-        <div className="flex items-center gap-8">
-          <button
-            onClick={() => scrollToSection("features")}
-            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-          >
-            Features
-          </button>
-          <button
-            onClick={() => scrollToSection("team")}
-            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-          >
-            Team
-          </button>
-          <button
-            onClick={() => scrollToSection("about")}
-            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-          >
-            About
-          </button>
-          <button
-            onClick={openQuestionnaire}
-            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-          >
-            Contribute
-          </button>
-          <a
-            href="/feedback"
-            className="text-white text-sm hover:text-white/80 transition-colors no-underline"
-          >
-            Feedback
-          </a>
-        </div>
+          <div className="flex items-center gap-8">
+            <button
+              onClick={() => scrollToSection("features")}
+              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              Features
+            </button>
+            <button
+              onClick={() => scrollToSection("team")}
+              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              Team
+            </button>
+            <button
+              onClick={() => scrollToSection("about")}
+              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              About
+            </button>
+            <button
+              onClick={openQuestionnaire}
+              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              Contribute
+            </button>
+            <a
+              href="/feedback"
+              className="text-white text-sm hover:text-white/80 transition-colors no-underline"
+            >
+              Feedback
+            </a>
+          </div>
 
-        <button
-          onClick={() => handleDownload("navbar")}
-          disabled={!downloadUrl || isDownloading}
-          className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isDownloading ? (
-            <>
-              <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
-              Downloading...
-            </>
-          ) : (
-            <>
-              Download
-              <span>↓</span>
-            </>
-          )}
-        </button>
+          <button
+            onClick={() => handleDownload("navbar")}
+            disabled={!downloadUrl || isDownloading}
+            className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isDownloading ? (
+              <>
+                <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
+                Downloading...
+              </>
+            ) : (
+              <>
+                Download
+                <span>↓</span>
+              </>
+            )}
+          </button>
+        </div>
       </nav>
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-4">
