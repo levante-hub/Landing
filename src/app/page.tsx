@@ -312,7 +312,7 @@ export default function Home() {
 
             {/* Product Mockup - Interactive Chat Component */}
             <div className="w-full max-w-[860px] px-4">
-              <div className="rounded-2xl overflow-hidden shadow-2xl bg-white">
+              <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <LandingChatDemo />
               </div>
             </div>

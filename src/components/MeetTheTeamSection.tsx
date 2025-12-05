@@ -29,12 +29,6 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
       }
     },
     {
-      name: "Dennis Montes",
-      role: "Product Designer",
-      image: "/dennis-img.png",
-      quote: "MCPs are complex and unintuitive. Current tools have unfriendly interfaces that create barriers for most users."
-    },
-    {
       name: "Alejandro Gómez Cerezo",
       role: "Full Stack Developer",
       image: "/Alejandro-img.jpeg",
@@ -43,6 +37,12 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
         github: "#",
         twitter: "#"
       }
+    },
+    {
+      name: "Dennis Montes",
+      role: "Product Designer",
+      image: "/dennis-img.png",
+      quote: "MCPs are complex and unintuitive. Current tools have unfriendly interfaces that create barriers for most users."
     }
   ];
 
@@ -74,7 +74,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
         {teamMembers.map((member, index) => (
           <div
             key={member.name}
-            className="border-t border-gray-800 pt-6"
+            className="border-t border-[#323232] pt-6"
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
               {/* Avatar */}
