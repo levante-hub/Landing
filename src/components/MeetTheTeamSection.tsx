@@ -5,8 +5,19 @@ interface MeetTheTeamSectionProps {
   onOpenQuestionnaire: () => void;
 }
 
+
+interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
+  quote?: string;
+  socials?: {
+    linkedin: string;
+  };
+}
+
 export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionProps) => {
-  const teamMembers = [
+  const teamMembers: TeamMember[] = [
     {
       name: "Saúl Gómez",
       role: "Co-Founder & CEO",
