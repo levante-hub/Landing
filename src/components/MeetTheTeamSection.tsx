@@ -11,11 +11,9 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
       name: "Saúl Gómez",
       role: "Co-Founder & CEO",
       image: "/saul-img.png",
-      quote: "MCPs are complex and unintuitive. Current tools have unfriendly interfaces that create barriers for most users.",
       socials: {
-        linkedin: "#",
-        github: "#",
-        twitter: "#"
+        linkedin: "https://www.linkedin.com/in/saul-gomez-jimenez-47b30328b/",
+        github: "https://github.com/Saul-Gomez-J"
       }
     },
     {
@@ -23,26 +21,27 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
       role: "Co-Founder & CTO",
       image: "/oliver-img.png",
       socials: {
-        linkedin: "#",
-        github: "#",
-        twitter: "#"
+        linkedin: "https://www.linkedin.com/in/olivermontes/",
+        github: "https://github.com/olivermontes"
       }
     },
     {
       name: "Alejandro Gómez Cerezo",
       role: "Full Stack Developer",
-      image: "/Alejandro-img.jpeg",
+      image: "/Alejandro-img.png",
       socials: {
-        linkedin: "#",
-        github: "#",
-        twitter: "#"
+        linkedin: "https://www.linkedin.com/in/alejandro-gomez-cerezo/",
+        github: "#"
       }
     },
     {
       name: "Dennis Montes",
       role: "Product Designer",
       image: "/dennis-img.png",
-      quote: "MCPs are complex and unintuitive. Current tools have unfriendly interfaces that create barriers for most users."
+      socials: {
+        linkedin: "https://www.linkedin.com/in/dennis-montes/",
+        github: "#"
+      }
     }
   ];
 
@@ -106,35 +105,28 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
 
               {/* Quote or Socials */}
               <div className="lg:col-span-4">
-                {member.quote ? (
-                  <p className="text-gray-400 text-xs leading-relaxed">
-                    {member.quote}
-                  </p>
-                ) : member.socials ? (
+                {member.socials && (
                   <div className="flex items-center gap-4">
-                    <a
-                      href={member.socials.linkedin}
-                      onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'linkedin' })}
-                      className="text-gray-400 hover:text-white transition-colors text-xs"
-                    >
-                      LinkedIn
-                    </a>
-                    <a
-                      href={member.socials.github}
-                      onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'github' })}
-                      className="text-gray-400 hover:text-white transition-colors text-xs"
-                    >
-                      Github
-                    </a>
-                    <a
-                      href={member.socials.twitter}
-                      onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'twitter' })}
-                      className="text-gray-400 hover:text-white transition-colors text-xs"
-                    >
-                      Twitter (X)
-                    </a>
+                    {member.socials.linkedin && (
+                      <a
+                        href={member.socials.linkedin}
+                        onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'linkedin' })}
+                        className="text-gray-400 hover:text-white transition-colors text-xs"
+                      >
+                        LinkedIn
+                      </a>
+                    )}
+                    {member.socials.github && member.socials.github !== "#" && (
+                      <a
+                        href={member.socials.github}
+                        onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'github' })}
+                        className="text-gray-400 hover:text-white transition-colors text-xs"
+                      >
+                        Github
+                      </a>
+                    )}
                   </div>
-                ) : null}
+                )}
               </div>
             </div>
           </div>
