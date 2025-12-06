@@ -81,74 +81,76 @@ export default function Home() {
 
   return (
     <div>
-      <nav className="flex items-center justify-between px-4 sm:px-8 py-4 sm:py-6 relative">
-        {/* Logo */}
-        <div className="flex items-center gap-3">
-          <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
-          <span className="text-white text-lg font-normal">Levante</span>
+      <nav className="w-full px-4 sm:px-8 py-4 sm:py-6 relative">
+        <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
+            <span className="text-white text-lg font-normal">Levante</span>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
+            <button
+              onClick={() => scrollToSection("features")}
+              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              Features
+            </button>
+            <button
+              onClick={() => scrollToSection("team")}
+              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              Team
+            </button>
+            <button
+              onClick={() => scrollToSection("about")}
+              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              About
+            </button>
+            <button
+              onClick={openQuestionnaire}
+              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              Contribute
+            </button>
+            <a
+              href="/feedback"
+              className="text-white text-sm hover:text-white/80 transition-colors no-underline"
+            >
+              Feedback
+            </a>
+          </div>
+
+          {/* Desktop Download Button */}
+          <button
+            onClick={() => handleDownload("navbar")}
+            disabled={!downloadUrl || isDownloading}
+            className="hidden md:flex bg-white text-black px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isDownloading ? (
+              <>
+                <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
+                Downloading...
+              </>
+            ) : (
+              <>
+                Download
+                <span>↓</span>
+              </>
+            )}
+          </button>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden text-white p-2 bg-transparent border-none cursor-pointer"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          <button
-            onClick={() => scrollToSection("features")}
-            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-          >
-            Features
-          </button>
-          <button
-            onClick={() => scrollToSection("team")}
-            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-          >
-            Team
-          </button>
-          <button
-            onClick={() => scrollToSection("about")}
-            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-          >
-            About
-          </button>
-          <button
-            onClick={openQuestionnaire}
-            className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-          >
-            Contribute
-          </button>
-          <a
-            href="/feedback"
-            className="text-white text-sm hover:text-white/80 transition-colors no-underline"
-          >
-            Feedback
-          </a>
-        </div>
-
-        {/* Desktop Download Button */}
-        <button
-          onClick={() => handleDownload("navbar")}
-          disabled={!downloadUrl || isDownloading}
-          className="hidden md:flex bg-white text-black px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isDownloading ? (
-            <>
-              <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
-              Downloading...
-            </>
-          ) : (
-            <>
-              Download
-              <span>↓</span>
-            </>
-          )}
-        </button>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="md:hidden text-white p-2 bg-transparent border-none cursor-pointer"
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
 
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
