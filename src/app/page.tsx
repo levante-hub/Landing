@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { Menu, X } from "lucide-react";
 import { safeCapture } from "@/lib/posthog";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
 import { LandingChatDemo } from "@/components/LandingChatDemo";
@@ -17,6 +18,7 @@ import { useLatestRelease } from "@/hooks/useLatestRelease";
 export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { downloadUrl, error: releaseError, platform } = useLatestRelease();
 
   // Track UTM parameters and handle social media deep links
@@ -70,16 +72,25 @@ export default function Home() {
     return labels[platform] || "";
   };
 
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  const handleNavClick = (sectionId: string) => {
+    scrollToSection(sectionId);
+    closeMobileMenu();
+  };
+
   return (
     <div>
-      <nav className="w-full px-4 sm:px-6 lg:px-8 py-6">
+      <nav className="w-full px-4 sm:px-8 py-4 sm:py-6 relative">
         <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
+          {/* Logo */}
           <div className="flex items-center gap-3">
             <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
             <span className="text-white text-lg font-normal">Levante</span>
           </div>
 
-          <div className="flex items-center gap-8">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8">
             <button
               onClick={() => scrollToSection("features")}
               className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
@@ -112,10 +123,11 @@ export default function Home() {
             </a>
           </div>
 
+          {/* Desktop Download Button */}
           <button
             onClick={() => handleDownload("navbar")}
             disabled={!downloadUrl || isDownloading}
-            className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium flex items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="hidden md:flex bg-white text-black px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isDownloading ? (
               <>
@@ -129,11 +141,113 @@ export default function Home() {
               </>
             )}
           </button>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="md:hidden text-white p-2 bg-transparent border-none cursor-pointer"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div
+            className="fixed inset-0 bg-black/60 z-40 md:hidden"
+            onClick={closeMobileMenu}
+          />
+        )}
+
+        {/* Mobile Menu */}
+        <div
+          className={`fixed top-0 right-0 h-full w-[280px] bg-[#1a1a1a] z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
+            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          }`}
+        >
+          <div className="flex flex-col h-full">
+            {/* Mobile Menu Header */}
+            <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
+              <div className="flex items-center gap-3">
+                <Image src="/Logo.svg" alt="Logo" width={28} height={28} />
+                <span className="text-white text-base font-normal">Levante</span>
+              </div>
+              <button
+                onClick={closeMobileMenu}
+                className="text-white p-1 bg-transparent border-none cursor-pointer"
+                aria-label="Close menu"
+              >
+                <X size={22} />
+              </button>
+            </div>
+
+            {/* Mobile Menu Links */}
+            <div className="flex flex-col py-4">
+              <button
+                onClick={() => handleNavClick("features")}
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => handleNavClick("team")}
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Team
+              </button>
+              <button
+                onClick={() => handleNavClick("about")}
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                About
+              </button>
+              <button
+                onClick={() => {
+                  openQuestionnaire();
+                  closeMobileMenu();
+                }}
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Contribute
+              </button>
+              <a
+                href="/feedback"
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors no-underline"
+              >
+                Feedback
+              </a>
+            </div>
+
+            {/* Mobile Download Button */}
+            <div className="mt-auto p-6 border-t border-white/10">
+              <button
+                onClick={() => {
+                  handleDownload("navbar");
+                  closeMobileMenu();
+                }}
+                disabled={!downloadUrl || isDownloading}
+                className="w-full bg-white text-black px-6 py-3 rounded-full text-sm font-medium flex items-center justify-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isDownloading ? (
+                  <>
+                    <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
+                    Downloading...
+                  </>
+                ) : (
+                  <>
+                    Download
+                    <span>↓</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       </nav>
 
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-4">
-        <div className="relative min-h-[900px] rounded-2xl">
+        <div className="relative min-h-[545px] rounded-2xl">
           {/* Background Image Container - Limited to top half */}
           <div className="absolute top-0 left-0 right-0 h-[55%] rounded-2xl overflow-hidden shadow-xl">
             <video
@@ -153,7 +267,7 @@ export default function Home() {
           </div>
 
           {/* Content Layer */}
-          <div className="relative z-20 flex flex-col items-center justify-start pt-8 sm:pt-12 md:pt-14 px-4 sm:px-8">
+          <div className="relative z-20 flex flex-col items-center justify-start pt-8 sm:pt-12 md:pt-14 pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8">
             <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em]">
               Implement MCPs easily
             </h1>
@@ -200,7 +314,7 @@ export default function Home() {
 
             {/* Product Mockup - Interactive Chat Component */}
             <div className="w-full max-w-[860px] px-4">
-              <div className="rounded-2xl overflow-hidden shadow-2xl bg-white">
+              <div className="rounded-2xl overflow-hidden shadow-2xl">
                 <LandingChatDemo />
               </div>
             </div>
@@ -213,11 +327,11 @@ export default function Home() {
       {/* Features Section */}
       <section
         id="features"
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12 mt-6 md:mt-16"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Feature 01 */}
-          <div className="relative rounded-xl overflow-hidden">
+          <div className="relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0">
             {/* Background Image */}
             <Image
               src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Group%201426350.jpg"
@@ -225,14 +339,14 @@ export default function Home() {
               width={640}
               height={640}
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="w-full h-auto"
+              className="w-full h-full object-cover absolute inset-0 md:relative md:h-auto"
             />
 
             {/* Overlay Content */}
-            <div className="absolute inset-0 flex flex-col justify-between p-8">
+            <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 md:p-8">
               {/* Mockup Image */}
-              <div className="flex-1 flex items-start justify-center pt-8">
-                <div className="w-[85%] max-w-[500px]">
+              <div className="flex-1 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
+                <div className="w-[90%] sm:w-[85%] md:w-[85%] max-w-[500px]">
                   <Image
                     src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Captura%20de%20pantalla%202025-10-29%20a%20las%2010.38.07.png"
                     alt="Feature 01 Mockup"
@@ -244,9 +358,9 @@ export default function Home() {
               </div>
 
               {/* Text Content */}
-              <div className="text-white">
-                <h3 className="text-2xl font-semibold mb-3">Add your own MCPs</h3>
-                <p className="text-sm opacity-90">
+              <div className="text-white mt-auto">
+                <h3 className="text-xl sm:text-2xl md:text-2xl font-semibold mb-2 md:mb-3">Add your own MCPs</h3>
+                <p className="text-sm sm:text-sm opacity-90">
                   Add your own custom MCPs to the platform or import them
                   directly from the integrated Store marketplace.
                 </p>
@@ -255,7 +369,7 @@ export default function Home() {
           </div>
 
           {/* Feature 02 */}
-          <div className="relative rounded-xl overflow-hidden">
+          <div className="relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0">
             {/* Background Image */}
             <Image
               src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Group%201426344%20%281%29.png"
@@ -263,14 +377,14 @@ export default function Home() {
               width={640}
               height={640}
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="w-full h-auto"
+              className="w-full h-full object-cover absolute inset-0 md:relative md:h-auto"
             />
 
             {/* Overlay Content */}
-            <div className="absolute inset-0 flex flex-col justify-between p-8">
+            <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 md:p-8">
               {/* Mockup Image */}
-              <div className="flex-1 flex items-start justify-center pt-8">
-                <div className="w-[85%] max-w-[500px]">
+              <div className="flex-1 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
+                <div className="w-[90%] sm:w-[85%] md:w-[85%] max-w-[500px]">
                   <Image
                     src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Captura%20de%20pantalla%202025-10-29%20a%20las%2010.40.45.png"
                     alt="Feature 02 Mockup"
@@ -282,9 +396,9 @@ export default function Home() {
               </div>
 
               {/* Text Content */}
-              <div className="text-white">
-                <h3 className="text-2xl font-semibold mb-3">Hundreds of models available</h3>
-                <p className="text-sm opacity-90">
+              <div className="text-white mt-auto">
+                <h3 className="text-xl sm:text-2xl md:text-2xl font-semibold mb-2 md:mb-3">Hundreds of models available</h3>
+                <p className="text-sm sm:text-sm opacity-90">
                   Select from hundreds of available AI models across multiple
                   providers to match your specific requirements.
                 </p>

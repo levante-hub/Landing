@@ -25,14 +25,24 @@ export const TryNowSection = ({
   };
 
   return (
-    <footer className="relative w-full min-h-[600px] md:min-h-[700px] flex items-center justify-center mt-16">
-      {/* Background Image */}
+    <footer className="relative w-full min-h-[700px] md:min-h-[850px] flex items-center justify-center mt-16">
+      {/* Background Image - Mobile */}
+      <Image
+        src="/footer-img.png"
+        alt="Try Levante now"
+        fill
+        sizes="100vw"
+        className="object-cover md:hidden"
+        priority
+      />
+      
+      {/* Background Image - Desktop */}
       <Image
         src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Wallpaper.png"
         alt="Try Levante now"
         fill
         sizes="100vw"
-        className="object-cover"
+        className="object-cover object-top hidden md:block"
         priority
       />
 

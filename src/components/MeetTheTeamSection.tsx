@@ -13,6 +13,7 @@ interface TeamMember {
   quote?: string;
   socials?: {
     linkedin: string;
+    github?: string;
   };
 }
 
@@ -21,39 +22,43 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
     {
       name: "Saúl Gómez",
       role: "Co-Founder & CEO",
-      image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Perfiles%20Linkedin/saul.jpeg",
+      image: "/saul-img.png",
       socials: {
-        linkedin: "https://www.linkedin.com/in/saul-gomez-jimenez-47b30328b/"
+        linkedin: "https://www.linkedin.com/in/saul-gomez-jimenez-47b30328b/",
+        github: "https://github.com/Saul-Gomez-J"
       }
     },
     {
       name: "Oliver Montes",
       role: "Co-Founder & CTO",
-      image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Perfiles%20Linkedin/oliver.jpeg",
+      image: "/oliver-img.png",
       socials: {
-        linkedin: "https://www.linkedin.com/in/olivermontes/"
-      }
-    },
-    {
-      name: "Dennis Montes",
-      role: "Product Designer",
-      image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Perfiles%20Linkedin/Dennis.jpeg",
-      socials: {
-        linkedin: "https://www.linkedin.com/in/dennis-montes/"
+        linkedin: "https://www.linkedin.com/in/olivermontes/",
+        github: "https://github.com/olivermontes"
       }
     },
     {
       name: "Alejandro Gómez Cerezo",
       role: "Full Stack Developer",
-      image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Perfiles%20Linkedin/Alejandro.jpeg",
+      image: "/Alejandro-img.png",
       socials: {
-        linkedin: "https://www.linkedin.com/in/alejandro-gomez-cerezo/"
+        linkedin: "https://www.linkedin.com/in/alejandro-gomez-cerezo/",
+        github: "#"
+      }
+    },
+    {
+      name: "Dennis Montes",
+      role: "Product Designer",
+      image: "/dennis-img.png",
+      socials: {
+        linkedin: "https://www.linkedin.com/in/dennis-montes/",
+        github: "#"
       }
     }
   ];
 
   return (
-    <section id="team" className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
+    <section id="team" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
       {/* Header */}
       <div className="flex items-start justify-between mb-10">
         <div>
@@ -80,7 +85,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
         {teamMembers.map((member, index) => (
           <div
             key={member.name}
-            className="border-t border-gray-800 pt-6"
+            className="border-t border-[#323232] pt-6"
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
               {/* Avatar */}
@@ -91,6 +96,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
                     alt={member.name}
                     fill
                     className="object-cover"
+                    unoptimized
                   />
                 </div>
               </div>
@@ -111,21 +117,28 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
 
               {/* Quote or Socials */}
               <div className="lg:col-span-4">
-                {member.quote ? (
-                  <p className="text-gray-400 text-xs leading-relaxed">
-                    {member.quote}
-                  </p>
-                ) : member.socials ? (
+                {member.socials && (
                   <div className="flex items-center gap-4">
-                    <a
-                      href={member.socials.linkedin}
-                      onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'linkedin' })}
-                      className="text-gray-400 hover:text-white transition-colors text-xs"
-                    >
-                      LinkedIn
-                    </a>
+                    {member.socials.linkedin && (
+                      <a
+                        href={member.socials.linkedin}
+                        onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'linkedin' })}
+                        className="text-gray-400 hover:text-white transition-colors text-xs"
+                      >
+                        LinkedIn
+                      </a>
+                    )}
+                    {member.socials.github && member.socials.github !== "#" && (
+                      <a
+                        href={member.socials.github}
+                        onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'github' })}
+                        className="text-gray-400 hover:text-white transition-colors text-xs"
+                      >
+                        Github
+                      </a>
+                    )}
                   </div>
-                ) : null}
+                )}
               </div>
             </div>
           </div>
