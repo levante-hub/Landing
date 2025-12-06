@@ -5,8 +5,20 @@ interface MeetTheTeamSectionProps {
   onOpenQuestionnaire: () => void;
 }
 
+
+interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
+  quote?: string;
+  socials?: {
+    linkedin: string;
+    github?: string;
+  };
+}
+
 export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionProps) => {
-  const teamMembers = [
+  const teamMembers: TeamMember[] = [
     {
       name: "Saúl Gómez",
       role: "Co-Founder & CEO",
@@ -51,7 +63,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
       <div className="flex items-start justify-between mb-10">
         <div>
           <h2 className="text-white text-2xl sm:text-3xl font-medium mb-2">
-            Meet the Team
+            Founders
           </h2>
           <p className="text-gray-400 text-sm">
             The visionaries behind the revolution

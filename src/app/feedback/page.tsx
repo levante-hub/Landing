@@ -11,16 +11,18 @@ export const metadata = {
 export default function FeedbackPage() {
     return (
         <div className="min-h-screen bg-[#222222]">
-            <nav className="flex items-center justify-between px-8 py-6">
-                <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                    <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
-                    <span className="text-white text-lg font-normal">Levante</span>
-                </Link>
-
-                <div className="flex items-center gap-8">
-                    <Link href="/" className="text-white text-sm hover:text-white/80 transition-colors">
-                        Back to Home
+            <nav className="w-full px-4 sm:px-6 lg:px-8 py-6">
+                <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
+                    <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                        <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
+                        <span className="text-white text-lg font-normal">Levante</span>
                     </Link>
+
+                    <div className="flex items-center gap-8">
+                        <Link href="/" className="text-white text-sm hover:text-white/80 transition-colors">
+                            Back to Home
+                        </Link>
+                    </div>
                 </div>
             </nav>
 
