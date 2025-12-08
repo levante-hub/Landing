@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { safeCapture } from "@/lib/posthog";
@@ -84,10 +85,10 @@ export default function Home() {
       <nav className="w-full px-4 sm:px-8 py-4 sm:py-6 relative">
         <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3 no-underline">
             <Image src="/levante-logo.svg" alt="Logo" width={32} height={32} />
             <span className="text-white text-lg font-normal">Levante</span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
@@ -169,7 +170,7 @@ export default function Home() {
           <div className="flex flex-col h-full">
             {/* Mobile Menu Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
-              <div className="flex items-center gap-3">
+              <Link href="/" className="flex items-center gap-3 no-underline">
                 <Image
                   src="/levante-logo.svg"
                   alt="Logo"
@@ -177,7 +178,7 @@ export default function Home() {
                   height={28}
                 />
                 <span className="text-white text-base font-normal">Levante</span>
-              </div>
+              </Link>
               <button
                 onClick={closeMobileMenu}
                 className="text-white p-1 bg-transparent border-none cursor-pointer"

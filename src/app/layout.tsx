@@ -7,9 +7,26 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Levante",
+  url: siteUrl,
+  logo: `${siteUrl}/levante-logo.svg`,
+};
+
 export const metadata: Metadata = {
   title: "Use MCPs easily",
   description: "Join the open-source mission to democratize Model Context Protocols",
+  metadataBase:
+    process.env.NEXT_PUBLIC_SITE_URL !== undefined
+      ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
+      : undefined,
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/icon.png",
     shortcut: "/icon.png",
@@ -19,6 +36,7 @@ export const metadata: Metadata = {
     title: "Use MCPs easily",
     description:
       "Join the open-source mission to democratize Model Context Protocols",
+    siteName: "Levante",
     images: [
       {
         url: "/levante-thumbnail.png",
@@ -27,6 +45,7 @@ export const metadata: Metadata = {
         alt: "Levante thumbnail",
       },
     ],
+    url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   },
   twitter: {
     card: "summary_large_image",
@@ -43,6 +62,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${inter.className} antialiased`}>
         <PostHogProvider>
           {children}
