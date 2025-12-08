@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FeedbackForm } from "@/components/feedback/FeedbackForm";
@@ -45,7 +46,31 @@ export default function FeedbackPage() {
 
                 <div className="mt-16">
                     <h2 className="text-2xl font-medium text-white mb-8 px-4">Community Ideas</h2>
-                    <FeedbackList />
+                    <Suspense
+                        fallback={
+                            <div className="space-y-4 px-4">
+                                {Array.from({ length: 3 }).map((_, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="bg-[#2A2A2A] p-5 rounded-2xl border border-white/10 shadow-2xl animate-pulse space-y-3"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className="h-4 w-24 bg-white/10 rounded" />
+                                            <div className="h-3 w-16 bg-white/10 rounded" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <div className="h-3 w-full bg-white/10 rounded" />
+                                            <div className="h-3 w-5/6 bg-white/10 rounded" />
+                                            <div className="h-3 w-4/6 bg-white/10 rounded" />
+                                        </div>
+                                        <div className="h-8 w-24 bg-white/10 rounded" />
+                                    </div>
+                                ))}
+                            </div>
+                        }
+                    >
+                        <FeedbackList />
+                    </Suspense>
                 </div>
             </main>
         </div>
