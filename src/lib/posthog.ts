@@ -50,6 +50,9 @@ export const initPostHog = () => {
       debug: false,
     })
 
+    // Assign to window for safety checks
+    window.posthog = posthog
+
     // Log initialization in development
     if (process.env.NODE_ENV === 'development') {
       console.log('PostHog initialized for analytics tracking')
@@ -79,17 +82,27 @@ export const getUTMParams = () => {
 
 // Safe capture function that checks if PostHog is initialized
 export const safeCapture = (eventName: string, properties?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && (window as any).posthog && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true') {
-    const utmParams = getUTMParams()
-    posthog.capture(eventName, {
-      timestamp: new Date().toISOString(),
-      page_url: window.location.href,
-      page_title: document.title,
-      ...utmParams,
-      ...properties
-    })
+  if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true') {
+    try {
+      // Check if posthog is initialized
+      if (posthog.__loaded) {
+        const utmParams = getUTMParams()
+        posthog.capture(eventName, {
+          timestamp: new Date().toISOString(),
+          page_url: window.location.href,
+          page_title: document.title,
+          ...utmParams,
+          ...properties
+        })
+      } else if (process.env.NODE_ENV === 'development') {
+        console.warn('PostHog not yet initialized, event queued:', eventName)
+      }
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error capturing event:', error)
+      }
+    }
   }
-  // Removed development logging to reduce console noise
 }
 
 export { posthog }
