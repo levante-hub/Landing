@@ -10,7 +10,6 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 
     const lenis = new Lenis({
       smoothWheel: true,
-      smoothTouch: false,
     })
 
     let frameId = 0
