@@ -6,6 +6,23 @@ declare global {
   }
 }
 
+type QueuedEvent = {
+  name: string
+  properties?: Record<string, any>
+}
+
+const queuedEvents: QueuedEvent[] = []
+let posthogReady = false
+
+const flushQueuedEvents = () => {
+  if (!posthogReady || typeof window === 'undefined' || !window.posthog) return
+
+  while (queuedEvents.length) {
+    const { name, properties } = queuedEvents.shift()!
+    window.posthog.capture(name, properties)
+  }
+}
+
 export const initPostHog = () => {
   // Only initialize if analytics is enabled via environment variable
   if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true') {
@@ -47,6 +64,8 @@ export const initPostHog = () => {
       debug: false,
       loaded: (ph) => {
         window.posthog = ph;
+        posthogReady = true
+        flushQueuedEvents()
       }
     })
   } else {
@@ -70,7 +89,17 @@ export const getUTMParams = () => {
 
 // Safe capture function that checks if PostHog is initialized
 export const safeCapture = (eventName: string, properties?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && window.posthog && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true') {
+  if (typeof window === 'undefined') {
+    console.warn('[PostHog] Cannot capture event - window is undefined')
+    return
+  }
+
+  if (process.env.NEXT_PUBLIC_ENABLE_ANALYTICS !== 'true') {
+    console.log('[PostHog] Analytics disabled via env var')
+    return
+  }
+
+  try {
     const utmParams = getUTMParams()
     const eventData = {
       timestamp: new Date().toISOString(),
@@ -80,8 +109,16 @@ export const safeCapture = (eventName: string, properties?: Record<string, any>)
       ...properties
     }
 
-    posthog.capture(eventName, eventData)
-  } else {
+    if (!posthogReady || !window.posthog) {
+      console.warn('[PostHog] PostHog not initialized yet for event:', eventName)
+      queuedEvents.push({ name: eventName, properties: eventData })
+      return
+    }
+
+    window.posthog.capture(eventName, eventData)
+    console.log('[PostHog] Event captured:', eventName, eventData)
+  } catch (error) {
+    console.error('[PostHog] Error capturing event:', error)
   }
 }
 

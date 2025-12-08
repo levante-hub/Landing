@@ -6,7 +6,7 @@ export const useUTMTracking = () => {
     // Track page view with UTM parameters
     const utmParams = getUTMParams()
     const fragment = window.location.hash.substring(1)
-    
+
     // Track page view with source attribution
     safeCapture('$pageview', {
       ...utmParams,
