@@ -85,7 +85,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
+            <Image src="/levante-logo.svg" alt="Logo" width={32} height={32} />
             <span className="text-white text-lg font-normal">Levante</span>
           </div>
 
@@ -170,7 +170,12 @@ export default function Home() {
             {/* Mobile Menu Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <Image src="/Logo.svg" alt="Logo" width={28} height={28} />
+                <Image
+                  src="/levante-logo.svg"
+                  alt="Logo"
+                  width={28}
+                  height={28}
+                />
                 <span className="text-white text-base font-normal">Levante</span>
               </div>
               <button

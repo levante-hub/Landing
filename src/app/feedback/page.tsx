@@ -14,7 +14,12 @@ export default function FeedbackPage() {
             <nav className="w-full px-4 sm:px-6 lg:px-8 py-6">
                 <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
                     <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                        <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
+                        <Image
+                          src="/levante-logo.svg"
+                          alt="Logo"
+                          width={32}
+                          height={32}
+                        />
                         <span className="text-white text-lg font-normal">Levante</span>
                     </Link>
 
