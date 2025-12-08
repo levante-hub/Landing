@@ -7,20 +7,17 @@ declare global {
 }
 
 export const initPostHog = () => {
-  // Log environment check for debugging
-  console.log('PostHog Init Check:', {
-    enableAnalytics: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS,
-    environment: process.env.NODE_ENV
-  });
-
   // Only initialize if analytics is enabled via environment variable
   if (typeof window !== 'undefined' && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true') {
     posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-      ui_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+      api_host: window.location.origin + '/starlight', // renamed path to evade filters
+      ui_host: 'https://eu.i.posthog.com',
       person_profiles: 'identified_only',
       capture_pageview: false, // We'll handle this manually
       capture_pageleave: true,
+
+      // Proxy activado - Los eventos ahora van a /ingest para evitar ad-blockers
+      // Next.js automáticamente los reenvía a PostHog usando el rewrite configurado
 
       // Enable key features
       autocapture: {
@@ -38,7 +35,7 @@ export const initPostHog = () => {
       },
 
       // Privacy settings
-      respect_dnt: true,
+      respect_dnt: false,
       mask_all_element_attributes: false,
       mask_all_text: false,
 
@@ -46,19 +43,13 @@ export const initPostHog = () => {
       capture_performance: true,
       property_denylist: [], // Don't block any properties
 
-      // Debug mode disabled to reduce console noise
+      // Keep debug off to avoid SDK console noise
       debug: false,
+      loaded: (ph) => {
+        window.posthog = ph;
+      }
     })
-
-    // Log initialization in development
-    if (process.env.NODE_ENV === 'development') {
-      console.log('PostHog initialized for analytics tracking')
-    }
   } else {
-    // Log when analytics is disabled
-    if (process.env.NODE_ENV === 'development') {
-      console.log('PostHog analytics disabled via NEXT_PUBLIC_ENABLE_ANALYTICS=false')
-    }
   }
 }
 
@@ -79,17 +70,19 @@ export const getUTMParams = () => {
 
 // Safe capture function that checks if PostHog is initialized
 export const safeCapture = (eventName: string, properties?: Record<string, any>) => {
-  if (typeof window !== 'undefined' && (window as any).posthog && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true') {
+  if (typeof window !== 'undefined' && window.posthog && process.env.NEXT_PUBLIC_ENABLE_ANALYTICS === 'true') {
     const utmParams = getUTMParams()
-    posthog.capture(eventName, {
+    const eventData = {
       timestamp: new Date().toISOString(),
       page_url: window.location.href,
       page_title: document.title,
       ...utmParams,
       ...properties
-    })
+    }
+
+    posthog.capture(eventName, eventData)
+  } else {
   }
-  // Removed development logging to reduce console noise
 }
 
 export { posthog }

@@ -31,7 +31,7 @@ export const TryNowSection = ({
         src="/footer-img.png"
         alt="Try Levante now"
         fill
-        sizes="100vw"
+        sizes="(min-width: 1024px) 1200px, 100vw"
         className="object-cover md:hidden"
         priority
       />
@@ -41,7 +41,7 @@ export const TryNowSection = ({
         src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Wallpaper.png"
         alt="Try Levante now"
         fill
-        sizes="100vw"
+        sizes="(min-width: 1440px) 1400px, (min-width: 1024px) 1200px, 100vw"
         className="object-cover object-top hidden md:block"
         priority
       />
