@@ -85,7 +85,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <Image src="/Logo.svg" alt="Logo" width={32} height={32} />
+            <Image src="/levante-logo.svg" alt="Logo" width={32} height={32} />
             <span className="text-white text-lg font-normal">Levante</span>
           </div>
 
@@ -170,7 +170,12 @@ export default function Home() {
             {/* Mobile Menu Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
               <div className="flex items-center gap-3">
-                <Image src="/Logo.svg" alt="Logo" width={28} height={28} />
+                <Image
+                  src="/levante-logo.svg"
+                  alt="Logo"
+                  width={28}
+                  height={28}
+                />
                 <span className="text-white text-base font-normal">Levante</span>
               </div>
               <button
@@ -269,7 +274,7 @@ export default function Home() {
           {/* Content Layer */}
           <div className="relative z-20 flex flex-col items-center justify-start pt-8 sm:pt-12 md:pt-14 pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8">
             <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em]">
-              Implement MCPs easily
+              Use MCPs easily
             </h1>
 
             <p className="text-white text-center mb-8 max-w-[450px] text-lg sm:text-xl">

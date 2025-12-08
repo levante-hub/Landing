@@ -3,7 +3,8 @@ import path from "path";
 
 const nextConfig: NextConfig = {
   turbopack: {
-    root: path.join(__dirname, ".."),
+    // Ensure Turbopack uses the project root instead of the parent folder
+    root: __dirname,
   },
   images: {
     remotePatterns: [
