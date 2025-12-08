@@ -269,7 +269,7 @@ export default function Home() {
           {/* Content Layer */}
           <div className="relative z-20 flex flex-col items-center justify-start pt-8 sm:pt-12 md:pt-14 pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8">
             <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em]">
-              Implement MCPs easily
+              Use MCPs easily
             </h1>
 
             <p className="text-white text-center mb-8 max-w-[450px] text-lg sm:text-xl">
