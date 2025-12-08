@@ -83,7 +83,7 @@ export async function sendDiscordFeedback(data: DiscordFeedbackData) {
   }
 
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.levanteapp.com"; // Fallback or env
+    const appUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.levanteapp.com";
     const feedbackUrl = `${appUrl}/feedback`;
 
     const embed = {
