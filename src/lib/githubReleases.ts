@@ -103,6 +103,28 @@ export function mapAssetsToPlatforms(assets: GitHubAsset[]): PlatformUrls {
   for (const asset of assets) {
     const nameLower = asset.name.toLowerCase();
 
+    // Prefer .dmg for macOS; treat non-arch DMGs as universal
+    if (nameLower.includes('.dmg')) {
+      const isArm =
+        nameLower.includes('arm') ||
+        nameLower.includes('aarch64') ||
+        nameLower.includes('apple-silicon') ||
+        nameLower.includes('m1') ||
+        nameLower.includes('m2');
+      const isIntel = nameLower.includes('x64') || nameLower.includes('intel');
+
+      if (isArm) {
+        platformUrls['macos-arm'] = asset.browser_download_url;
+      } else if (isIntel) {
+        platformUrls['macos-intel'] = asset.browser_download_url;
+      } else {
+        // Universal DMG: use for both architectures
+        platformUrls['macos-arm'] = asset.browser_download_url;
+        platformUrls['macos-intel'] = asset.browser_download_url;
+      }
+      continue;
+    }
+
     // Detectar Windows (buscar .exe, .msi, win, windows)
     if (nameLower.includes('.exe') || nameLower.includes('.msi') ||
         (nameLower.includes('win') && !nameLower.includes('darwin'))) {
