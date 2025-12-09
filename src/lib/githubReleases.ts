@@ -125,9 +125,12 @@ export function mapAssetsToPlatforms(assets: GitHubAsset[]): PlatformUrls {
       continue;
     }
 
-    // Detectar Windows (buscar .exe, .msi, win, windows)
-    if (nameLower.includes('.exe') || nameLower.includes('.msi') ||
-        (nameLower.includes('win') && !nameLower.includes('darwin'))) {
+    // Detectar Windows - priorizar .exe y .msi
+    if (nameLower.includes('.exe') || nameLower.includes('.msi')) {
+      // Siempre priorizar .exe y .msi
+      platformUrls.windows = asset.browser_download_url;
+    } else if ((nameLower.includes('win') && !nameLower.includes('darwin')) && !platformUrls.windows) {
+      // Solo usar otros archivos win si no hay un .exe o .msi ya asignado
       platformUrls.windows = asset.browser_download_url;
     }
     // Detectar macOS ARM (buscar darwin-arm64 o arm64)
