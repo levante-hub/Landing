@@ -82,75 +82,77 @@ export default function Home() {
 
   return (
     <div>
-      <nav className="w-full px-4 sm:px-8 py-4 sm:py-6 relative">
-        <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 no-underline">
-            <Image src="/levante-logo.svg" alt="Logo" width={32} height={32} />
-            <span className="text-white text-lg font-normal">Levante</span>
-          </Link>
+      <nav className="w-full sticky top-0 z-50 px-4 sm:px-6 py-3 sm:py-4">
+        <div className="mx-auto max-w-6xl">
+          <div className="glass-nav nav-glow px-4 sm:px-6 py-3 flex items-center justify-between gap-4 rounded-full">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3 no-underline">
+              <Image src="/levante-logo.svg" alt="Logo" width={32} height={32} />
+              <span className="text-slate-900 text-lg font-medium">Levante</span>
+            </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-8">
+              <button
+                onClick={() => scrollToSection("features")}
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => scrollToSection("team")}
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Team
+              </button>
+              <button
+                onClick={() => scrollToSection("about")}
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                About
+              </button>
+              <button
+                onClick={openQuestionnaire}
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Contribute
+              </button>
+              <a
+                href="/feedback"
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors no-underline"
+              >
+                Feedback
+              </a>
+            </div>
+
+            {/* Desktop CTA */}
             <button
-              onClick={() => scrollToSection("features")}
-              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+              onClick={() => handleDownload("navbar")}
+              disabled={!downloadUrl || isDownloading}
+              className="hidden md:flex bg-white text-black px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Features
+              {isDownloading ? (
+                <>
+                  <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
+                  Downloading...
+                </>
+              ) : (
+                <>
+                  Download
+                  <span>↓</span>
+                </>
+              )}
             </button>
+
+            {/* Mobile Menu Button */}
             <button
-              onClick={() => scrollToSection("team")}
-              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden text-slate-900 p-2 bg-white/80 border border-white/70 rounded-full shadow-sm cursor-pointer"
+              aria-label="Toggle menu"
             >
-              Team
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <button
-              onClick={() => scrollToSection("about")}
-              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-            >
-              About
-            </button>
-            <button
-              onClick={openQuestionnaire}
-              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-            >
-              Contribute
-            </button>
-            <a
-              href="/feedback"
-              className="text-white text-sm hover:text-white/80 transition-colors no-underline"
-            >
-              Feedback
-            </a>
           </div>
-
-          {/* Desktop Download Button */}
-          <button
-            onClick={() => handleDownload("navbar")}
-            disabled={!downloadUrl || isDownloading}
-            className="hidden md:flex bg-white text-black px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isDownloading ? (
-              <>
-                <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
-                Downloading...
-              </>
-            ) : (
-              <>
-                Download
-                <span>↓</span>
-              </>
-            )}
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2 bg-transparent border-none cursor-pointer"
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
 
         {/* Mobile Menu Overlay */}
