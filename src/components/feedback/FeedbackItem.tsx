@@ -68,14 +68,14 @@ export function FeedbackItem({
     });
 
     return (
-        <div className="bg-[#2A2A2A]/50 border border-white/5 rounded-2xl p-6 hover:border-white/10 transition-all group">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all group">
             <div className="flex justify-between items-start gap-4">
                 <div className="flex-1 space-y-2">
-                    <p className="text-white/90 text-lg leading-relaxed whitespace-pre-wrap">
+                    <p className="text-slate-900 text-lg leading-relaxed whitespace-pre-wrap">
                         {content}
                     </p>
-                    <div className="flex items-center gap-2 text-sm text-white/40">
-                        <span className={authorName ? "text-white/60 font-medium" : ""}>
+                    <div className="flex items-center gap-2 text-sm text-slate-500">
+                        <span className={authorName ? "text-slate-700 font-medium" : ""}>
                             {authorName || "Anonymous"}
                         </span>
                         <span>•</span>
@@ -87,8 +87,8 @@ export function FeedbackItem({
                     onClick={handleLike}
                     disabled={hasVoted || isLiking}
                     className={`flex flex-col items-center gap-1 min-w-[50px] p-2 rounded-xl transition-all ${hasVoted
-                        ? "text-white bg-white/10 cursor-default"
-                        : "text-white/40 hover:text-white hover:bg-white/5 cursor-pointer active:scale-95"
+                        ? "text-slate-900 bg-slate-100 cursor-default"
+                        : "text-slate-500 hover:text-slate-900 hover:bg-slate-100 cursor-pointer active:scale-95"
                         }`}
                 >
                     <svg

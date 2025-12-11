@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase/client";
-import { getOrCreateClientId } from "@/lib/feedback-id";
+import { FEEDBACK_COOKIE_NAME, getOrCreateClientId } from "@/lib/feedback-id";
 
 export async function POST(
     req: Request,
@@ -8,7 +8,7 @@ export async function POST(
 ) {
     try {
         const params = await props.params;
-        const clientId = await getOrCreateClientId();
+        const { id: clientId, isNew } = getOrCreateClientId();
         const feedbackId = params.id;
 
         if (!feedbackId) {
@@ -33,7 +33,19 @@ export async function POST(
         }
 
         console.log("Like inserted successfully:", feedbackId, clientId);
-        return NextResponse.json({ ok: true });
+        const res = NextResponse.json({ ok: true });
+
+        if (isNew) {
+            res.cookies.set(FEEDBACK_COOKIE_NAME, clientId, {
+                httpOnly: false,
+                sameSite: "lax",
+                secure: process.env.NODE_ENV === "production",
+                path: "/",
+                maxAge: 60 * 60 * 24 * 365, // 1 year
+            });
+        }
+
+        return res;
     } catch (err) {
         console.error("Server error:", err);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

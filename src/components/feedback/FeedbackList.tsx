@@ -77,7 +77,7 @@ export async function FeedbackList() {
     // Let's look at `database.types.ts`.
     // We have `feedback_likes`.
 
-    const clientId = await getOrCreateClientId();
+    const { id: clientId } = getOrCreateClientId();
 
     const { data: rawFeedback, error: fetchError } = await supabase
         .from("feedback")
@@ -116,7 +116,7 @@ export async function FeedbackList() {
     return (
         <div className="w-full max-w-2xl mx-auto space-y-4 pb-20">
             {formattedFeedback.length === 0 ? (
-                <div className="text-center text-white/40 py-12">
+                <div className="text-center text-slate-500 py-12">
                     No feedback yet. Be the first to share your thoughts!
                 </div>
             ) : (

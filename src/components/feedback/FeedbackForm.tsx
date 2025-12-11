@@ -52,9 +52,9 @@ export function FeedbackForm() {
                 <div className="flex justify-center">
                     <button
                         onClick={() => setIsOpen(true)}
-                        className="group flex items-center gap-2 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-white/80 hover:text-white transition-all active:scale-95 backdrop-blur-sm"
+                        className="group flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full text-slate-800 hover:text-slate-900 hover:border-slate-300 shadow-sm transition-all active:scale-95"
                     >
-                        <MessageSquarePlus className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
+                        <MessageSquarePlus className="w-4 h-4 text-slate-500 group-hover:text-slate-700 transition-colors" />
                         <span className="text-sm font-medium">Share your feedback</span>
                     </button>
                 </div>
@@ -62,17 +62,17 @@ export function FeedbackForm() {
                 <div className="animate-in fade-in slide-in-from-top-4 duration-300 ease-out">
                     <form
                         onSubmit={handleSubmit}
-                        className="bg-[#2A2A2A] p-6 rounded-2xl border border-white/10 shadow-2xl relative"
+                        className="bg-white p-6 rounded-2xl border border-slate-200 shadow-lg relative"
                     >
                         <button
                             type="button"
                             onClick={() => setIsOpen(false)}
-                            className="absolute top-4 right-4 text-white/40 hover:text-white transition-colors p-1"
+                            className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors p-1"
                         >
                             <X className="w-5 h-5" />
                         </button>
 
-                        <h3 className="text-lg font-medium text-white mb-4 pr-8">Share your thoughts</h3>
+                        <h3 className="text-lg font-semibold text-slate-900 mb-4 pr-8">Share your thoughts</h3>
 
                         <div className="space-y-4">
                             <div>
@@ -83,7 +83,7 @@ export function FeedbackForm() {
                                     required
                                     rows={4}
                                     autoFocus
-                                    className="w-full bg-black/20 border border-white/10 rounded-xl p-4 text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-white/20 transition-all resize-none text-sm leading-relaxed"
+                                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 transition-all resize-none text-sm leading-relaxed"
                                 />
                             </div>
 
@@ -94,17 +94,17 @@ export function FeedbackForm() {
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
                                         placeholder="Name (optional)"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-white placeholder:text-white/30 focus:outline-none focus:ring-1 focus:ring-white/20 transition-all text-sm"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 transition-all text-sm"
                                     />
                                 </div>
 
                                 <button
                                     type="submit"
                                     disabled={isSubmitting || !content.trim()}
-                                    className="bg-white text-black px-6 py-3 rounded-xl text-sm font-medium hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95 min-w-[100px] flex justify-center items-center"
+                                    className="bg-black text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-black/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95 min-w-[100px] flex justify-center items-center"
                                 >
                                     {isSubmitting ? (
-                                        <span className="w-4 h-4 border-2 border-black/40 border-t-black rounded-full animate-spin" />
+                                        <span className="w-4 h-4 border-2 border-white/60 border-t-transparent rounded-full animate-spin" />
                                     ) : (
                                         "Post"
                                     )}
@@ -113,7 +113,7 @@ export function FeedbackForm() {
                         </div>
 
                         {error && (
-                            <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-xs">
+                            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-xs">
                                 {error}
                             </div>
                         )}

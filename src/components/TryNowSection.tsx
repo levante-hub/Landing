@@ -26,7 +26,7 @@ export const TryNowSection = ({
   return (
     <footer className="relative w-full min-h-[700px] md:min-h-[850px] flex items-center justify-center mt-16 bg-gradient-to-b from-white to-gray-50">
       <div className="relative z-10 flex flex-col items-center gap-8 px-4 text-center">
-        <h2 className="text-[#032840] text-[4.3rem] md:text-[7rem] font-semibold leading-tight">
+        <h2 className="text-black text-[4.3rem] md:text-[7rem] font-normal leading-tight">
           Try Levante
         </h2>
         {/* Download Button */}

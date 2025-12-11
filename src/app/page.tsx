@@ -81,7 +81,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-[#f6f7fb] text-slate-900">
+    <div className="bg-white text-slate-900">
       <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-1.5 sm:py-3">
         <div className="mx-auto max-w-[45rem]">
           <div className="glass-nav nav-glow px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-3 rounded-full">
@@ -287,11 +287,11 @@ export default function Home() {
                 <button
                   onClick={() => handleDownload("hero")}
                   disabled={!downloadUrl || isDownloading}
-                  className="bg-white text-black rounded-full text-base font-medium flex items-center justify-center gap-2 min-w-[239px] h-[50px] px-6 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-black text-white rounded-full text-base font-medium flex items-center justify-center gap-2 min-w-[239px] h-[50px] px-6 hover:bg-black/90 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isDownloading ? (
                     <>
-                      <span className="animate-spin inline-block w-5 h-5 border-2 border-black border-t-transparent rounded-full" />
+                      <span className="animate-spin inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
                       Downloading...
                     </>
                   ) : (
