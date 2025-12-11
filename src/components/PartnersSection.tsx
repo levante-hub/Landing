@@ -40,14 +40,14 @@ export const PartnersSection = () => {
           {marqueePartners.map((partner, index) => (
             <div
               key={index}
-              className="flex-shrink-0 px-8 h-14 flex items-center justify-center opacity-70 grayscale"
+              className="flex-shrink-0 px-8 h-14 flex items-center justify-center opacity-70"
             >
               <Image
                 src={partner.logo}
                 alt={partner.name}
                 width={120}
                 height={48}
-                className={`object-contain w-auto ${index % partners.length === 1 ? 'h-16' : 'h-12'}`}
+                className={`object-contain w-auto grayscale ${index % partners.length === 1 ? 'h-16' : 'h-12'}`}
               />
             </div>
           ))}
@@ -61,14 +61,14 @@ export const PartnersSection = () => {
             {partners.map((partner, index) => (
               <div
                 key={index}
-                className="relative h-14 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                className="relative h-14 flex items-center justify-center opacity-70"
               >
                 <Image
                   src={partner.logo}
                   alt={partner.name}
                   width={140}
                   height={56}
-                  className={`object-contain w-auto ${index === 1 ? 'h-20' : 'h-14'}`}
+                  className={`object-contain w-auto grayscale ${index === 1 ? 'h-20' : 'h-14'}`}
                 />
               </div>
             ))}

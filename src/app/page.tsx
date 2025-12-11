@@ -82,9 +82,9 @@ export default function Home() {
 
   return (
     <div className="bg-[#f6f7fb] text-slate-900">
-      <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-2 sm:py-3">
+      <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-1.5 sm:py-3">
         <div className="mx-auto max-w-[45rem]">
-          <div className="glass-nav nav-glow px-3 sm:px-4 py-2 flex items-center justify-between gap-3 rounded-full">
+          <div className="glass-nav nav-glow px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-3 rounded-full">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 no-underline">
               <Image src="/levante-logo.svg" alt="Logo" width={32} height={32} />
@@ -147,7 +147,7 @@ export default function Home() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden text-slate-900 p-2 bg-white/80 border border-white/70 rounded-full shadow-sm cursor-pointer"
+              className="md:hidden text-slate-900 p-2 bg-transparent border-none cursor-pointer"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
