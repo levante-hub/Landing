@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { safeCapture } from '@/lib/posthog';
 
 interface TryNowSectionProps {
@@ -8,11 +7,11 @@ interface TryNowSectionProps {
   getPlatformLabel?: () => string;
 }
 
-export const TryNowSection = ({ 
-  onDownload, 
-  isDownloading = false, 
-  downloadUrl, 
-  getPlatformLabel 
+export const TryNowSection = ({
+  onDownload,
+  isDownloading = false,
+  downloadUrl,
+  getPlatformLabel
 }: TryNowSectionProps) => {
   const handleDownload = () => {
     // Track download event
@@ -25,37 +24,20 @@ export const TryNowSection = ({
   };
 
   return (
-    <footer className="relative w-full min-h-[700px] md:min-h-[850px] flex items-center justify-center mt-16">
-      {/* Background Image - Mobile */}
-      <Image
-        src="/footer-img.png"
-        alt="Try Levante now"
-        fill
-        sizes="100vw"
-        className="object-cover md:hidden"
-        priority
-      />
-      
-      {/* Background Image - Desktop */}
-      <Image
-        src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Wallpaper.png"
-        alt="Try Levante now"
-        fill
-        sizes="100vw"
-        className="object-cover object-top hidden md:block"
-        priority
-      />
-
-      {/* Download Button */}
-      <div className="relative z-10">
+    <footer className="relative w-full min-h-[700px] md:min-h-[850px] flex items-center justify-center mt-16 bg-gradient-to-b from-white to-gray-50">
+      <div className="relative z-10 flex flex-col items-center gap-8 px-4 text-center">
+        <h2 className="text-[#032840] text-[4.3rem] md:text-[7rem] font-semibold leading-tight">
+          Try Levante
+        </h2>
+        {/* Download Button */}
         <button 
           onClick={handleDownload}
           disabled={!downloadUrl || isDownloading}
-          className="bg-white text-black px-10 py-4 rounded-full text-base font-medium hover:bg-gray-100 transition-colors cursor-pointer shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-black text-white px-10 py-4 rounded-full text-sm md:text-base font-medium hover:bg-gray-900 transition-colors cursor-pointer shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isDownloading ? (
             <>
-              <span className="animate-spin inline-block w-5 h-5 border-2 border-black border-t-transparent rounded-full" />
+              <span className="animate-spin inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
               Downloading...
             </>
           ) : (
