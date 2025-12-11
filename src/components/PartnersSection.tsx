@@ -24,12 +24,12 @@ export const PartnersSection = () => {
   const marqueePartners = [...partners, ...partners];
 
   return (
-    <section className="bg-[#222222] pt-4 pb-12 overflow-hidden">
+    <section className="pt-4 pb-12 overflow-hidden">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-white text-center text-2xl font-medium mb-3">
+        <h2 className="text-slate-900 text-center text-2xl font-medium mb-3">
           Our collaborators
         </h2>
-        <p className="text-white/60 text-center text-base mb-8">
+        <p className="text-slate-600 text-center text-base mb-8">
           Leading companies that trust in our vision
         </p>
       </div>

@@ -16,22 +16,22 @@ export const AboutSection = () => {
 
       {/* Main Text */}
       <div className="space-y-6 mb-8">
-        <p className="text-white text-xl md:text-2xl leading-relaxed">
+        <p className="text-slate-900 text-xl md:text-2xl leading-relaxed">
           Levante is an open-source, MCP-native AI workspace that brings your models, tools, and data together in one secure desktop client.
         </p>
 
-        <p className="text-white text-xl md:text-2xl leading-relaxed">
+        <p className="text-slate-900 text-xl md:text-2xl leading-relaxed">
           Connect to any MCP server, run local or cloud models, and guide users with interactive apps while keeping workflows intuitive, observable, and under your control.
         </p>
       </div>
 
       {/* Signature */}
-      <div className="text-white">
+      <div className="text-slate-800">
         <p className="text-base mb-1">Sincerely,</p>
         <p className="text-lg italic">
           The human team from minte and CLAi, from{" "}
-          <span className="text-blue-400">Alicante</span> and{" "}
-          <span className="text-blue-400">Granada</span>, Spain
+          <span className="text-blue-600">Alicante</span> and{" "}
+          <span className="text-blue-600">Granada</span>, Spain
         </p>
       </div>
     </section>

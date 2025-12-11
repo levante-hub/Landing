@@ -81,10 +81,10 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <nav className="w-full sticky top-0 z-50 px-4 sm:px-6 py-3 sm:py-4">
-        <div className="mx-auto max-w-6xl">
-          <div className="glass-nav nav-glow px-4 sm:px-6 py-3 flex items-center justify-between gap-4 rounded-full">
+    <div className="bg-[#f6f7fb] text-slate-900">
+      <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-2 sm:py-3">
+        <div className="mx-auto max-w-4xl">
+          <div className="glass-nav nav-glow px-3 sm:px-4 py-2 flex items-center justify-between gap-3 rounded-full">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 no-underline">
               <Image src="/levante-logo.svg" alt="Logo" width={32} height={32} />
@@ -129,11 +129,11 @@ export default function Home() {
             <button
               onClick={() => handleDownload("navbar")}
               disabled={!downloadUrl || isDownloading}
-              className="hidden md:flex bg-white text-black px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="hidden md:flex bg-black text-white px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-black/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isDownloading ? (
                 <>
-                  <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
+                  <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
                   Downloading...
                 </>
               ) : (
