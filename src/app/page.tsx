@@ -83,7 +83,7 @@ export default function Home() {
   return (
     <div className="bg-[#f6f7fb] text-slate-900">
       <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-2 sm:py-3">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-[45rem]">
           <div className="glass-nav nav-glow px-3 sm:px-4 py-2 flex items-center justify-between gap-3 rounded-full">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 no-underline">
@@ -92,7 +92,7 @@ export default function Home() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8">
+            <div className="hidden md:flex items-center gap-5">
               <button
                 onClick={() => scrollToSection("features")}
                 className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
@@ -322,9 +322,7 @@ export default function Home() {
 
             {/* Product Mockup - Interactive Chat Component */}
             <div className="w-full max-w-[860px] px-4">
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <LandingChatDemo />
-              </div>
+              <LandingChatDemo />
             </div>
           </div>
         </div>

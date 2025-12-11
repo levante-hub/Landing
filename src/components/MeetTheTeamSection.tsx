@@ -60,7 +60,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
   return (
     <section id="team" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
       {/* Header */}
-      <div className="flex items-start justify-between mb-10">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between mb-10">
         <div>
           <h2 className="text-slate-900 text-2xl sm:text-3xl font-medium mb-2">
             Founders
@@ -74,7 +74,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
             posthog.capture('join-us-clicked', { location: 'meet-the-team-section' });
             onOpenQuestionnaire();
           }}
-          className="bg-black text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-black/90 transition-colors"
+          className="bg-black text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-black/90 transition-colors self-start md:self-auto"
         >
           Join Us
         </button>

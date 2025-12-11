@@ -34,7 +34,7 @@ export const ContributeSection = ({ onOpenQuestionnaire }: ContributeSectionProp
             </div>
 
             {/* Title */}
-            <h2 className="text-black text-3xl md:text-4xl font-medium mb-6 leading-tight">
+            <h2 className="text-black text-[22px] md:text-4xl font-medium mb-6 leading-tight">
               Levante is an open-source project funded by the community.
             </h2>
 
