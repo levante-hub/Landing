@@ -254,28 +254,25 @@ export default function Home() {
         </div>
       </nav>
 
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-4">
-        <div className="relative min-h-[545px] rounded-2xl">
-          {/* Background Image Container - Limited to top half */}
-          <div className="absolute top-0 left-0 right-0 h-[55%] rounded-2xl overflow-hidden shadow-xl">
-            <video
-              src="/wizard-background.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover object-center"
+      <section className="w-full -mt-[100px]">
+        <div className="relative min-h-[740px] w-full overflow-hidden">
+          {/* Background Image Container - Full hero */}
+          <div className="absolute inset-0 overflow-hidden">
+            <Image
+              src="/hero-levante.jpeg"
+              alt="Levante hero background"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 1200px"
+              className="object-cover object-center"
             />
 
-            {/* Dark Overlay for contrast */}
-            <div className="absolute inset-0 bg-black/40 z-10" />
-
             {/* Gradient Overlay - darkens bottom */}
-            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 md:h-56 bg-gradient-to-b from-transparent to-[#222222] z-10" />
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 md:h-56 bg-gradient-to-b from-transparent to-[#f6f7fb] z-10" />
           </div>
 
           {/* Content Layer */}
-          <div className="relative z-20 flex flex-col items-center justify-start pt-8 sm:pt-12 md:pt-14 pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8">
+          <div className="relative z-20 flex flex-col items-center justify-start pt-28 sm:pt-32 md:pt-36 pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8 w-full text-center">
             <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em]">
               Use MCPs easily
             </h1>
