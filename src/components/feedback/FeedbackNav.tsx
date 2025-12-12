@@ -5,7 +5,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
-export function FeedbackNav() {
+interface FeedbackNavProps {
+    onOpenQuestionnaire?: () => void;
+    onDownload?: () => void;
+    isDownloading?: boolean;
+    downloadUrl?: string | null;
+}
+
+export function FeedbackNav({ onOpenQuestionnaire, onDownload, isDownloading, downloadUrl }: FeedbackNavProps) {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
@@ -33,18 +40,34 @@ export function FeedbackNav() {
                         <Link href="/#about" className="text-slate-700 text-sm hover:text-slate-900 transition-colors">
                             About
                         </Link>
+                        <button
+                            onClick={onOpenQuestionnaire}
+                            className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+                        >
+                            Contribute
+                        </button>
                         <Link href="/feedback" className="text-slate-900 text-sm font-medium">
                             Feedback
                         </Link>
                     </div>
 
-                    <a
-                        href="https://github.com/levante-hub/levante/releases"
-                        className="hidden md:flex bg-black text-white px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-black/90 transition-colors"
+                    <button
+                        onClick={onDownload}
+                        disabled={!downloadUrl || isDownloading}
+                        className="hidden md:flex bg-black text-white px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-black/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        Download
-                        <span>↓</span>
-                    </a>
+                        {isDownloading ? (
+                            <>
+                                <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+                                Downloading...
+                            </>
+                        ) : (
+                            <>
+                                Download
+                                <span>↓</span>
+                            </>
+                        )}
+                    </button>
 
                     <button
                         onClick={() => setIsMobileMenuOpen((prev) => !prev)}
@@ -110,6 +133,15 @@ export function FeedbackNav() {
                         >
                             About
                         </Link>
+                        <button
+                            onClick={() => {
+                                onOpenQuestionnaire?.();
+                                closeMobileMenu();
+                            }}
+                            className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
+                        >
+                            Contribute
+                        </button>
                         <Link
                             href="/feedback"
                             onClick={closeMobileMenu}
@@ -120,14 +152,26 @@ export function FeedbackNav() {
                     </div>
 
                     <div className="mt-auto p-6 border-t border-white/10">
-                        <a
-                            href="https://github.com/levante-hub/levante/releases"
-                            className="w-full bg-white text-black px-6 py-3 rounded-full text-sm font-medium flex items-center justify-center gap-2 cursor-pointer hover:bg-white/90 transition-colors"
-                            onClick={closeMobileMenu}
+                        <button
+                            onClick={() => {
+                                onDownload?.();
+                                closeMobileMenu();
+                            }}
+                            disabled={!downloadUrl || isDownloading}
+                            className="w-full bg-white text-black px-6 py-3 rounded-full text-sm font-medium flex items-center justify-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Download
-                            <span>↓</span>
-                        </a>
+                            {isDownloading ? (
+                                <>
+                                    <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
+                                    Downloading...
+                                </>
+                            ) : (
+                                <>
+                                    Download
+                                    <span>↓</span>
+                                </>
+                            )}
+                        </button>
                     </div>
                 </div>
             </div>

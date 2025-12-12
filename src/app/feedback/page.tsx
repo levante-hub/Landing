@@ -1,16 +1,63 @@
+"use client";
+
+import { useState } from "react";
 import { FeedbackForm } from "@/components/feedback/FeedbackForm";
 import { FeedbackList } from "@/components/feedback/FeedbackList";
 import { FeedbackNav } from "@/components/feedback/FeedbackNav";
-
-export const metadata = {
-    title: "Feedback | Levante",
-    description: "Share your thoughts and ideas for Levante.",
-};
+import { TryNowSection } from "@/components/TryNowSection";
+import { Questionnaire } from "@/components/questionnaire";
+import { useLatestRelease } from "@/hooks/useLatestRelease";
+import { safeCapture } from "@/lib/posthog";
 
 export default function FeedbackPage() {
+    const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
+    const { downloadUrl, platform } = useLatestRelease();
+
+    const openQuestionnaire = () => {
+        safeCapture("contribution_questionnaire_opened");
+        setIsQuestionnaireOpen(true);
+    };
+    const closeQuestionnaire = () => setIsQuestionnaireOpen(false);
+
+    const handleDownload = () => {
+        safeCapture("download_button_clicked", { location: "navbar" });
+
+        if (downloadUrl) {
+            setIsDownloading(true);
+            const link = document.createElement("a");
+            link.href = downloadUrl;
+            link.download = "";
+            link.style.display = "none";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            setTimeout(() => {
+                setIsDownloading(false);
+            }, 2000);
+        }
+    };
+
+    const getPlatformLabel = () => {
+        const labels: Record<string, string> = {
+            windows: "Windows",
+            "macos-intel": "Mac (Intel)",
+            "macos-arm": "Mac (Apple Silicon)",
+            linux: "Linux",
+            unknown: "",
+        };
+        return labels[platform] || "";
+    };
+
     return (
         <div className="min-h-screen bg-white text-slate-900">
-            <FeedbackNav />
+            <FeedbackNav
+                onOpenQuestionnaire={openQuestionnaire}
+                onDownload={handleDownload}
+                isDownloading={isDownloading}
+                downloadUrl={downloadUrl}
+            />
 
             <main className="max-w-5xl mx-auto px-4 pt-16 pb-20">
                 <div className="text-center mb-12">
@@ -29,6 +76,21 @@ export default function FeedbackPage() {
                     <FeedbackList />
                 </div>
             </main>
+
+            <TryNowSection
+                onDownload={() => {
+                    safeCapture("download_button_clicked", { location: "footer" });
+                    handleDownload();
+                }}
+                isDownloading={isDownloading}
+                downloadUrl={downloadUrl}
+                getPlatformLabel={getPlatformLabel}
+            />
+
+            <Questionnaire
+                isOpen={isQuestionnaireOpen}
+                onClose={closeQuestionnaire}
+            />
         </div>
     );
 }
