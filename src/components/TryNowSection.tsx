@@ -60,7 +60,7 @@ export const TryNowSection = ({
       <div className="relative z-10 flex flex-col items-center gap-8 px-4 text-center pt-0 md:pt-0 -translate-y-16 md:-translate-y-28">
         <h2
           key={currentIndex}
-          className="text-black text-[3.65rem] md:text-[7rem] font-normal leading-tight typing-title"
+          className="text-black text-[1.75rem] sm:text-[3.65rem] md:text-[7rem] font-normal leading-tight typing-title"
           aria-label={currentTitle}
         >
           {currentTitle}
