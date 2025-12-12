@@ -43,16 +43,18 @@ export const TryNowSection = ({
 
   return (
     <footer
-      className="relative w-full min-h-[600px] md:min-h-[850px] flex items-start justify-center mt-32 md:mt-48 bg-white"
+      className="relative w-full min-h-[50vh] md:min-h-[60vh] lg:min-h-[70vh] flex items-start justify-center mt-[20vh] md:mt-[25vh] lg:mt-[30vh] pt-[10vh] md:pt-[15vh] bg-white overflow-hidden"
     >
-      {/* Background image */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url('/levante-footer.jpg')",
-          backgroundSize: "100% auto",
-          backgroundPosition: "center bottom",
-          backgroundRepeat: "no-repeat",
+      {/* Background image - shows full width at its natural aspect ratio */}
+      <img
+        src="/levante-footer.jpg"
+        alt=""
+        className="absolute inset-0 w-full h-full object-cover object-bottom"
+        style={{ 
+          height: 'calc(100% + 200px)',
+          boxSizing: 'content-box',
+          marginTop: '100px',
+          marginBottom: '100px'
         }}
       />
       <div className="relative z-10 flex flex-col items-center gap-8 px-4 text-center pt-0 md:pt-0 -translate-y-16 md:-translate-y-28">
