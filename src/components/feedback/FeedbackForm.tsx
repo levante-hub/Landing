@@ -8,6 +8,8 @@ export function FeedbackForm() {
     const [isOpen, setIsOpen] = useState(false);
     const [content, setContent] = useState("");
     const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
@@ -27,6 +29,7 @@ export function FeedbackForm() {
                 body: JSON.stringify({
                     content,
                     author_display_name: name || null,
+                    email: email || null,
                 }),
             });
 
@@ -37,6 +40,8 @@ export function FeedbackForm() {
 
             setContent("");
             setName("");
+            setEmail("");
+            setAcceptedPrivacy(false);
             setIsOpen(false);
             router.refresh();
         } catch (err: any) {
@@ -97,10 +102,44 @@ export function FeedbackForm() {
                                         className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 transition-all text-sm"
                                     />
                                 </div>
+                                <div className="flex-1">
+                                    <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="Email (optional)"
+                                        className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-300 transition-all text-sm"
+                                    />
+                                </div>
+                            </div>
 
+                            {email.trim() && (
+                                <div className="flex items-center justify-start gap-2">
+                                    <input
+                                        type="checkbox"
+                                        id="privacy-policy"
+                                        checked={acceptedPrivacy}
+                                        onChange={(e) => setAcceptedPrivacy(e.target.checked)}
+                                        className="w-4 h-4 rounded border-slate-300 text-black focus:ring-slate-300 cursor-pointer"
+                                    />
+                                    <label htmlFor="privacy-policy" className="text-xs text-slate-600 cursor-pointer">
+                                        I accept the{" "}
+                                        <a
+                                            href="/privacy-policy"
+                                            target="_blank"
+                                            className="text-slate-900 underline hover:no-underline"
+                                        >
+                                            Privacy Policy
+                                        </a>{" "}
+                                        and consent to the processing of my data.
+                                    </label>
+                                </div>
+                            )}
+
+                            <div className="flex justify-end">
                                 <button
                                     type="submit"
-                                    disabled={isSubmitting || !content.trim()}
+                                    disabled={isSubmitting || !content.trim() || (email.trim() && !acceptedPrivacy)}
                                     className="bg-black text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-black/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95 min-w-[100px] flex justify-center items-center"
                                 >
                                     {isSubmitting ? (
