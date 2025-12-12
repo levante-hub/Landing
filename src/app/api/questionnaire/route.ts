@@ -5,6 +5,14 @@ import { sendDiscordNotification } from '@/lib/discord'
 
 export async function POST(request: NextRequest) {
   try {
+    // Ensure we have admin client (should only run on server)
+    if (!supabaseAdmin) {
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      )
+    }
+
     const body = await request.json()
 
     // 1. VALIDACIÓN DE CAMPOS REQUERIDOS

@@ -7,8 +7,8 @@ export const FEEDBACK_COOKIE_NAME = "levante_feedback_id";
  * but leaves cookie persistence up to the caller (Route Handler / Server Action)
  * to avoid "Cookies can only be modified..." errors in Server Components.
  */
-export function getOrCreateClientId(): { id: string; isNew: boolean } {
-    const cookieStore = cookies();
+export async function getOrCreateClientId(): Promise<{ id: string; isNew: boolean }> {
+    const cookieStore = await cookies();
 
     // Defensive: in rare cases (e.g., unexpected runtime), cookies() might not
     // return the standard interface. Bail out gracefully instead of throwing.

@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         // Let's assume the UI sends it as 'website' or similar if we add it to body, 
         // but for now I'll just validate content).
 
-        const { id: clientId, isNew } = getOrCreateClientId();
+        const { id: clientId, isNew } = await getOrCreateClientId();
 
         const result = await supabase
             .from("feedback")

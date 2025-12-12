@@ -8,7 +8,7 @@ export async function POST(
 ) {
     try {
         const params = await props.params;
-        const { id: clientId, isNew } = getOrCreateClientId();
+        const { id: clientId, isNew } = await getOrCreateClientId();
         const feedbackId = params.id;
 
         if (!feedbackId) {

@@ -139,7 +139,7 @@ export function FeedbackForm() {
                             <div className="flex justify-end">
                                 <button
                                     type="submit"
-                                    disabled={isSubmitting || !content.trim() || (email.trim() && !acceptedPrivacy)}
+                                    disabled={isSubmitting || !content.trim() || (!!email.trim() && !acceptedPrivacy)}
                                     className="bg-black text-white px-6 py-3 rounded-xl text-sm font-medium hover:bg-black/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all active:scale-95 min-w-[100px] flex justify-center items-center"
                                 >
                                     {isSubmitting ? (
