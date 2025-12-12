@@ -88,77 +88,78 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <nav className="w-full px-4 sm:px-8 py-4 sm:py-6 relative">
-        <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 no-underline">
-            <Image src="/levante-logo.svg" alt="Logo" width={32} height={32} />
-            <span className="text-white text-lg font-normal">Levante</span>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <button
-              onClick={() => scrollToSection("features")}
-              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-            >
-              Features
-            </button>
-            <button
-              onClick={() => scrollToSection("team")}
-              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-            >
-              Team
-            </button>
-            <button
-              onClick={() => scrollToSection("about")}
-              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-            >
-              About
-            </button>
-            <button
-              onClick={openQuestionnaire}
-              className="text-white text-sm hover:text-white/80 transition-colors bg-transparent border-none cursor-pointer"
-            >
-              Contribute
-            </button>
-            <Link
-              href="/feedback"
-              prefetch
-              className="text-white text-sm hover:text-white/80 transition-colors no-underline"
-            >
-              Feedback
+    <div className="bg-white text-slate-900">
+      <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-1.5 sm:py-3">
+        <div className="mx-auto max-w-[45rem]">
+          <div className="glass-nav nav-glow px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-3 rounded-full">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3 no-underline">
+              <Image src="/levante-logo.svg" alt="Logo" width={32} height={32} />
+              <span className="text-slate-900 text-lg font-medium">Levante</span>
             </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-5">
+              <button
+                onClick={() => scrollToSection("features")}
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Features
+              </button>
+              <button
+                onClick={() => scrollToSection("team")}
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Team
+              </button>
+              <button
+                onClick={() => scrollToSection("about")}
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                About
+              </button>
+              <button
+                onClick={openQuestionnaire}
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
+              >
+                Contribute
+              </button>
+              <a
+                href="/feedback"
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors no-underline"
+              >
+                Feedback
+              </a>
+            </div>
+
+            {/* Desktop CTA */}
+            <button
+              onClick={() => handleDownload("navbar")}
+              disabled={!downloadUrl || isDownloading}
+              className="hidden md:flex bg-black text-white px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-black/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isDownloading ? (
+                <>
+                  <span className="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
+                  Downloading...
+                </>
+              ) : (
+                <>
+                  Download
+                  <span>↓</span>
+                </>
+              )}
+            </button>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden text-slate-900 p-2 bg-transparent border-none cursor-pointer"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
           </div>
-
-          {/* Desktop Download Button */}
-          <button
-            onClick={() => handleDownload("navbar")}
-            disabled={!downloadUrl || isDownloading}
-            className="hidden md:flex bg-white text-black px-6 py-2 rounded-full text-sm font-medium items-center gap-2 cursor-pointer hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isDownloading ? (
-              <>
-                <span className="animate-spin inline-block w-4 h-4 border-2 border-black border-t-transparent rounded-full" />
-                Downloading...
-              </>
-            ) : (
-              <>
-                Download
-                <span>↓</span>
-              </>
-            )}
-          </button>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2 bg-transparent border-none cursor-pointer"
-            aria-label="Toggle menu"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
 
         {/* Mobile Menu Overlay */}
@@ -262,28 +263,25 @@ export default function Home() {
         </div>
       </nav>
 
-      <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-12 pb-4">
-        <div className="relative min-h-[545px] rounded-2xl">
-          {/* Background Image Container - Limited to top half */}
-          <div className="absolute top-0 left-0 right-0 h-[55%] rounded-2xl overflow-hidden shadow-xl">
-            <video
-              src="/wizard-background.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover object-center"
+      <section className="w-full -mt-[100px]">
+        <div className="relative min-h-[740px] w-full overflow-hidden">
+          {/* Background Image Container - Full hero */}
+          <div className="absolute inset-0 overflow-hidden">
+            <Image
+              src="/hero-levante.jpeg"
+              alt="Levante hero background"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 1200px"
+              className="object-cover object-center"
             />
 
-            {/* Dark Overlay for contrast */}
-            <div className="absolute inset-0 bg-black/40 z-10" />
-
-            {/* Gradient Overlay - darkens bottom */}
-            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 md:h-56 bg-gradient-to-b from-transparent to-[#222222] z-10" />
+            {/* Gradient Overlay - fades to white at bottom */}
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 md:h-56 bg-gradient-to-b from-transparent to-white z-10" />
           </div>
 
           {/* Content Layer */}
-          <div className="relative z-20 flex flex-col items-center justify-start pt-8 sm:pt-12 md:pt-14 pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8">
+          <div className="relative z-20 flex flex-col items-center justify-start pt-[10.5rem] sm:pt-[11.5rem] md:pt-[10.5rem] pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8 w-full text-center">
             <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em]">
               Use MCPs easily
             </h1>
@@ -298,11 +296,11 @@ export default function Home() {
                 <button
                   onClick={() => handleDownload("hero")}
                   disabled={!downloadUrl || isDownloading}
-                  className="bg-white text-black rounded-full text-base font-medium flex items-center justify-center gap-2 min-w-[239px] h-[50px] px-6 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="bg-black text-white rounded-full text-base font-medium flex items-center justify-center gap-2 min-w-[239px] h-[50px] px-6 hover:bg-black/90 transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isDownloading ? (
                     <>
-                      <span className="animate-spin inline-block w-5 h-5 border-2 border-black border-t-transparent rounded-full" />
+                      <span className="animate-spin inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full" />
                       Downloading...
                     </>
                   ) : (
@@ -330,9 +328,7 @@ export default function Home() {
 
             {/* Product Mockup - Interactive Chat Component */}
             <div className="w-full max-w-[860px] px-4">
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <LandingChatDemo />
-              </div>
+              <LandingChatDemo />
             </div>
           </div>
         </div>

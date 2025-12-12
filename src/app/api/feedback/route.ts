@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase/client";
-import { getOrCreateClientId } from "@/lib/feedback-id";
+import { FEEDBACK_COOKIE_NAME, getOrCreateClientId } from "@/lib/feedback-id";
 import { sendDiscordFeedback } from "@/lib/discord";
 
 export async function POST(req: Request) {
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         // Let's assume the UI sends it as 'website' or similar if we add it to body, 
         // but for now I'll just validate content).
 
-        const clientId = await getOrCreateClientId();
+        const { id: clientId, isNew } = await getOrCreateClientId();
 
         const result = await supabase
             .from("feedback")
@@ -49,7 +49,19 @@ export async function POST(req: Request) {
 
         // Wait, we need the ID. Let's update the insert to select the ID.
 
-        return NextResponse.json({ ok: true });
+        const res = NextResponse.json({ ok: true });
+
+        if (isNew) {
+            res.cookies.set(FEEDBACK_COOKIE_NAME, clientId, {
+                httpOnly: false,
+                sameSite: "lax",
+                secure: process.env.NODE_ENV === "production",
+                path: "/",
+                maxAge: 60 * 60 * 24 * 365, // 1 year
+            });
+        }
+
+        return res;
     } catch (err) {
         console.error("Server error:", err);
         return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

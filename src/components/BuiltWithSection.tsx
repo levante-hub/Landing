@@ -37,7 +37,7 @@ export const BuiltWithSection = () => {
 
   return (
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 mt-16">
-      <h2 className="text-white text-3xl sm:text-4xl font-medium mb-12">
+      <h2 className="text-black text-3xl sm:text-4xl font-medium mb-12">
         Built for MCP-native workflows
       </h2>
 

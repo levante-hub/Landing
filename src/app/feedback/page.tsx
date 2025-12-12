@@ -1,78 +1,96 @@
-import { Suspense } from "react";
-import Image from "next/image";
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
 import { FeedbackForm } from "@/components/feedback/FeedbackForm";
 import { FeedbackList } from "@/components/feedback/FeedbackList";
-
-export const metadata = {
-    title: "Feedback | Levante",
-    description: "Share your thoughts and ideas for Levante.",
-};
+import { FeedbackNav } from "@/components/feedback/FeedbackNav";
+import { TryNowSection } from "@/components/TryNowSection";
+import { Questionnaire } from "@/components/questionnaire";
+import { useLatestRelease } from "@/hooks/useLatestRelease";
+import { safeCapture } from "@/lib/posthog";
 
 export default function FeedbackPage() {
+    const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
+    const { downloadUrl, platform } = useLatestRelease();
+
+    const openQuestionnaire = () => {
+        safeCapture("contribution_questionnaire_opened");
+        setIsQuestionnaireOpen(true);
+    };
+    const closeQuestionnaire = () => setIsQuestionnaireOpen(false);
+
+    const handleDownload = () => {
+        safeCapture("download_button_clicked", { location: "navbar" });
+
+        if (downloadUrl) {
+            setIsDownloading(true);
+            const link = document.createElement("a");
+            link.href = downloadUrl;
+            link.download = "";
+            link.style.display = "none";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            setTimeout(() => {
+                setIsDownloading(false);
+            }, 2000);
+        }
+    };
+
+    const getPlatformLabel = () => {
+        const labels: Record<string, string> = {
+            windows: "Windows",
+            "macos-intel": "Mac (Intel)",
+            "macos-arm": "Mac (Apple Silicon)",
+            linux: "Linux",
+            unknown: "",
+        };
+        return labels[platform] || "";
+    };
+
     return (
-        <div className="min-h-screen bg-[#222222]">
-            <nav className="w-full px-4 sm:px-6 lg:px-8 py-6">
-                <div className="mx-auto max-w-7xl flex items-center justify-between gap-6">
-                    <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-                        <Image
-                          src="/levante-logo.svg"
-                          alt="Logo"
-                          width={32}
-                          height={32}
-                        />
-                        <span className="text-white text-lg font-normal">Levante</span>
-                    </Link>
+        <div className="min-h-screen bg-white text-slate-900">
+            <FeedbackNav
+                onOpenQuestionnaire={openQuestionnaire}
+                onDownload={handleDownload}
+                isDownloading={isDownloading}
+                downloadUrl={downloadUrl}
+            />
 
-                    <div className="flex items-center gap-8">
-                        <Link href="/" className="text-white text-sm hover:text-white/80 transition-colors">
-                            Back to Home
-                        </Link>
-                    </div>
-                </div>
-            </nav>
-
-            <main className="max-w-4xl mx-auto px-4 pt-12">
+            <main className="max-w-5xl mx-auto px-4 pt-16 pb-20">
                 <div className="text-center mb-12">
-                    <h1 className="text-4xl md:text-5xl font-medium text-white mb-4 tracking-tight">
+                    <h1 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-4 tracking-tight">
                         Feedback Wall
                     </h1>
-                    <p className="text-lg text-white/60 max-w-xl mx-auto">
+                    <p className="text-lg text-slate-600 max-w-2xl mx-auto">
                         Help us shape the future of Levante. Share your ideas, report issues, or just say hello.
                     </p>
                 </div>
 
                 <FeedbackForm />
 
-                <div className="mt-16">
-                    <h2 className="text-2xl font-medium text-white mb-8 px-4">Community Ideas</h2>
-                    <Suspense
-                        fallback={
-                            <div className="space-y-4 px-4">
-                                {Array.from({ length: 3 }).map((_, idx) => (
-                                    <div
-                                        key={idx}
-                                        className="bg-[#2A2A2A] p-5 rounded-2xl border border-white/10 shadow-2xl animate-pulse space-y-3"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <div className="h-4 w-24 bg-white/10 rounded" />
-                                            <div className="h-3 w-16 bg-white/10 rounded" />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <div className="h-3 w-full bg-white/10 rounded" />
-                                            <div className="h-3 w-5/6 bg-white/10 rounded" />
-                                            <div className="h-3 w-4/6 bg-white/10 rounded" />
-                                        </div>
-                                        <div className="h-8 w-24 bg-white/10 rounded" />
-                                    </div>
-                                ))}
-                            </div>
-                        }
-                    >
-                        <FeedbackList />
-                    </Suspense>
+                <div className="mt-16 max-w-2xl mx-auto px-2">
+                    <h2 className="text-2xl font-semibold text-slate-900 mb-6">Community Ideas</h2>
+                    <FeedbackList />
                 </div>
             </main>
+
+            <TryNowSection
+                onDownload={() => {
+                    safeCapture("download_button_clicked", { location: "footer" });
+                    handleDownload();
+                }}
+                isDownloading={isDownloading}
+                downloadUrl={downloadUrl}
+                getPlatformLabel={getPlatformLabel}
+            />
+
+            <Questionnaire
+                isOpen={isQuestionnaireOpen}
+                onClose={closeQuestionnaire}
+            />
         </div>
     );
 }

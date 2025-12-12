@@ -60,12 +60,12 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
   return (
     <section id="team" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
       {/* Header */}
-      <div className="flex items-start justify-between mb-10">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between mb-10">
         <div>
-          <h2 className="text-white text-2xl sm:text-3xl font-medium mb-2">
+          <h2 className="text-slate-900 text-2xl sm:text-3xl font-medium mb-2">
             Founders
           </h2>
-          <p className="text-gray-400 text-sm">
+          <p className="text-slate-600 text-sm">
             The visionaries behind the revolution
           </p>
         </div>
@@ -74,7 +74,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
             posthog.capture('join-us-clicked', { location: 'meet-the-team-section' });
             onOpenQuestionnaire();
           }}
-          className="bg-white text-black px-6 py-2 rounded-full text-sm font-medium hover:bg-gray-100 transition-colors"
+          className="bg-black text-white px-6 py-2 rounded-full text-sm font-medium hover:bg-black/90 transition-colors self-start md:self-auto"
         >
           Join Us
         </button>
@@ -85,7 +85,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
         {teamMembers.map((member, index) => (
           <div
             key={member.name}
-            className="border-t border-[#323232] pt-6"
+            className="border-t border-slate-200 pt-6"
           >
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-center">
               {/* Avatar */}
@@ -103,14 +103,14 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
 
               {/* Name */}
               <div className="lg:col-span-3">
-                <h3 className="text-white text-base font-medium">
+                <h3 className="text-slate-900 text-base font-medium">
                   {member.name}
                 </h3>
               </div>
 
               {/* Role */}
               <div className="lg:col-span-3">
-                <p className="text-gray-400 text-sm">
+                <p className="text-slate-600 text-sm">
                   {member.role}
                 </p>
               </div>
@@ -123,7 +123,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
                       <a
                         href={member.socials.linkedin}
                         onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'linkedin' })}
-                        className="text-gray-400 hover:text-white transition-colors text-xs"
+                        className="text-slate-700 hover:text-slate-900 transition-colors text-xs"
                       >
                         LinkedIn
                       </a>
@@ -132,7 +132,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
                       <a
                         href={member.socials.github}
                         onClick={() => posthog.capture('team-member-social-link-clicked', { member_name: member.name, social_network: 'github' })}
-                        className="text-gray-400 hover:text-white transition-colors text-xs"
+                        className="text-slate-700 hover:text-slate-900 transition-colors text-xs"
                       >
                         Github
                       </a>

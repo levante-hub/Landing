@@ -2,26 +2,25 @@ import { cookies } from "next/headers";
 
 export const FEEDBACK_COOKIE_NAME = "levante_feedback_id";
 
-export async function getOrCreateClientId() {
+/**
+ * Reads the feedback client id from cookies. If missing, generates a new one
+ * but leaves cookie persistence up to the caller (Route Handler / Server Action)
+ * to avoid "Cookies can only be modified..." errors in Server Components.
+ */
+export async function getOrCreateClientId(): Promise<{ id: string; isNew: boolean }> {
     const cookieStore = await cookies();
-    let id = cookieStore.get(FEEDBACK_COOKIE_NAME)?.value;
 
-    if (!id) {
-        id = crypto.randomUUID();
-        try {
-            cookieStore.set(FEEDBACK_COOKIE_NAME, id, {
-                httpOnly: false, // Allow client side reading if needed, but safer as true if only server needs it. Plan said false/true.
-                sameSite: "lax",
-                secure: process.env.NODE_ENV === "production",
-                path: "/",
-                maxAge: 60 * 60 * 24 * 365, // 1 year
-            });
-        } catch (error) {
-            // This might fail if called in a component that is rendering, 
-            // but should work in Route Handlers / Server Actions.
-            console.error("Failed to set cookie:", error);
-        }
+    // Defensive: in rare cases (e.g., unexpected runtime), cookies() might not
+    // return the standard interface. Bail out gracefully instead of throwing.
+    if (!cookieStore || typeof (cookieStore as any).get !== "function") {
+        return { id: crypto.randomUUID(), isNew: true };
     }
 
-    return id;
+    const existing = cookieStore.get(FEEDBACK_COOKIE_NAME)?.value;
+
+    if (existing) {
+        return { id: existing, isNew: false };
+    }
+
+    return { id: crypto.randomUUID(), isNew: true };
 }

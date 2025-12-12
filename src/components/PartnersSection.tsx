@@ -12,7 +12,7 @@ export const PartnersSection = () => {
     },
     {
       name: 'Minte',
-      logo: 'https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/logos%20empresas/logo-minte-white%20%281%29.png',
+      logo: '/minte-logo.svg',
     },
     {
       name: 'Product Makers',
@@ -24,12 +24,12 @@ export const PartnersSection = () => {
   const marqueePartners = [...partners, ...partners];
 
   return (
-    <section className="bg-[#222222] pt-4 pb-12 overflow-hidden">
+    <section className="pt-4 pb-12 overflow-hidden">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="text-white text-center text-2xl font-medium mb-3">
+        <h2 className="text-slate-900 text-center text-2xl font-medium mb-3">
           Our collaborators
         </h2>
-        <p className="text-white/60 text-center text-base mb-8">
+        <p className="text-slate-600 text-center text-base mb-8">
           Leading companies that trust in our vision
         </p>
       </div>
@@ -40,14 +40,14 @@ export const PartnersSection = () => {
           {marqueePartners.map((partner, index) => (
             <div
               key={index}
-              className="flex-shrink-0 px-8 h-14 flex items-center justify-center opacity-70 grayscale"
+              className="flex-shrink-0 px-8 h-14 flex items-center justify-center"
             >
               <Image
                 src={partner.logo}
                 alt={partner.name}
                 width={120}
                 height={48}
-                className={`object-contain w-auto ${index % partners.length === 1 ? 'h-16' : 'h-12'}`}
+                className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-16' : index % partners.length === 2 ? 'h-8' : 'h-12'}`}
               />
             </div>
           ))}
@@ -61,14 +61,14 @@ export const PartnersSection = () => {
             {partners.map((partner, index) => (
               <div
                 key={index}
-                className="relative h-14 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 opacity-70 hover:opacity-100"
+                className="relative h-14 flex items-center justify-center"
               >
                 <Image
                   src={partner.logo}
                   alt={partner.name}
                   width={140}
                   height={56}
-                  className={`object-contain w-auto ${index === 1 ? 'h-20' : 'h-14'}`}
+                  className={`object-contain w-auto grayscale opacity-60 ${index === 3 ? '' : 'brightness-0'} ${index === 1 ? 'h-20' : index === 2 ? 'h-9' : 'h-14'}`}
                 />
               </div>
             ))}
