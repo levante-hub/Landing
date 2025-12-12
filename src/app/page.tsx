@@ -267,12 +267,12 @@ export default function Home() {
               className="object-cover object-center"
             />
 
-            {/* Gradient Overlay - darkens bottom */}
-            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 md:h-56 bg-gradient-to-b from-transparent to-[#f6f7fb] z-10" />
+            {/* Gradient Overlay - fades to white at bottom */}
+            <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 md:h-56 bg-gradient-to-b from-transparent to-white z-10" />
           </div>
 
           {/* Content Layer */}
-          <div className="relative z-20 flex flex-col items-center justify-start pt-28 sm:pt-32 md:pt-36 pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8 w-full text-center">
+          <div className="relative z-20 flex flex-col items-center justify-start pt-36 sm:pt-40 md:pt-36 pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8 w-full text-center">
             <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em]">
               Use MCPs easily
             </h1>

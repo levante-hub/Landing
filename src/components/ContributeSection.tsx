@@ -7,7 +7,7 @@ interface ContributeSectionProps {
 
 export const ContributeSection = ({ onOpenQuestionnaire }: ContributeSectionProps) => {
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16 mb-14 md:mb-20">
       <div className="relative rounded-xl overflow-hidden min-h-[500px] md:min-h-[600px]">
         {/* Background Image */}
         <Image
