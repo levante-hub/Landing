@@ -26,12 +26,10 @@ export const AboutSection = () => {
       </div>
 
       {/* Signature */}
-      <div className="text-slate-800">
+      <div className="text-slate-900">
         <p className="text-base mb-1">Sincerely,</p>
         <p className="text-lg italic">
-          The human team from minte and CLAi, from{" "}
-          <span className="text-blue-600">Alicante</span> and{" "}
-          <span className="text-blue-600">Granada</span>, Spain
+          The human team from Alicante and Granada, Spain
         </p>
       </div>
     </section>
