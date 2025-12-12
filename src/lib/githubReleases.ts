@@ -103,9 +103,34 @@ export function mapAssetsToPlatforms(assets: GitHubAsset[]): PlatformUrls {
   for (const asset of assets) {
     const nameLower = asset.name.toLowerCase();
 
-    // Detectar Windows (buscar .exe, .msi, win, windows)
-    if (nameLower.includes('.exe') || nameLower.includes('.msi') ||
-        (nameLower.includes('win') && !nameLower.includes('darwin'))) {
+    // Prefer .dmg for macOS; treat non-arch DMGs as universal
+    if (nameLower.includes('.dmg')) {
+      const isArm =
+        nameLower.includes('arm') ||
+        nameLower.includes('aarch64') ||
+        nameLower.includes('apple-silicon') ||
+        nameLower.includes('m1') ||
+        nameLower.includes('m2');
+      const isIntel = nameLower.includes('x64') || nameLower.includes('intel');
+
+      if (isArm) {
+        platformUrls['macos-arm'] = asset.browser_download_url;
+      } else if (isIntel) {
+        platformUrls['macos-intel'] = asset.browser_download_url;
+      } else {
+        // Universal DMG: use for both architectures
+        platformUrls['macos-arm'] = asset.browser_download_url;
+        platformUrls['macos-intel'] = asset.browser_download_url;
+      }
+      continue;
+    }
+
+    // Detectar Windows - priorizar .exe y .msi
+    if (nameLower.includes('.exe') || nameLower.includes('.msi')) {
+      // Siempre priorizar .exe y .msi
+      platformUrls.windows = asset.browser_download_url;
+    } else if ((nameLower.includes('win') && !nameLower.includes('darwin')) && !platformUrls.windows) {
+      // Solo usar otros archivos win si no hay un .exe o .msi ya asignado
       platformUrls.windows = asset.browser_download_url;
     }
     // Detectar macOS ARM (buscar darwin-arm64 o arm64)

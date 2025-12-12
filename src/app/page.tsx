@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { safeCapture } from "@/lib/posthog";
 import { useUTMTracking } from "@/hooks/useUTMTracking";
@@ -20,10 +21,16 @@ export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
   const { downloadUrl, error: releaseError, platform } = useLatestRelease();
 
   // Track UTM parameters and handle social media deep links
   useUTMTracking();
+
+  useEffect(() => {
+    // Prefetch feedback route so navigation feels instant
+    router.prefetch("/feedback");
+  }, [router]);
 
   const openQuestionnaire = () => {
     safeCapture("contribution_questionnaire_opened");
@@ -219,12 +226,14 @@ export default function Home() {
               >
                 Contribute
               </button>
-              <a
+              <Link
                 href="/feedback"
+                prefetch
                 className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors no-underline"
+                onClick={closeMobileMenu}
               >
                 Feedback
-              </a>
+              </Link>
             </div>
 
             {/* Mobile Download Button */}

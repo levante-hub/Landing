@@ -41,9 +41,6 @@ export const TryNowSection = ({
     }
   };
 
-  // Find the longest title for consistent width
-  const maxLength = Math.max(...titles.map(t => t.length));
-
   return (
     <footer
       className="relative w-full min-h-[600px] md:min-h-[850px] flex items-start justify-center mt-32 md:mt-48 bg-white"
