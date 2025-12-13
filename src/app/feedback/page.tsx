@@ -67,7 +67,7 @@ export default function FeedbackPage() {
             />
 
             {/* Hero Section with Background */}
-            <section className="relative w-full h-screen">
+            <section className="relative w-full h-[80vh]">
                 {/* Background Image */}
                 <div className="absolute inset-0 overflow-hidden">
                     <Image
@@ -126,7 +126,7 @@ export default function FeedbackPage() {
                 </div>
             </section>
 
-            <main className="max-w-5xl mx-auto px-4 pt-12 pb-20">
+            <main className="max-w-5xl mx-auto px-4 pt-4 pb-20">
 
                 {/* Tab Content */}
                 {activeTab === "feedback" ? (
