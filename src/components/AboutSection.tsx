@@ -1,8 +1,42 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 export const AboutSection = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+      observer.observe(aboutSection);
+    }
+
+    return () => {
+      if (aboutSection) {
+        observer.unobserve(aboutSection);
+      }
+    };
+  }, []);
+
   return (
-    <section id="about" className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 mt-16">
+    <section 
+      id="about" 
+      className={`mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 mt-16 transition-all duration-1000 ${
+        isVisible ? 'opacity-100 blur-0' : 'opacity-0 blur-md'
+      }`}
+    >
       {/* Logo */}
       <div className="mb-8">
         <Image

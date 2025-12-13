@@ -4,8 +4,16 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { MessageSquarePlus, X } from "lucide-react";
 
-export function FeedbackForm() {
-    const [isOpen, setIsOpen] = useState(false);
+interface FeedbackFormProps {
+    isOpen?: boolean;
+    setIsOpen?: (isOpen: boolean) => void;
+    hideButton?: boolean;
+}
+
+export function FeedbackForm({ isOpen: externalIsOpen, setIsOpen: externalSetIsOpen, hideButton = false }: FeedbackFormProps = {}) {
+    const [internalIsOpen, setInternalIsOpen] = useState(false);
+    const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+    const setIsOpen = externalSetIsOpen || setInternalIsOpen;
     const [content, setContent] = useState("");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -54,15 +62,17 @@ export function FeedbackForm() {
     return (
         <div className="w-full max-w-2xl mx-auto mb-12">
             {!isOpen ? (
-                <div className="flex justify-center">
-                    <button
-                        onClick={() => setIsOpen(true)}
-                        className="group flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full text-slate-800 hover:text-slate-900 hover:border-slate-300 shadow-sm transition-all active:scale-95"
-                    >
-                        <MessageSquarePlus className="w-4 h-4 text-slate-500 group-hover:text-slate-700 transition-colors" />
-                        <span className="text-sm font-medium">Share your feedback</span>
-                    </button>
-                </div>
+                !hideButton && (
+                    <div className="flex justify-center">
+                        <button
+                            onClick={() => setIsOpen(true)}
+                            className="group flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 rounded-full text-slate-800 hover:text-slate-900 hover:border-slate-300 shadow-sm transition-all active:scale-95"
+                        >
+                            <MessageSquarePlus className="w-4 h-4 text-slate-500 group-hover:text-slate-700 transition-colors" />
+                            <span className="text-sm font-medium">Share your feedback</span>
+                        </button>
+                    </div>
+                )
             ) : (
                 <div className="animate-in fade-in slide-in-from-top-4 duration-300 ease-out">
                     <form

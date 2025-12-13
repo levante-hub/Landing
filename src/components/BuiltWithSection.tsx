@@ -1,7 +1,48 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import posthog from 'posthog-js';
 
 export const BuiltWithSection = () => {
+  const [titleVisible, setTitleVisible] = useState(false);
+  const [cardsVisible, setCardsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target.id === 'built-with-title') {
+              setTitleVisible(true);
+            } else if (entry.target.id === 'built-with-cards') {
+              setCardsVisible(true);
+            }
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const titleElement = document.getElementById('built-with-title');
+    const cardsElement = document.getElementById('built-with-cards');
+    
+    if (titleElement) {
+      observer.observe(titleElement);
+    }
+    if (cardsElement) {
+      observer.observe(cardsElement);
+    }
+
+    return () => {
+      if (titleElement) {
+        observer.unobserve(titleElement);
+      }
+      if (cardsElement) {
+        observer.unobserve(cardsElement);
+      }
+    };
+  }, []);
   const tools = [
     {
       title: "MCP-native features",
@@ -37,15 +78,23 @@ export const BuiltWithSection = () => {
 
   return (
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 mt-16">
-      <h2 className="text-black text-3xl sm:text-4xl font-medium mb-12">
+      <h2 
+        id="built-with-title"
+        className={`text-black text-3xl sm:text-4xl font-medium mb-12 transition-all duration-1000 ${
+          titleVisible ? 'opacity-100 blur-0' : 'opacity-0 blur-md'
+        }`}
+      >
         Built for MCP-native workflows
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {tools.map((tool) => (
+      <div id="built-with-cards" className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {tools.map((tool, index) => (
           <div
             key={tool.title}
-            className="relative overflow-hidden bg-[#1F1F1F] rounded-2xl p-8 border border-white/10 flex flex-col gap-6"
+            className={`relative overflow-hidden bg-[#1F1F1F] rounded-2xl p-8 border border-white/10 flex flex-col gap-6 transition-all duration-700 ${
+              cardsVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
+            }`}
+            style={{ transitionDelay: `${index * 200}ms` }}
             onClick={() => posthog.capture('tool_card_clicked', { tool_name: tool.title })}
           >
             <div

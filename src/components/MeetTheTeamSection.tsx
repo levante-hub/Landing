@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import posthog from "posthog-js";
 
@@ -18,6 +21,32 @@ interface TeamMember {
 }
 
 export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const teamSection = document.getElementById('team');
+    if (teamSection) {
+      observer.observe(teamSection);
+    }
+
+    return () => {
+      if (teamSection) {
+        observer.unobserve(teamSection);
+      }
+    };
+  }, []);
+
   const teamMembers: TeamMember[] = [
     {
       name: "Saúl Gómez",
@@ -58,7 +87,12 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
   ];
 
   return (
-    <section id="team" className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16">
+    <section 
+      id="team" 
+      className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 mt-16 transition-all duration-1000 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      }`}
+    >
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between mb-10">
         <div>

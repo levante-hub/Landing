@@ -21,11 +21,36 @@ export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [featuresVisible, setFeaturesVisible] = useState(false);
   const router = useRouter();
   const { downloadUrl, error: releaseError, platform } = useLatestRelease();
 
   // Track UTM parameters and handle social media deep links
   useUTMTracking();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setFeaturesVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const featuresSection = document.getElementById("features");
+    if (featuresSection) {
+      observer.observe(featuresSection);
+    }
+
+    return () => {
+      if (featuresSection) {
+        observer.unobserve(featuresSection);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     // Prefetch feedback route so navigation feels instant
@@ -88,7 +113,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white text-slate-900">
+    <div className="bg-[#FEFEFE] text-slate-900">
       <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-1.5 sm:py-3">
         <div className="mx-auto max-w-[45rem]">
           <div className="glass-nav nav-glow px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-3 rounded-full">
@@ -266,7 +291,7 @@ export default function Home() {
       <section className="w-full -mt-[100px]">
         <div className="relative min-h-[740px] w-full overflow-hidden">
           {/* Background Image Container - Full hero */}
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden animate-hero-bg-fade">
             <Image
               src="/hero-levante.jpeg"
               alt="Levante hero background"
@@ -282,16 +307,16 @@ export default function Home() {
 
           {/* Content Layer */}
           <div className="relative z-20 flex flex-col items-center justify-start pt-[10.5rem] sm:pt-[11.5rem] md:pt-[10.5rem] pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8 w-full text-center">
-            <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em]">
+            <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em] animate-hero-text-fade">
               Use MCPs easily
             </h1>
 
-            <p className="text-white text-center mb-8 max-w-[450px] text-lg sm:text-xl">
+            <p className="text-white text-center mb-8 max-w-[450px] text-lg sm:text-xl animate-hero-text-fade">
               Join the open-source mission to democratize Model Context
               Protocols
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-12 animate-hero-text-fade">
               <div className="flex flex-col items-center">
                 <button
                   onClick={() => handleDownload("hero")}
@@ -327,7 +352,7 @@ export default function Home() {
             </div>
 
             {/* Product Mockup - Interactive Chat Component */}
-            <div className="w-full max-w-[860px] px-4">
+            <div className="w-full max-w-[860px] px-4 animate-hero-image-fade">
               <LandingChatDemo />
             </div>
           </div>
@@ -343,7 +368,9 @@ export default function Home() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Feature 01 */}
-          <div className="relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0">
+          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${
+            featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          } delay-100`}>
             {/* Background Image */}
             <Image
               src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Group%201426350.jpg"
@@ -381,7 +408,9 @@ export default function Home() {
           </div>
 
           {/* Feature 02 */}
-          <div className="relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0">
+          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${
+            featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          } delay-300`}>
             {/* Background Image */}
             <Image
               src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Group%201426344%20%281%29.png"
