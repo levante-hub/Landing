@@ -82,3 +82,52 @@ body {
 .animate-marquee {
   animation: marquee 20s linear infinite;
 }
+
+/* Hero animations - initial states */
+@keyframes hero-bg-fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes hero-text-fade {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+@keyframes hero-image-fade {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
+.animate-hero-bg-fade {
+  opacity: 0;
+  animation: hero-bg-fade 0.8s ease-out forwards;
+}
+
+.animate-hero-text-fade {
+  opacity: 0;
+  filter: blur(10px);
+  animation: hero-text-fade 0.8s ease-out 0.4s forwards;
+}
+
+.animate-hero-image-fade {
+  opacity: 0;
+  filter: blur(10px);
+  animation: hero-image-fade 0.8s ease-out 0.8s forwards;
+}

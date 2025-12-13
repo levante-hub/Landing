@@ -266,7 +266,7 @@ export default function Home() {
       <section className="w-full -mt-[100px]">
         <div className="relative min-h-[740px] w-full overflow-hidden">
           {/* Background Image Container - Full hero */}
-          <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden animate-hero-bg-fade">
             <Image
               src="/hero-levante.jpeg"
               alt="Levante hero background"
@@ -282,16 +282,16 @@ export default function Home() {
 
           {/* Content Layer */}
           <div className="relative z-20 flex flex-col items-center justify-start pt-[10.5rem] sm:pt-[11.5rem] md:pt-[10.5rem] pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8 w-full text-center">
-            <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em]">
+            <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em] animate-hero-text-fade">
               Use MCPs easily
             </h1>
 
-            <p className="text-white text-center mb-8 max-w-[450px] text-lg sm:text-xl">
+            <p className="text-white text-center mb-8 max-w-[450px] text-lg sm:text-xl animate-hero-text-fade">
               Join the open-source mission to democratize Model Context
               Protocols
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 mb-12">
+            <div className="flex flex-col sm:flex-row items-center gap-4 mb-12 animate-hero-text-fade">
               <div className="flex flex-col items-center">
                 <button
                   onClick={() => handleDownload("hero")}
@@ -327,7 +327,7 @@ export default function Home() {
             </div>
 
             {/* Product Mockup - Interactive Chat Component */}
-            <div className="w-full max-w-[860px] px-4">
+            <div className="w-full max-w-[860px] px-4 animate-hero-image-fade">
               <LandingChatDemo />
             </div>
           </div>
