@@ -113,7 +113,7 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-white text-slate-900">
+    <div className="bg-[#FEFEFE] text-slate-900">
       <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-1.5 sm:py-3">
         <div className="mx-auto max-w-[45rem]">
           <div className="glass-nav nav-glow px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-3 rounded-full">

@@ -58,7 +58,7 @@ export default function FeedbackPage() {
     };
 
     return (
-        <div className="min-h-screen bg-white text-slate-900">
+        <div className="min-h-screen bg-[#FEFEFE] text-slate-900">
             <FeedbackNav
                 onOpenQuestionnaire={openQuestionnaire}
                 onDownload={handleDownload}
