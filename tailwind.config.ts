@@ -53,11 +53,22 @@ const config: Config = {
           '0%': { opacity: '0', filter: 'blur(10px)' },
           '100%': { opacity: '1', filter: 'blur(0px)' },
         },
+        'fade-in-up': {
+          '0%': { 
+            opacity: '0', 
+            transform: 'translateY(30px)' 
+          },
+          '100%': { 
+            opacity: '1', 
+            transform: 'translateY(0)' 
+          },
+        },
       },
       animation: {
         'hero-bg-fade': 'hero-bg-fade 0.8s ease-out forwards',
         'hero-text-fade': 'hero-text-fade 0.8s ease-out 0.4s forwards',
         'hero-image-fade': 'hero-image-fade 0.8s ease-out 0.8s forwards',
+        'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
       },
     },
   },

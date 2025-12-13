@@ -21,11 +21,36 @@ export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [featuresVisible, setFeaturesVisible] = useState(false);
   const router = useRouter();
   const { downloadUrl, error: releaseError, platform } = useLatestRelease();
 
   // Track UTM parameters and handle social media deep links
   useUTMTracking();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setFeaturesVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const featuresSection = document.getElementById("features");
+    if (featuresSection) {
+      observer.observe(featuresSection);
+    }
+
+    return () => {
+      if (featuresSection) {
+        observer.unobserve(featuresSection);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     // Prefetch feedback route so navigation feels instant
@@ -343,7 +368,9 @@ export default function Home() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Feature 01 */}
-          <div className="relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0">
+          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${
+            featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          } delay-100`}>
             {/* Background Image */}
             <Image
               src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Group%201426350.jpg"
@@ -381,7 +408,9 @@ export default function Home() {
           </div>
 
           {/* Feature 02 */}
-          <div className="relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0">
+          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${
+            featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+          } delay-300`}>
             {/* Background Image */}
             <Image
               src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Group%201426344%20%281%29.png"

@@ -17,7 +17,7 @@ export function FeedbackNav({ onOpenQuestionnaire, onDownload, isDownloading, do
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
     return (
-        <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-1.5 sm:py-3">
+        <nav className="w-full fixed top-0 z-50 px-3 sm:px-4 py-1.5 sm:py-3">
             <div className="mx-auto max-w-[45rem]">
                 <div className="glass-nav nav-glow px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-3 rounded-full">
                     <Link href="/" className="flex items-center gap-3 no-underline">
