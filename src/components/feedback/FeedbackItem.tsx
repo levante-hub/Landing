@@ -68,8 +68,35 @@ export function FeedbackItem({
     });
 
     return (
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all group">
-            <div className="flex justify-between items-start gap-4">
+        <div className="bg-white border border-slate-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+            <div className="flex items-start gap-4">
+                {/* Vote Button */}
+                <button
+                    onClick={handleLike}
+                    disabled={hasVoted || isLiking}
+                    className={`flex flex-col items-center justify-center min-w-[60px] h-[60px] rounded-lg border-2 transition-all ${
+                        hasVoted
+                            ? "bg-black border-black text-white"
+                            : "bg-white border-slate-300 text-slate-700 hover:border-slate-400"
+                    }`}
+                    aria-label={hasVoted ? "Already voted" : "Vote for this feedback"}
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                    >
+                        <path
+                            fillRule="evenodd"
+                            d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+                            clipRule="evenodd"
+                        />
+                    </svg>
+                    <span className="text-sm font-semibold mt-1">{likes}</span>
+                </button>
+
+                {/* Content */}
                 <div className="flex-1 space-y-2">
                     <p className="text-slate-900 text-lg leading-relaxed whitespace-pre-wrap">
                         {content}
@@ -82,30 +109,6 @@ export function FeedbackItem({
                         <span>{date}</span>
                     </div>
                 </div>
-
-                <button
-                    onClick={handleLike}
-                    disabled={hasVoted || isLiking}
-                    className={`flex flex-col items-center gap-1 min-w-[50px] p-2 rounded-xl transition-all ${hasVoted
-                        ? "text-slate-900 bg-slate-100 cursor-default"
-                        : "text-slate-500 hover:text-slate-900 hover:bg-slate-100 cursor-pointer active:scale-95"
-                        }`}
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill={hasVoted ? "currentColor" : "none"}
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="w-6 h-6"
-                    >
-                        <path d="M7 10v12" />
-                        <path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2h0a3.13 3.13 0 0 1 3 3.88Z" />
-                    </svg>
-                    <span className="text-sm font-medium">{likes}</span>
-                </button>
             </div>
         </div>
     );
