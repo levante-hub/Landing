@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Menu, X, ExternalLink, Database, Code, FileText, Zap, MessageSquare, Briefcase, Package } from 'lucide-react';
 import { useLatestRelease } from '@/hooks/useLatestRelease';
 import { safeCapture } from '@/lib/posthog';
+import { TryNowSection } from '@/components/TryNowSection';
 
 interface MCPServer {
   id: string;
@@ -420,6 +421,14 @@ export default function MCPStorePage() {
           </div>
         )}
       </section>
+
+      {/* Footer */}
+      <TryNowSection
+        onDownload={handleDownload}
+        isDownloading={isDownloading}
+        downloadUrl={downloadUrl}
+        getPlatformLabel={getPlatformLabel}
+      />
     </div>
   );
 }
