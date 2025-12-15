@@ -7,29 +7,8 @@ import { Menu, X, ExternalLink, Database, Code, FileText, Zap, MessageSquare, Br
 import { useLatestRelease } from '@/hooks/useLatestRelease';
 import { safeCapture } from '@/lib/posthog';
 import { TryNowSection } from '@/components/TryNowSection';
-
-interface MCPServer {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  icon?: string;
-  logoUrl?: string;
-  source: 'official' | 'community';
-  transport: 'stdio' | 'sse' | 'streamable-http';
-  status?: 'active' | 'deprecated' | 'experimental';
-  version?: string;
-  maintainer?: {
-    name: string;
-    url?: string;
-    github?: string;
-  };
-  metadata?: {
-    homepage?: string;
-    repository?: string;
-    author?: string;
-  };
-}
+import { MCPInfoSheet } from '@/components/mcp/MCPInfoSheet';
+import { MCPServer } from '@/types/mcp';
 
 interface MCPStoreResponse {
   version: string;
@@ -71,6 +50,8 @@ export default function MCPStorePage() {
   const [selectedSource, setSelectedSource] = useState<string>('all');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [selectedMCP, setSelectedMCP] = useState<MCPServer | null>(null);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
   const { downloadUrl, platform } = useLatestRelease();
 
   useEffect(() => {
@@ -127,6 +108,17 @@ export default function MCPStorePage() {
   });
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  const openInfoSheet = (mcp: MCPServer) => {
+    setSelectedMCP(mcp);
+    setIsInfoOpen(true);
+    safeCapture('mcp_info_opened', { mcp_id: mcp.id, mcp_name: mcp.name });
+  };
+
+  const closeInfoSheet = () => {
+    setIsInfoOpen(false);
+    setSelectedMCP(null);
+  };
 
   return (
     <div className="min-h-screen bg-[#FEFEFE] text-slate-900">
@@ -356,11 +348,22 @@ export default function MCPStorePage() {
               return (
                 <div
                   key={mcp.id}
-                  className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer group"
+                  className="relative bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer group"
                   onClick={() => {
                     safeCapture('mcp_card_clicked', { mcp_id: mcp.id, mcp_name: mcp.name });
+                    openInfoSheet(mcp);
                   }}
                 >
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openInfoSheet(mcp);
+                    }}
+                    className="absolute top-3 right-3 w-8 h-8 rounded-full border border-slate-200 text-slate-400 flex items-center justify-center bg-white hover:bg-slate-50 transition shadow-sm"
+                    aria-label="Ver información"
+                  >
+                    <span className="text-sm font-semibold leading-none">i</span>
+                  </button>
                   <div className="flex items-start gap-4 mb-4">
                     {mcp.logoUrl ? (
                       <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-slate-100">
@@ -445,7 +448,12 @@ export default function MCPStorePage() {
         downloadUrl={downloadUrl}
         getPlatformLabel={getPlatformLabel}
       />
+
+      <MCPInfoSheet
+        mcp={selectedMCP}
+        open={isInfoOpen}
+        onClose={closeInfoSheet}
+      />
     </div>
   );
 }
-
