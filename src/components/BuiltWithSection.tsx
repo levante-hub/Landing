@@ -101,8 +101,7 @@ export const BuiltWithSection = () => {
               className="absolute inset-0 bg-cover bg-center opacity-60"
               style={{ backgroundImage: `url(${tool.background})` }}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/20 to-black/70" />
-            <div className="w-full h-56 overflow-hidden rounded-xl border border-white/5 bg-[#0F0F0F] relative z-10">
+            <div className="w-full h-56 overflow-hidden rounded-xl relative z-10">
               <Image
                 src={tool.image}
                 alt={tool.title}

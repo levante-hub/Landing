@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Github } from "lucide-react";
 import posthog from 'posthog-js';
 
 interface ContributeSectionProps {
@@ -20,7 +22,7 @@ export const ContributeSection = ({ onOpenQuestionnaire }: ContributeSectionProp
         />
 
         {/* Content Card */}
-        <div className="relative z-10 flex items-center min-h-[500px] md:min-h-[600px] p-8 md:p-12">
+        <div className="relative z-10 flex items-start min-h-[500px] md:min-h-[600px] p-8 md:p-12">
           <div className="bg-white rounded-xl p-8 md:p-12 max-w-[550px] shadow-xl">
             {/* Logo */}
             <div className="mb-8">
@@ -43,16 +45,28 @@ export const ContributeSection = ({ onOpenQuestionnaire }: ContributeSectionProp
               Inspire, innovate, drive. Let's build Levante together
             </p>
 
-            {/* CTA Button */}
-            <button
-              onClick={() => {
-                posthog.capture('contribute_button_clicked');
-                onOpenQuestionnaire();
-              }}
-              className="bg-black text-white px-10 py-4 rounded-full text-base font-medium hover:bg-gray-800 transition-colors cursor-pointer"
-            >
-              Contribute
-            </button>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                onClick={() => {
+                  posthog.capture('contribute_button_clicked');
+                  onOpenQuestionnaire();
+                }}
+                className="bg-black text-white px-10 py-4 rounded-full text-base font-medium hover:bg-gray-800 transition-colors cursor-pointer"
+              >
+                Contribute
+              </button>
+              <Link
+                href="https://github.com/levante-hub/levante"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => posthog.capture('github_button_clicked')}
+                className="inline-flex items-center justify-center gap-2 bg-white text-black border-2 border-black px-10 py-4 rounded-full text-base font-medium hover:bg-gray-50 transition-colors no-underline"
+              >
+                <Github className="w-5 h-5" />
+                View Github
+              </Link>
+            </div>
           </div>
         </div>
       </div>
