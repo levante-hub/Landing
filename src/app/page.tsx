@@ -10,6 +10,7 @@ import { useUTMTracking } from "@/hooks/useUTMTracking";
 import { LandingChatDemo } from "@/components/LandingChatDemo";
 import { PartnersSection } from "@/components/PartnersSection";
 import { BuiltWithSection } from "@/components/BuiltWithSection";
+import { MCPStoreSection } from "@/components/MCPStoreSection";
 import { MeetTheTeamSection } from "@/components/MeetTheTeamSection";
 import { AboutSection } from "@/components/AboutSection";
 import { ContributeSection } from "@/components/ContributeSection";
@@ -368,7 +369,7 @@ export default function Home() {
         id="features"
         className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12 mt-6 md:mt-16"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {/* Feature 01 */}
           <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${
             featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -449,6 +450,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        {/* MCP Store Card - Full Width */}
+        <MCPStoreSection />
       </section>
 
       <BuiltWithSection />
