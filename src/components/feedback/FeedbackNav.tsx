@@ -35,10 +35,10 @@ export function FeedbackNav({ onOpenQuestionnaire, onDownload, isDownloading, do
                             Features
                         </Link>
                         <Link href="/#team" className="text-slate-700 text-sm hover:text-slate-900 transition-colors">
-                            Team
-                        </Link>
-                        <Link href="/#about" className="text-slate-700 text-sm hover:text-slate-900 transition-colors">
                             About
+                        </Link>
+                        <Link href="/store" className="text-slate-700 text-sm hover:text-slate-900 transition-colors">
+                            MCP Store
                         </Link>
                         <button
                             onClick={onOpenQuestionnaire}
@@ -124,14 +124,14 @@ export function FeedbackNav({ onOpenQuestionnaire, onDownload, isDownloading, do
                             onClick={closeMobileMenu}
                             className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors no-underline"
                         >
-                            Team
+                            About
                         </Link>
                         <Link
-                            href="/#about"
+                            href="/store"
                             onClick={closeMobileMenu}
                             className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors no-underline"
                         >
-                            About
+                            MCP Store
                         </Link>
                         <button
                             onClick={() => {

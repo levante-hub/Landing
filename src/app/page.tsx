@@ -135,14 +135,14 @@ export default function Home() {
                 onClick={() => scrollToSection("team")}
                 className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
               >
-                Team
-              </button>
-              <button
-                onClick={() => scrollToSection("about")}
-                className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
-              >
                 About
               </button>
+              <a
+                href="/store"
+                className="text-slate-700 text-sm hover:text-slate-900 transition-colors no-underline"
+              >
+                MCP Store
+              </a>
               <button
                 onClick={openQuestionnaire}
                 className="text-slate-700 text-sm hover:text-slate-900 transition-colors bg-transparent border-none cursor-pointer"
@@ -234,14 +234,16 @@ export default function Home() {
                 onClick={() => handleNavClick("team")}
                 className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
               >
-                Team
-              </button>
-              <button
-                onClick={() => handleNavClick("about")}
-                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors bg-transparent border-none cursor-pointer"
-              >
                 About
               </button>
+              <Link
+                href="/store"
+                prefetch
+                className="text-white text-base py-4 px-6 text-left hover:bg-white/5 transition-colors no-underline"
+                onClick={closeMobileMenu}
+              >
+                MCP Store
+              </Link>
               <button
                 onClick={() => {
                   openQuestionnaire();
