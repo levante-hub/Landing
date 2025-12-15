@@ -1,8 +1,9 @@
 'use client';
 
-import { ExternalLink, Terminal, X } from 'lucide-react';
-import { MCPServer } from '@/types/mcp';
 import { useEffect, useState } from 'react';
+import { ExternalLink, Terminal, X } from 'lucide-react';
+import { MCPServerExtended as MCPServer } from '@/lib/registry/types';
+import { MCPBadges } from './MCPBadges';
 
 interface MCPInfoSheetProps {
   mcp: MCPServer | null;
@@ -65,24 +66,7 @@ export function MCPInfoSheet({ mcp, open, onClose }: MCPInfoSheetProps) {
             <div className="flex-1">
               <h2 className="text-xl font-semibold">{mcp.name}</h2>
               <p className="text-sm text-slate-600 mt-1">{mcp.description}</p>
-              <div className="flex flex-wrap gap-2 mt-3">
-                <span className="text-xs px-2 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-800">
-                  {mcp.category}
-                </span>
-                <span className="text-xs px-2 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-800 capitalize">
-                  {mcp.source}
-                </span>
-                {mcp.status === 'experimental' && (
-                  <span className="text-xs px-2 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-                    Experimental
-                  </span>
-                )}
-                {mcp.status === 'deprecated' && (
-                  <span className="text-xs px-2 py-1 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
-                    Deprecated
-                  </span>
-                )}
-              </div>
+              <MCPBadges mcp={mcp} className="mt-3" />
             </div>
           </div>
 

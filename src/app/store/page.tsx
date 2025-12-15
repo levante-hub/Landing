@@ -5,10 +5,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, ExternalLink, Database, Code, FileText, Zap, MessageSquare, Briefcase, Package } from 'lucide-react';
 import { useLatestRelease } from '@/hooks/useLatestRelease';
+import { useDeepLink } from '@/hooks/useDeepLink';
 import { safeCapture } from '@/lib/posthog';
 import { TryNowSection } from '@/components/TryNowSection';
 import { MCPInfoSheet } from '@/components/mcp/MCPInfoSheet';
-import { MCPServer } from '@/types/mcp';
+import { MCPInstallButton } from '@/components/mcp/MCPInstallButton';
+import { InstallPromptModal } from '@/components/mcp/InstallPromptModal';
+import { MCPBadges } from '@/components/mcp/MCPBadges';
+import { MCPServerExtended as MCPServer } from '@/lib/registry/types';
 
 interface MCPStoreResponse {
   version: string;
@@ -31,17 +35,6 @@ const categoryIcons: Record<string, any> = {
   other: Package,
 };
 
-const categoryColors: Record<string, string> = {
-  documentation: 'bg-blue-100 text-blue-700 border-blue-200',
-  development: 'bg-purple-100 text-purple-700 border-purple-200',
-  database: 'bg-green-100 text-green-700 border-green-200',
-  automation: 'bg-orange-100 text-orange-700 border-orange-200',
-  ai: 'bg-pink-100 text-pink-700 border-pink-200',
-  communication: 'bg-indigo-100 text-indigo-700 border-indigo-200',
-  productivity: 'bg-yellow-100 text-yellow-700 border-yellow-200',
-  other: 'bg-gray-100 text-gray-700 border-gray-200',
-};
-
 export default function MCPStorePage() {
   const [mcps, setMcps] = useState<MCPServer[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,6 +46,9 @@ export default function MCPStorePage() {
   const [selectedMCP, setSelectedMCP] = useState<MCPServer | null>(null);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
   const { downloadUrl, platform } = useLatestRelease();
+  const { openDeepLink, isOpening, showFallback, closeFallback, currentMCP } = useDeepLink({
+    detectProtocol: true,
+  });
 
   useEffect(() => {
     fetchMCPs();
@@ -63,6 +59,13 @@ export default function MCPStorePage() {
       const response = await fetch('https://services.levanteapp.com/api/mcps.json');
       if (!response.ok) throw new Error('Failed to fetch MCPs');
       const data: MCPStoreResponse = await response.json();
+      // Debug: inspeccionar qué viene en configuration/template desde la API
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[MCPStore] Sample payload', {
+          server0: data.servers?.[0],
+          template0: data.servers?.[0]?.configuration?.template,
+        });
+      }
       setMcps(data.servers);
       safeCapture('mcp_store_loaded', { count: data.servers.length });
     } catch (err) {
@@ -343,7 +346,6 @@ export default function MCPStorePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredMCPs.map((mcp) => {
               const Icon = categoryIcons[mcp.category] || Package;
-              const categoryColor = categoryColors[mcp.category] || categoryColors.other;
 
               return (
                 <div
@@ -379,21 +381,17 @@ export default function MCPStorePage() {
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-slate-900 mb-1 group-hover:text-black transition-colors">
-                        {mcp.name}
-                      </h3>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`text-xs px-2 py-1 rounded-full border ${categoryColor}`}>
-                          {mcp.category}
-                        </span>
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          mcp.source === 'official' 
-                            ? 'bg-blue-50 text-blue-700 border border-blue-200' 
-                            : 'bg-gray-50 text-gray-700 border border-gray-200'
-                        }`}>
-                          {mcp.source}
-                        </span>
+                      <div className="flex items-end gap-2">
+                        <h3 className="text-lg font-semibold text-slate-900 group-hover:text-black transition-colors leading-tight">
+                          {mcp.name}
+                        </h3>
+                        {mcp.maintainer?.name && (
+                          <span className="text-xs text-slate-500 leading-tight pb-0.5">
+                            by {mcp.maintainer.name}
+                          </span>
+                        )}
                       </div>
+                      <MCPBadges mcp={mcp} className="mt-1" />
                     </div>
                   </div>
 
@@ -401,32 +399,21 @@ export default function MCPStorePage() {
                     {mcp.description}
                   </p>
 
-                  <div className="flex items-center justify-between text-xs text-slate-500">
+                  <div className="flex items-center justify-between text-xs text-slate-500 mt-4">
                     <span className="capitalize">{mcp.transport}</span>
                     {mcp.version && <span>v{mcp.version}</span>}
                   </div>
 
-                  {mcp.maintainer && (
-                    <div className="mt-4 pt-4 border-t border-slate-100">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-slate-500">by {mcp.maintainer.name}</span>
-                        {mcp.maintainer.url && (
-                          <a
-                            href={mcp.maintainer.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-slate-400 hover:text-slate-600 transition-colors"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              safeCapture('mcp_maintainer_link_clicked', { mcp_id: mcp.id });
-                            }}
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                  <div className="mt-5">
+                    <MCPInstallButton
+                      mcp={mcp}
+                      variant="default"
+                      size="sm"
+                      className="w-full justify-center"
+                      openDeepLink={openDeepLink}
+                      isOpeningOverride={currentMCP?.id === mcp.id ? isOpening : false}
+                    />
+                  </div>
                 </div>
               );
             })}
@@ -447,6 +434,13 @@ export default function MCPStorePage() {
         isDownloading={isDownloading}
         downloadUrl={downloadUrl}
         getPlatformLabel={getPlatformLabel}
+      />
+
+      <InstallPromptModal
+        isOpen={showFallback}
+        onClose={closeFallback}
+        mcpName={currentMCP?.name}
+        downloadUrl={downloadUrl}
       />
 
       <MCPInfoSheet

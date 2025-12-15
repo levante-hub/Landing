@@ -31,7 +31,7 @@ export interface MCPServer {
   icon?: string;
   logoUrl?: string;
   source: 'official' | 'community';
-  transport: 'stdio' | 'sse' | 'streamable-http';
+  transport: MCPTransport;
   status?: 'active' | 'deprecated' | 'experimental';
   version?: string;
   maintainer?: {
@@ -44,5 +44,16 @@ export interface MCPServer {
     repository?: string;
     author?: string;
   };
+  platforms?: string[];
   configuration?: MCPConfiguration;
 }
+
+export type MCPCategory =
+  | 'documentation'
+  | 'development'
+  | 'database'
+  | 'automation'
+  | 'ai'
+  | 'communication'
+  | 'productivity'
+  | 'other';
