@@ -131,7 +131,7 @@ export default function MCPStorePage() {
   return (
     <div className="min-h-screen bg-[#FEFEFE] text-slate-900">
       {/* Navigation */}
-      <nav className="w-full sticky top-0 z-50 px-3 sm:px-4 py-1.5 sm:py-3 bg-[#FEFEFE]/80 backdrop-blur-md">
+      <nav className="w-full fixed top-0 z-50 px-3 sm:px-4 py-1.5 sm:py-3">
         <div className="mx-auto max-w-[45rem]">
           <div className="glass-nav nav-glow px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between gap-3 rounded-full">
             <Link href="/" className="flex items-center gap-3 no-underline">
@@ -261,17 +261,33 @@ export default function MCPStorePage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 mt-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-4">
+      {/* Hero Section with Background */}
+      <section className="relative w-full h-[80vh] -mt-[72px]">
+        {/* Background Image */}
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src="/mcp-store.jpg"
+            alt="MCP Store hero background"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-top"
+            style={{ objectPosition: 'top' }}
+          />
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+          <h1 className="text-4xl md:text-5xl font-semibold text-white mb-4 tracking-tight">
             MCP Store
           </h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-white/90 max-w-2xl">
             Discover and integrate Model Context Protocol servers to extend your AI workspace
           </p>
         </div>
+      </section>
 
+      <section className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 -mt-20">
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8 justify-center items-center">
           <div className="flex items-center gap-3">
