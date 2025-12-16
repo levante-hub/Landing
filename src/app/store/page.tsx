@@ -409,7 +409,7 @@ export default function MCPStorePage() {
                       mcp={mcp}
                       variant="default"
                       size="sm"
-                      className="w-full max-w-[220px] mx-auto justify-center"
+                      className="w-full justify-center"
                       openDeepLink={openDeepLink}
                       isOpeningOverride={currentMCP?.id === mcp.id ? isOpening : false}
                     />
