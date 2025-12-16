@@ -2,12 +2,15 @@
 
 import { useState, useEffect } from 'react';
 import { safeCapture } from '@/lib/posthog';
+import { getPlatformDisplayName, type Platform } from '@/lib/platformDetector';
 
 interface TryNowSectionProps {
   onDownload?: () => void;
   isDownloading?: boolean;
   downloadUrl?: string | null;
   getPlatformLabel?: () => string;
+  platform?: Platform;
+  version?: string | null;
 }
 
 const titles = [
@@ -21,7 +24,9 @@ export const TryNowSection = ({
   onDownload,
   isDownloading = false,
   downloadUrl,
-  getPlatformLabel
+  getPlatformLabel,
+  platform,
+  version
 }: TryNowSectionProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentTitle = titles[currentIndex];
@@ -35,7 +40,13 @@ export const TryNowSection = ({
   }, []);
 
   const handleDownload = () => {
-    safeCapture('download_button_clicked', { location: 'footer' });
+    safeCapture('download_button_clicked', {
+      location: 'footer',
+      platform,
+      platform_display: platform ? getPlatformDisplayName(platform) : undefined,
+      download_url: downloadUrl || undefined,
+      version
+    });
     if (onDownload) {
       onDownload();
     }
@@ -50,7 +61,7 @@ export const TryNowSection = ({
         src="/levante-footer.jpg"
         alt=""
         className="absolute inset-0 w-full h-full object-cover object-bottom"
-        style={{ 
+        style={{
           height: 'calc(100% + 200px)',
           boxSizing: 'content-box',
           marginTop: '100px',
@@ -66,7 +77,7 @@ export const TryNowSection = ({
           {currentTitle}
         </h2>
         {/* Download Button */}
-        <button 
+        <button
           onClick={handleDownload}
           disabled={!downloadUrl || isDownloading}
           className="bg-black text-white px-10 py-4 rounded-full text-sm md:text-base font-medium hover:bg-gray-900 transition-colors cursor-pointer shadow-lg flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"

@@ -17,6 +17,7 @@ import { ContributeSection } from "@/components/ContributeSection";
 import { TryNowSection } from "@/components/TryNowSection";
 import { Questionnaire } from "@/components/questionnaire";
 import { useLatestRelease } from "@/hooks/useLatestRelease";
+import { getPlatformDisplayName } from "@/lib/platformDetector";
 
 export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [featuresVisible, setFeaturesVisible] = useState(false);
   const router = useRouter();
-  const { downloadUrl, error: releaseError, platform } = useLatestRelease();
+  const { downloadUrl, error: releaseError, platform, version } = useLatestRelease();
 
   // Track UTM parameters and handle social media deep links
   useUTMTracking();
@@ -73,8 +74,14 @@ export default function Home() {
   };
 
   const handleDownload = (location: "navbar" | "hero" | "footer") => {
-    // Track download event with location
-    safeCapture("download_button_clicked", { location });
+    // Track download event with location and OS information
+    safeCapture("download_button_clicked", {
+      location,
+      platform,
+      platform_display: getPlatformDisplayName(platform),
+      download_url: downloadUrl || undefined,
+      version
+    });
 
     if (downloadUrl) {
       setIsDownloading(true);
@@ -198,9 +205,8 @@ export default function Home() {
 
         {/* Mobile Menu */}
         <div
-          className={`fixed top-0 right-0 h-full w-[280px] bg-[#1a1a1a] z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
-            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`fixed top-0 right-0 h-full w-[280px] bg-[#1a1a1a] z-50 transform transition-transform duration-300 ease-in-out md:hidden ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
         >
           <div className="flex flex-col h-full">
             {/* Mobile Menu Header */}
@@ -371,9 +377,8 @@ export default function Home() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {/* Feature 01 */}
-          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${
-            featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          } delay-100`}>
+          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            } delay-100`}>
             {/* Background Image */}
             <Image
               src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/Group%201426350.jpg"
@@ -411,9 +416,8 @@ export default function Home() {
           </div>
 
           {/* Feature 02 */}
-          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${
-            featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-          } delay-300`}>
+          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            } delay-300`}>
             {/* Background Image */}
             <Image
               src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Group%201426344%20%281%29.png"
@@ -468,6 +472,8 @@ export default function Home() {
         isDownloading={isDownloading}
         downloadUrl={downloadUrl}
         getPlatformLabel={getPlatformLabel}
+        platform={platform}
+        version={version}
       />
 
       <Questionnaire
