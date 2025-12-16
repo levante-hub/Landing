@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase/client";
+import { supabaseAdmin } from "@/lib/supabase/client";
 import { FEEDBACK_COOKIE_NAME, getOrCreateClientId } from "@/lib/feedback-id";
 import { sendDiscordFeedback } from "@/lib/discord";
 
@@ -20,22 +20,25 @@ export async function POST(req: Request) {
 
         const { id: clientId, isNew } = await getOrCreateClientId();
 
-        const result = await supabase
+        if (!supabaseAdmin) {
+            console.error("Supabase admin client is not available");
+            return NextResponse.json({ error: "Server configuration error" }, { status: 500 });
+        }
+
+        const { data, error } = await supabaseAdmin
             .from("feedback")
             .insert({
                 content: content.trim(),
                 author_display_name: author_display_name?.trim() || null,
                 author_client_id: clientId,
             } as any)
-            .select()
+            .select("id")
             .single();
 
-        if (result.error) {
-            console.error("Supabase error:", result.error);
-            return NextResponse.json({ error: result.error.message }, { status: 500 });
+        if (error) {
+            console.error("Supabase error:", error);
+            return NextResponse.json({ error: error.message }, { status: 500 });
         }
-
-        const data = result.data;
 
         // Fire and forget Discord notification
         // We don't await this to not slow down the response, or we can await if we want to ensure it sends.
@@ -47,9 +50,7 @@ export async function POST(req: Request) {
             feedbackId: (data as any)?.id || "unknown",
         });
 
-        // Wait, we need the ID. Let's update the insert to select the ID.
-
-        const res = NextResponse.json({ ok: true });
+        const res = NextResponse.json({ ok: true, feedbackId: (data as any)?.id });
 
         if (isNew) {
             res.cookies.set(FEEDBACK_COOKIE_NAME, clientId, {
