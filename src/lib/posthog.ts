@@ -102,7 +102,6 @@ export const safeCapture = (eventName: string, properties?: Record<string, any>)
   try {
     const utmParams = getUTMParams()
     const eventData = {
-      timestamp: new Date().toISOString(),
       page_url: window.location.href,
       page_title: document.title,
       ...utmParams,
