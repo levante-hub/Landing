@@ -65,10 +65,10 @@ export const BuiltWithSection = () => {
       background: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/fondo2.png",
     },
     {
-      title: "Image models via Hugging Face",
+      title: "Image models via generative models",
       description: (
         <>
-          Generate images using open-source models through our <span className="text-white font-semibold">Hugging Face integration</span> -- no extra setup required
+          Generate images using open-source models through our <span className="text-white font-semibold">generative models integration</span> -- no extra setup required
         </>
       ),
       image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/multimodal.png",

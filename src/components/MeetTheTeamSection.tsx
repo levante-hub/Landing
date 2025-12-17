@@ -67,7 +67,7 @@ export const MeetTheTeamSection = ({ onOpenQuestionnaire }: MeetTheTeamSectionPr
       }
     },
     {
-      name: "Alejandro Gómez Cerezo",
+      name: "Alejandro Gómez",
       role: "Full Stack Developer",
       image: "/Alejandro-img.png",
       socials: {
