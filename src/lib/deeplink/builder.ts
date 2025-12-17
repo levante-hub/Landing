@@ -37,6 +37,11 @@ export class DeepLinkBuilder {
     params.set('name', entry.name);
     params.set('transport', inferredType);
 
+    // Include inputs configuration if present
+    if (entry.inputs && Object.keys(entry.inputs).length > 0) {
+      params.set('inputs', JSON.stringify(entry.inputs));
+    }
+
     if (inferredType === 'stdio') {
       if (!template.command) {
         return {
@@ -236,12 +241,38 @@ export class DeepLinkBuilder {
   }
 
   requiresConfiguration(entry: MCPServerExtended): boolean {
+    // Check both fields and inputs for required configuration
     const fields = entry.configuration?.fields || [];
-    return fields.some((f) => f.required);
+    const hasRequiredFields = fields.some((f) => f.required);
+
+    if (entry.inputs) {
+      const hasRequiredInputs = Object.values(entry.inputs).some((input) => input.required);
+      return hasRequiredFields || hasRequiredInputs;
+    }
+
+    return hasRequiredFields;
   }
 
   getRequiredFields(entry: MCPServerExtended) {
-    return entry.configuration?.fields?.filter((f) => f.required) || [];
+    const requiredFields = entry.configuration?.fields?.filter((f) => f.required) || [];
+
+    // Convert inputs to fields format for backwards compatibility
+    if (entry.inputs) {
+      const inputFields = Object.entries(entry.inputs)
+        .filter(([_, input]) => input.required)
+        .map(([key, input]) => ({
+          key,
+          label: input.label,
+          type: input.type,
+          required: input.required,
+          description: input.description,
+          default: input.default,
+        }));
+
+      return [...requiredFields, ...inputFields];
+    }
+
+    return requiredFields;
   }
 }
 
