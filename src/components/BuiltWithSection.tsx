@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import posthog from 'posthog-js';
+import { safeCapture } from '@/lib/posthog';
 
 export const BuiltWithSection = () => {
   const [titleVisible, setTitleVisible] = useState(false);
-  const [cardsVisible, setCardsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -15,8 +14,6 @@ export const BuiltWithSection = () => {
           if (entry.isIntersecting) {
             if (entry.target.id === 'built-with-title') {
               setTitleVisible(true);
-            } else if (entry.target.id === 'built-with-cards') {
-              setCardsVisible(true);
             }
           }
         });
@@ -25,24 +22,18 @@ export const BuiltWithSection = () => {
     );
 
     const titleElement = document.getElementById('built-with-title');
-    const cardsElement = document.getElementById('built-with-cards');
     
     if (titleElement) {
       observer.observe(titleElement);
-    }
-    if (cardsElement) {
-      observer.observe(cardsElement);
     }
 
     return () => {
       if (titleElement) {
         observer.unobserve(titleElement);
       }
-      if (cardsElement) {
-        observer.unobserve(cardsElement);
-      }
     };
   }, []);
+
   const tools = [
     {
       title: "MCP-native features",
@@ -53,6 +44,7 @@ export const BuiltWithSection = () => {
       ),
       image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/MCP-functionalities.png",
       background: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/fondo3.png",
+      color: "from-blue-600 to-blue-800"
     },
     {
       title: "Interactive MCP Apps",
@@ -63,6 +55,7 @@ export const BuiltWithSection = () => {
       ),
       image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/MCP-UI.png",
       background: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/fondo2.png",
+      color: "from-amber-500 to-amber-700"
     },
     {
       title: "Image models via generative models",
@@ -73,51 +66,64 @@ export const BuiltWithSection = () => {
       ),
       image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/multimodal.png",
       background: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/fondo1.png",
+      color: "from-green-600 to-green-800"
     },
   ];
 
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 mt-16">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 my-12 relative">
       <h2 
         id="built-with-title"
-        className={`text-black text-3xl sm:text-4xl font-medium mb-12 transition-all duration-1000 ${
+        className={`text-slate-900 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-24 text-center transition-all duration-1000 ${
           titleVisible ? 'opacity-100 blur-0' : 'opacity-0 blur-md'
         }`}
       >
         Built for MCP-native workflows
       </h2>
 
-      <div id="built-with-cards" className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div id="built-with-cards" className="flex flex-col items-center w-full">
         {tools.map((tool, index) => (
           <div
             key={tool.title}
-            className={`relative overflow-hidden bg-[#1F1F1F] rounded-2xl p-8 border border-white/10 flex flex-col gap-6 transition-all duration-700 ${
-              cardsVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
-            }`}
-            style={{ transitionDelay: `${index * 200}ms` }}
-            onClick={() => posthog.capture('tool_card_clicked', { tool_name: tool.title })}
+            className={`sticky w-full max-w-6xl h-[500px] md:h-[600px] mb-12 rounded-2xl overflow-hidden shadow-2xl transition-transform duration-500`}
+            style={{ 
+              top: `${30 + (index * 60)}px`,
+              zIndex: index + 1
+            }}
+            onClick={() => safeCapture('tool_card_clicked', { tool_name: tool.title })}
           >
+            {/* Background Gradient */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${tool.color}`} />
+            
+            {/* Background Image Overlay */}
             <div
-              className="absolute inset-0 bg-cover bg-center opacity-60"
+              className="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-overlay"
               style={{ backgroundImage: `url(${tool.background})` }}
             />
-            <div className="w-full h-56 overflow-hidden rounded-xl relative z-10">
-              <Image
-                src={tool.image}
-                alt={tool.title}
-                width={720}
-                height={480}
-                className="w-full h-full object-cover"
-                priority
-              />
-            </div>
-            <div className="flex flex-col gap-3 relative z-10">
-              <h3 className="text-white text-2xl font-medium">
-                {tool.title}
-              </h3>
-              <p className="text-gray-300 text-base leading-relaxed">
-                {tool.description}
-              </p>
+
+            <div className="relative h-full flex flex-col p-8 sm:p-12 md:p-16 z-10 max-w-7xl mx-auto w-full">
+              <div className="flex flex-col md:flex-row items-start gap-8 md:gap-16 flex-1 h-full">
+                {/* Text Content */}
+                <div className="flex-1 flex flex-col justify-start text-left">
+                  <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-bold mb-6 tracking-tight">
+                    {tool.title}
+                  </h3>
+                  <p className="text-gray-100 text-base sm:text-lg md:text-xl leading-relaxed max-w-xl opacity-90">
+                    {tool.description}
+                  </p>
+                </div>
+
+                {/* Card Image */}
+                <div className="flex-1 w-full h-full relative hidden md:block transition-transform duration-700">
+                  <Image
+                    src={tool.image}
+                    alt={tool.title}
+                    fill
+                    className="object-contain object-right"
+                    priority={index === 0}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         ))}
@@ -125,3 +131,4 @@ export const BuiltWithSection = () => {
     </section>
   );
 };
+
