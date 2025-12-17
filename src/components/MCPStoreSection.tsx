@@ -1,23 +1,42 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Package, ArrowRight, Database, Code, FileText, Zap } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { safeCapture } from '@/lib/posthog';
 
-interface MCPPreview {
-  id: string;
-  name: string;
-  description: string;
-  category: string;
-  icon: string;
-}
-
-const categoryIcons: Record<string, any> = {
-  documentation: FileText,
-  development: Code,
-  database: Database,
-  automation: Zap,
+// Helper function to render logo SVG for each service - simplified
+const renderServiceLogo = (serviceName: string, x: number, y: number, size: number = 40): React.ReactElement => {
+  const half = size / 2;
+  const radius = half * 0.9;
+  
+  // Simple circle logos - color map
+  const colorMap: Record<string, string> = {
+    'OpenAI': '#10A37F',
+    'Anthropic': '#D4A574',
+    'Google AI': '#4285F4',
+    'Microsoft': '#0078D4',
+    'Hugging Face': '#FFD21E',
+    'Stability AI': '#000000',
+    'Cohere': '#FF6B35',
+    'Perplexity': '#000000',
+    'Mistral AI': '#FF6B00',
+    'Claude': '#D4A574',
+    'Groq': '#00C853',
+    'Freepik': '#0C75F0',
+    'Replicate': '#3C3C3C',
+    'ElevenLabs': '#000000',
+  };
+  
+  const color = colorMap[serviceName] || '#6B7280';
+  const translateX = x - half;
+  const translateY = y - half;
+  
+  return (
+    <g transform={`translate(${translateX}, ${translateY})`}>
+      <circle cx={half} cy={half} r={radius} fill={color}/>
+    </g>
+  );
 };
 
 export const MCPStoreSection = () => {
@@ -41,11 +60,24 @@ export const MCPStoreSection = () => {
       observer.observe(section);
     }
 
-    // Fetch MCP count
-    fetch('https://services.levanteapp.com/api/mcps/stats')
-      .then(res => res.json())
-      .then(data => setMcpCount(data.total || 0))
-      .catch(() => setMcpCount(0));
+    // Fetch MCP count - simplified to prevent errors
+    if (typeof window !== 'undefined') {
+      try {
+        fetch('https://services.levanteapp.com/api/mcps/stats')
+          .then(res => res.ok ? res.json() : null)
+          .then(data => {
+            if (data && typeof data.total === 'number') {
+              setMcpCount(data.total);
+            }
+          })
+          .catch(() => {
+            // Silently fail, use default value
+            setMcpCount(0);
+          });
+      } catch (error) {
+        setMcpCount(0);
+      }
+    }
 
     return () => {
       if (section) {
@@ -54,67 +86,180 @@ export const MCPStoreSection = () => {
     };
   }, []);
 
+  // Icon positions around the center - AI SaaS services (circular pattern wrapping the text, no duplicates)
+  // 14 unique services distributed evenly in a circle (360/14 = ~25.7 degrees apart)
+  // Using polar coordinates converted to percentages
+  const services = [
+    'OpenAI', 'Anthropic', 'Google AI', 'Microsoft', 'Hugging Face', 
+    'Stability AI', 'Cohere', 'Perplexity', 'Mistral AI', 'Claude',
+    'Groq', 'Freepik', 'ElevenLabs', 'Replicate'
+  ];
+  
+  const colors: Record<string, string> = {
+    'OpenAI': '#10A37F',
+    'Anthropic': '#D4A574',
+    'Google AI': '#4285F4',
+    'Microsoft': '#0078D4',
+    'Hugging Face': '#FFD21E',
+    'Stability AI': '#000000',
+    'Cohere': '#FF6B35',
+    'Perplexity': '#000000',
+    'Mistral AI': '#FF6B00',
+    'Claude': '#D4A574',
+    'Groq': '#00C853',
+    'Freepik': '#0C75F0',
+    'ElevenLabs': '#000000',
+    'Replicate': '#3C3C3C',
+  };
+
+  // Calculate positions in a circle (radius increased to separate from center text)
+  const radius = 48; // percentage - increased to create more space from center
+  const centerX = 50; // percentage
+  const centerY = 50; // percentage
+  
+  const iconPositions = services.map((service, index) => {
+    // Start at -90 degrees (top) and go clockwise
+    const angle = (-90 + (360 / services.length) * index) * (Math.PI / 180);
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+    
+    return {
+      x: `${x}%`,
+      y: `${y}%`,
+      name: service,
+      color: colors[service] || '#6B7280'
+    };
+  });
+
   return (
-    <div
-      id="mcp-store-section"
-      className={`transition-all duration-1000 ${
-        isVisible ? 'opacity-100 blur-0' : 'opacity-0 blur-md'
-      }`}
-    >
-      {/* Featured Card with Background */}
-      <Link
-        href="/store"
-        onClick={() => safeCapture('mcp_store_section_card_clicked')}
-        className={`relative block rounded-2xl overflow-hidden min-h-[400px] group no-underline transition-all duration-700 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+    <section className="mt-16 sm:mt-24 lg:mt-32 mb-32 sm:mb-48 lg:mb-64 relative">
+      <div
+        id="mcp-store-section"
+        className={`relative w-full rounded-2xl transition-all duration-1000 ${
+          isVisible ? 'opacity-100 blur-0' : 'opacity-0 blur-md'
         }`}
-        style={{ transitionDelay: '200ms' }}
+        style={{ aspectRatio: '2/1', minHeight: '600px' }}
       >
-        {/* Background Image */}
-        <div className="absolute inset-0">
-          <img
-            src="/mcp-store.jpg"
-            alt="MCP Store"
-            className="w-full h-full object-cover"
-          />
-          {/* Dark overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70" />
-        </div>
+        {/* SVG with icons and connection lines */}
+        <svg 
+          className="absolute inset-0 w-full h-full overflow-visible z-10 pointer-events-none"
+          viewBox="0 0 1200 600"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          {/* Connection lines */}
+          {iconPositions.map((icon, index) => {
+            // Calculate actual positions in viewBox coordinates
+            const iconX = parseFloat(icon.x) * 12; // 1200 / 100
+            const iconY = parseFloat(icon.y) * 6; // 600 / 100
+            const centerXCoord = 600;
+            const centerYCoord = 300;
 
-        {/* Content */}
-        <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-12 min-h-[400px]">
-          {/* Categories Icons */}
-          <div className="flex gap-4 mb-6">
-            <div className="w-12 h-12 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
-              <FileText className="w-6 h-6 text-white" />
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
-              <Database className="w-6 h-6 text-white" />
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
-              <Code className="w-6 h-6 text-white" />
-            </div>
-            <div className="w-12 h-12 rounded-lg bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
-              <Zap className="w-6 h-6 text-white" />
-            </div>
-          </div>
+            return (
+              <line
+                key={`line-${index}`}
+                x1={centerXCoord}
+                y1={centerYCoord}
+                x2={iconX}
+                y2={iconY}
+                stroke="#D1D5DB"
+                strokeWidth="1"
+                strokeDasharray="4 4"
+                opacity={isVisible ? 0.5 : 0}
+                className="transition-opacity duration-1000"
+                style={{
+                  transitionDelay: `${index * 50}ms`,
+                }}
+              />
+            );
+          })}
 
-          {/* Bottom Content */}
-          <div>
-            <h3 className="text-3xl md:text-4xl font-medium text-white mb-4">
+          {/* Service logos */}
+          {iconPositions.map((icon, index) => {
+            const iconX = parseFloat(icon.x) * 12;
+            const iconY = parseFloat(icon.y) * 6;
+            const logoSize = 40;
+            // Vary animation duration and delay for each logo to create natural floating effect
+            const animationDuration = 3 + (index % 3) * 0.5; // 3s, 3.5s, or 4s
+            const animationDelay = index * 0.2; // Stagger the start
+
+            return (
+              <g
+                key={`icon-${index}`}
+                opacity={isVisible ? 1 : 0}
+                className="transition-opacity duration-700 cursor-pointer"
+                style={{
+                  transitionDelay: `${(iconPositions.length - index) * 50}ms`,
+                  transformOrigin: `${iconX}px ${iconY}px`,
+                }}
+              >
+                {/* Floating animation */}
+                <animateTransform
+                  attributeName="transform"
+                  type="translate"
+                  values={`0,0; 0,-8; 0,0`}
+                  dur={`${animationDuration}s`}
+                  begin={`${animationDelay}s`}
+                  repeatCount="indefinite"
+                />
+                
+                {/* Background circle with white border */}
+                <circle
+                  cx={iconX}
+                  cy={iconY}
+                  r={logoSize/2 + 4}
+                  fill="white"
+                  stroke="#E5E7EB"
+                  strokeWidth="1"
+                  className="transition-transform duration-300"
+                />
+                {/* Service logo */}
+                <g className="hover:scale-110 transition-transform duration-300" style={{ transformOrigin: `${iconX}px ${iconY}px` }}>
+                  {renderServiceLogo(icon.name, iconX, iconY, logoSize)}
+                </g>
+                {/* Icon label (optional, can be hidden on small screens) */}
+                <text
+                  x={iconX}
+                  y={iconY + logoSize/2 + 20}
+                  textAnchor="middle"
+                  fontSize="10"
+                  fill="#6B7280"
+                  className="hidden md:block"
+                >
+                  {icon.name}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+
+        {/* Content overlay - centered vertically */}
+        <div 
+          className="absolute inset-0 flex items-center justify-center z-20"
+        >
+          <div className="text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
+            {/* Main heading */}
+            <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-8 leading-tight">
               Explore the MCP Store
             </h3>
-            <p className="text-white/90 text-lg mb-6 max-w-2xl">
+            
+            {/* Description */}
+            <p className="text-gray-600 text-lg md:text-xl mb-12 max-w-3xl mx-auto">
               Discover and integrate {mcpCount > 0 ? `${mcpCount}+ ` : ''}Model Context Protocol servers to extend your AI workspace
             </p>
-            <div className="inline-flex items-center gap-2 bg-white text-black px-6 py-3 rounded-full text-sm font-medium group-hover:bg-white/90 transition-colors">
+            
+            {/* Button */}
+            <Link
+              href="/store"
+              onClick={() => safeCapture('mcp_store_section_card_clicked')}
+              className="inline-flex items-center gap-2 bg-black text-white px-10 py-4 rounded-full text-base font-medium hover:bg-gray-900 transition-colors no-underline group relative z-40 pointer-events-auto"
+            >
               Explore Store
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </div>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </div>
         </div>
-      </Link>
-    </div>
+      </div>
+    </section>
   );
 };
 

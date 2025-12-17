@@ -24,7 +24,7 @@ export const PartnersSection = () => {
   const marqueePartners = [...partners, ...partners];
 
   return (
-    <section className="pt-4 pb-12 overflow-hidden">
+    <section className="pt-12 pb-12 overflow-hidden">
       <div className="mx-auto max-w-6xl px-4">
         <h2 className="text-slate-900 text-center text-2xl font-medium mb-3">
           Our collaborators
@@ -54,25 +54,30 @@ export const PartnersSection = () => {
         </div>
       </div>
 
-      {/* Desktop Grid */}
-      <div className="hidden md:block px-4">
-        <div className="mx-auto max-w-6xl">
-          <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-8">
-            {partners.map((partner, index) => (
-              <div
-                key={index}
-                className="relative h-14 flex items-center justify-center"
-              >
-                <Image
-                  src={partner.logo}
-                  alt={partner.name}
-                  width={140}
-                  height={56}
-                  className={`object-contain w-auto grayscale opacity-60 ${index === 3 ? '' : 'brightness-0'} ${index === 1 ? 'h-20' : index === 2 ? 'h-9' : 'h-14'}`}
-                />
-              </div>
-            ))}
-          </div>
+      {/* Desktop Marquee */}
+      <div className="hidden md:block relative w-full max-w-[400px] mx-auto overflow-hidden">
+        {/* Left fade gradient */}
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#FEFEFE] to-transparent z-10 pointer-events-none" />
+        
+        {/* Right fade gradient */}
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#FEFEFE] to-transparent z-10 pointer-events-none" />
+        
+        {/* Marquee container */}
+        <div className="flex animate-marquee">
+          {marqueePartners.map((partner, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 px-12 h-14 flex items-center justify-center"
+            >
+              <Image
+                src={partner.logo}
+                alt={partner.name}
+                width={140}
+                height={56}
+                className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-20' : index % partners.length === 2 ? 'h-9' : 'h-14'}`}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
