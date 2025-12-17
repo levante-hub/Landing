@@ -18,6 +18,14 @@ export interface MCPConfigurationField {
   default?: string | number | boolean;
 }
 
+export interface MCPInputField {
+  label: string;
+  required: boolean;
+  type: 'string' | 'number' | 'boolean' | 'password';
+  description?: string;
+  default?: string | number | boolean;
+}
+
 export interface MCPConfiguration {
   template?: MCPConfigurationTemplate;
   fields?: MCPConfigurationField[];
@@ -45,6 +53,7 @@ export interface MCPServer {
     author?: string;
   };
   platforms?: string[];
+  inputs?: Record<string, MCPInputField>;
   configuration?: MCPConfiguration;
 }
 
