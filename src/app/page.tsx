@@ -309,12 +309,12 @@ export default function Home() {
           </div>
 
           {/* Content Layer */}
-          <div className="relative z-20 flex flex-col items-center justify-start pt-[10.5rem] sm:pt-[11.5rem] md:pt-[10.5rem] pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8 w-full text-center">
-            <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em] animate-hero-text-fade">
+          <div className="relative z-20 flex flex-col items-center justify-start pt-[10.5rem] sm:pt-[11.5rem] md:pt-[10.5rem] pb-10 sm:pb-14 md:pb-16 px-4 sm:px-8 w-full text-center" suppressHydrationWarning>
+            <h1 className="text-white text-center mb-4 text-3xl sm:text-4xl md:text-5xl font-medium leading-[115%] tracking-[-0.04em] animate-hero-text-fade" suppressHydrationWarning>
               Use MCPs easily
             </h1>
 
-            <p className="text-white text-center mb-8 max-w-[450px] text-lg sm:text-xl animate-hero-text-fade">
+            <p className="text-white text-center mb-8 max-w-[450px] text-lg sm:text-xl animate-hero-text-fade" suppressHydrationWarning>
               Join the open-source mission to democratize Model Context
               Protocols
             </p>
@@ -367,7 +367,8 @@ export default function Home() {
       {/* Features Section */}
       <section
         id="features"
-        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 md:py-12 mt-6 md:mt-16"
+        className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 md:pt-12 pb-4 md:pb-6 mt-6 md:mt-16"
+        suppressHydrationWarning
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {/* Feature 01 */}

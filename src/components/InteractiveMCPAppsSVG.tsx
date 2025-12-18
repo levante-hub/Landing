@@ -44,8 +44,8 @@ export const InteractiveMCPAppsSVG = () => {
         {/* Main Card Background */}
         <defs>
           <linearGradient id="cardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#5D72E5" />
-            <stop offset="100%" stopColor="#8E54B1" />
+            <stop offset="0%" stopColor="#FDFBF7" />
+            <stop offset="100%" stopColor="#EAE3D2" />
           </linearGradient>
           
           <filter id="glassBlur" x="-20%" y="-20%" width="140%" height="140%">
@@ -54,12 +54,12 @@ export const InteractiveMCPAppsSVG = () => {
         </defs>
 
         <g transform="translate(50, 0)">
-          <rect width="500" height="450" rx="24" fill="url(#cardGradient)" />
+          <rect width="500" height="450" rx="24" fill="url(#cardGradient)" stroke="#D6CDBB" strokeWidth="1" />
 
           {/* Header Text */}
           <g transform="translate(40, 60)">
-            <text fill="white" fontSize="36" fontWeight="700">Granada</text>
-            <text fill="white" fillOpacity="0.8" fontSize="18" y="40">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at {time}</text>
+            <text fill="#334155" fontSize="36" fontWeight="700">Granada</text>
+            <text fill="#64748B" fontSize="18" y="40">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at {time}</text>
           </g>
 
           {/* Weather Icon (Animated Sun & Cloud) */}
@@ -74,7 +74,7 @@ export const InteractiveMCPAppsSVG = () => {
                 dur="20s"
                 repeatCount="indefinite"
               />
-              <circle r="45" fill="#FFD700" />
+              <circle r="45" fill="#EAB308" />
               {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
                 <rect
                   key={angle}
@@ -83,7 +83,7 @@ export const InteractiveMCPAppsSVG = () => {
                   width="8"
                   height="20"
                   rx="4"
-                  fill="#FFD700"
+                  fill="#EAB308"
                   transform={`rotate(${angle})`}
                 />
               ))}
@@ -108,29 +108,29 @@ export const InteractiveMCPAppsSVG = () => {
 
           {/* Temperature Text */}
           <g transform="translate(320, 220)">
-            <text fill="white" fontSize="96" fontWeight="700" textAnchor="middle">
+            <text fill="#1E293B" fontSize="96" fontWeight="700" textAnchor="middle">
               {temp}°C
             </text>
-            <text fill="white" fillOpacity="0.8" fontSize="24" y="40" textAnchor="middle">Celsius</text>
+            <text fill="#64748B" fontSize="24" y="40" textAnchor="middle">Celsius</text>
           </g>
 
           {/* Bottom Glass Section */}
           <g transform="translate(40, 320)">
-            <rect width="420" height="100" rx="20" fill="white" fillOpacity="0.1" stroke="white" strokeOpacity="0.2" />
+            <rect width="420" height="100" rx="20" fill="black" fillOpacity="0.03" stroke="#D6CDBB" strokeOpacity="0.5" />
             
             <g transform="translate(30, 35)">
-              <text fill="white" fillOpacity="0.6" fontSize="14">Condition</text>
-              <text fill="white" fontSize="24" fontWeight="600" y="30">Rainy</text>
+              <text fill="#64748B" fontSize="14">Condition</text>
+              <text fill="#334155" fontSize="24" fontWeight="600" y="30">Rainy</text>
             </g>
 
             <g transform="translate(390, 35)" textAnchor="end">
-              <text fill="white" fillOpacity="0.6" fontSize="14">Humidity</text>
-              <text fill="white" fontSize="24" fontWeight="600" y="30">56%</text>
+              <text fill="#64748B" fontSize="14">Humidity</text>
+              <text fill="#334155" fontSize="24" fontWeight="600" y="30">56%</text>
             </g>
           </g>
 
           {/* Interactive "Native View" Indicators */}
-          <circle cx="460" cy="40" r="6" fill="#4ADE80" className="animate-pulse" />
+          <circle cx="460" cy="40" r="6" fill="#10B981" className="animate-pulse" />
         </g>
       </svg>
     </div>

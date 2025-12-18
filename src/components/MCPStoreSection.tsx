@@ -132,7 +132,7 @@ export const MCPStoreSection = () => {
   });
 
   return (
-    <section className="mt-16 sm:mt-24 lg:mt-32 mb-32 sm:mb-48 lg:mb-64 relative">
+    <section className="mt-16 sm:mt-24 lg:mt-32 mb-16 sm:mb-24 lg:mb-32 relative">
       <div
         id="mcp-store-section"
         className={`relative w-full rounded-2xl transition-all duration-1000 ${

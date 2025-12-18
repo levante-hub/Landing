@@ -48,6 +48,7 @@ export const PartnersSection = () => {
                 width={120}
                 height={48}
                 className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-16' : index % partners.length === 2 ? 'h-8' : 'h-12'}`}
+                style={{ height: 'auto' }}
               />
             </div>
           ))}
@@ -75,6 +76,7 @@ export const PartnersSection = () => {
                 width={140}
                 height={56}
                 className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-20' : index % partners.length === 2 ? 'h-9' : 'h-14'}`}
+                style={{ height: 'auto' }}
               />
             </div>
           ))}

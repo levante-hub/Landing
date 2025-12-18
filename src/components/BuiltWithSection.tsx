@@ -47,7 +47,7 @@ export const BuiltWithSection = () => {
       ),
       image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/MCP-functionalities.png",
       background: "/blue-background.jpeg",
-      color: "from-blue-600 to-blue-800",
+      color: "",
       svg: <MCPNativeFeaturesSVG />
     },
     {
@@ -59,7 +59,7 @@ export const BuiltWithSection = () => {
       ),
       image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/MCP-UI.png",
       background: "/orange-background.jpeg",
-      color: "from-amber-500 to-amber-700",
+      color: "",
       svg: <InteractiveMCPAppsSVG />
     },
     {
@@ -71,13 +71,13 @@ export const BuiltWithSection = () => {
       ),
       image: "/person-walking-dog.png",
       background: "/green-background.jpeg",
-      color: "from-green-600 to-green-800",
+      color: "",
       svg: <GenerativeModelsSVG />
     },
   ];
 
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 my-12 relative">
+    <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 my-8 relative">
       <h2 
         id="built-with-title"
         className={`text-slate-900 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-[-1.92px] mb-24 text-center transition-all duration-1000 ${
@@ -99,11 +99,11 @@ export const BuiltWithSection = () => {
             onClick={() => safeCapture('tool_card_clicked', { tool_name: tool.title })}
           >
             {/* Background Gradient */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${tool.color}`} />
+            {tool.color && <div className={`absolute inset-0 bg-gradient-to-br ${tool.color}`} />}
             
             {/* Background Image Overlay */}
             <div
-              className="absolute inset-0 bg-cover bg-center opacity-40"
+              className={`absolute inset-0 bg-cover bg-center ${tool.color ? 'opacity-40' : 'opacity-100'}`}
               style={{ backgroundImage: `url(${tool.background})` }}
             />
 
