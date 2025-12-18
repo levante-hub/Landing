@@ -48,6 +48,20 @@ export const InteractiveMCPAppsSVG = () => {
             <stop offset="100%" stopColor="#EAE3D2" />
           </linearGradient>
           
+          <radialGradient id="sunGradient" cx="35%" cy="35%" r="50%">
+            <stop offset="0%" stopColor="#FFF9C4" />
+            <stop offset="50%" stopColor="#FDE047" />
+            <stop offset="100%" stopColor="#EAB308" />
+          </radialGradient>
+
+          <filter id="sunGlow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          
           <filter id="glassBlur" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur in="SourceGraphic" stdDeviation="5" />
           </filter>
@@ -63,45 +77,51 @@ export const InteractiveMCPAppsSVG = () => {
           </g>
 
           {/* Weather Icon (Animated Sun & Cloud) */}
-          <g transform="translate(80, 220)">
-            {/* Sun */}
+          <g transform="translate(100, 220)">
+            {/* Sun Rays */}
             <g>
               <animateTransform
                 attributeName="transform"
                 type="rotate"
                 from="0 0 0"
                 to="360 0 0"
-                dur="20s"
+                dur="30s"
                 repeatCount="indefinite"
               />
-              <circle r="45" fill="#EAB308" />
-              {[0, 45, 90, 135, 180, 225, 270, 315].map((angle) => (
+              {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle) => (
                 <rect
                   key={angle}
-                  x="-4"
-                  y="-65"
-                  width="8"
-                  height="20"
-                  rx="4"
-                  fill="#EAB308"
+                  x="-3"
+                  y="-75"
+                  width="6"
+                  height="22"
+                  rx="3"
+                  fill="#FDE047"
+                  fillOpacity="0.6"
                   transform={`rotate(${angle})`}
                 />
               ))}
             </g>
+
+            {/* Sun Body with Glow */}
+            <g filter="url(#sunGlow)">
+              <circle r="45" fill="url(#sunGradient)" />
+            </g>
             
             {/* Cloud */}
-            <g transform="translate(-30, 0)">
+            <g transform="translate(-40, 10)">
               <animateTransform
                 attributeName="transform"
                 type="translate"
-                values="-30,0; -20,0; -30,0"
+                values="-40,10; -30,10; -40,10"
                 dur="4s"
                 repeatCount="indefinite"
               />
               <path
                 d="M25,20 a20,20 0 0,1 0,-40 a25,25 0 0,1 45,-10 a20,20 0 0,1 25,20 a20,20 0 0,1 -20,20 Z"
                 fill="white"
-                fillOpacity="0.9"
+                fillOpacity="0.95"
+                filter="drop-shadow(0 4px 6px rgba(0,0,0,0.05))"
               />
             </g>
           </g>
