@@ -238,7 +238,7 @@ export const MCPStoreSection = () => {
         >
           <div className="text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
             {/* Main heading */}
-            <h3 className="text-3xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-8 leading-tight">
+            <h3 className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-[-1.92px] text-slate-900 mb-8 leading-tight">
               Explore the MCP Store
             </h3>
             
