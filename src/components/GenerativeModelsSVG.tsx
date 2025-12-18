@@ -13,19 +13,19 @@ export const GenerativeModelsSVG = () => {
       // Step 0: Initial wait
       setStep(0);
       setTypedText('');
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 800));
 
       // Step 1: Show bubble
       setStep(1);
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise(r => setTimeout(r, 400));
 
       // Step 2: Typing animation
       setStep(2);
       for (let i = 0; i <= fullText.length; i++) {
         setTypedText(fullText.slice(0, i));
-        await new Promise(r => setTimeout(r, 50));
+        await new Promise(r => setTimeout(r, 40));
       }
-      await new Promise(r => setTimeout(r, 800));
+      await new Promise(r => setTimeout(r, 300));
 
       // Step 3: Show image
       setStep(3);
@@ -57,7 +57,7 @@ export const GenerativeModelsSVG = () => {
 
         {/* Generated Image */}
         <div 
-          className={`absolute top-[20%] left-[5%] w-[90%] transition-all duration-1000 ease-out ${
+          className={`absolute top-[20%] left-[5%] w-[90%] transition-all duration-700 ease-out ${
             step >= 3 ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
           }`}
         >

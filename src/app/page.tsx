@@ -11,7 +11,6 @@ import { LandingChatDemo } from "@/components/LandingChatDemo";
 import { PartnersSection } from "@/components/PartnersSection";
 import { BuiltWithSection } from "@/components/BuiltWithSection";
 import { MCPStoreSection } from "@/components/MCPStoreSection";
-import { MeetTheTeamSection } from "@/components/MeetTheTeamSection";
 import { AboutSection } from "@/components/AboutSection";
 import { ContributeSection } from "@/components/ContributeSection";
 import { TryNowSection } from "@/components/TryNowSection";
@@ -457,8 +456,6 @@ export default function Home() {
       </section>
 
       <BuiltWithSection />
-
-      <MeetTheTeamSection onOpenQuestionnaire={openQuestionnaire} />
 
       <AboutSection />
 
