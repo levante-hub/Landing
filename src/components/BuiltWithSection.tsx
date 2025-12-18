@@ -114,7 +114,7 @@ export const BuiltWithSection = () => {
                   <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold mb-6 tracking-tight">
                     {tool.title}
                   </h3>
-                  <p className="text-gray-100 text-base sm:text-lg md:text-xl leading-relaxed max-w-xl opacity-90">
+                  <p className="text-gray-100 text-base sm:text-lg md:text-xl leading-relaxed max-w-xl opacity-100">
                     {tool.description}
                   </p>
                 </div>

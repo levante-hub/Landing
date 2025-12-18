@@ -72,7 +72,7 @@ export const InteractiveMCPAppsSVG = () => {
 
           {/* Header Text */}
           <g transform="translate(40, 60)">
-            <text fill="#334155" fontSize="36" fontWeight="700">Granada</text>
+            <text fill="#334155" fontSize="36" fontWeight="700">Granada, Spain</text>
             <text fill="#64748B" fontSize="18" y="40">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at {time}</text>
           </g>
 
