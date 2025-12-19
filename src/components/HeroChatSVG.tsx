@@ -59,22 +59,24 @@ export const HeroChatSVG = () => {
       {/* SIDEBAR */}
       <div className="w-[240px] hidden md:flex flex-col p-4 border-r border-slate-300/50">
         {/* Window Controls */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center mb-6">
           <div className="flex gap-2">
             <div className="w-3 h-3 rounded-full bg-[#FF5F57] shadow-sm" />
             <div className="w-3 h-3 rounded-full bg-[#FEBC2E] shadow-sm" />
             <div className="w-3 h-3 rounded-full bg-[#28C840] shadow-sm" />
           </div>
+        </div>
+
+        {/* Brand */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-2">
+            <Image src="/logo_negro.svg" alt="Levante" width={22} height={22} className="opacity-90" />
+            <span className="text-[15px] font-bold text-slate-800">Levante</span>
+          </div>
           <div className="flex gap-2 text-slate-600">
             <Layout size={18} strokeWidth={1.5} />
             <Plus size={18} strokeWidth={1.5} />
           </div>
-        </div>
-
-        {/* Brand */}
-        <div className="flex items-center gap-2 mb-6">
-          <Image src="/logo_negro.svg" alt="Levante" width={22} height={22} className="opacity-90" />
-          <span className="text-[15px] font-bold text-slate-800">Levante</span>
         </div>
 
         {/* Search */}

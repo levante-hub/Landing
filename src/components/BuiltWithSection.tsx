@@ -113,6 +113,9 @@ export const BuiltWithSection = () => {
               className={`absolute inset-0 bg-cover bg-center ${tool.color ? 'opacity-40' : 'opacity-100'}`}
               style={{ backgroundImage: `url(${tool.background})` }}
             />
+            
+            {/* Dark Overlay (10%) */}
+            <div className="absolute inset-0 bg-black/10 z-0" />
 
             <div className="relative h-full flex flex-col p-8 sm:p-12 md:p-16 z-10 max-w-7xl mx-auto w-full">
               <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-16 flex-1 min-h-0">

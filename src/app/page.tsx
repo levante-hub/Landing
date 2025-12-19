@@ -386,6 +386,9 @@ export default function Home() {
               className="w-full h-full object-cover absolute inset-0"
             />
 
+            {/* Dark Overlay (10%) */}
+            <div className="absolute inset-0 bg-black/10 z-0" />
+
             {/* Overlay Content */}
             <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 md:p-8">
               {/* Mockup Image Area */}
@@ -419,6 +422,9 @@ export default function Home() {
               sizes="(max-width: 768px) 100vw, 50vw"
               className="w-full h-full object-cover absolute inset-0"
             />
+
+            {/* Dark Overlay (10%) */}
+            <div className="absolute inset-0 bg-black/10 z-0" />
 
             {/* Overlay Content */}
             <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 md:p-8">
