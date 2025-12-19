@@ -9,6 +9,7 @@ import { GenerativeModelsSVG } from './GenerativeModelsSVG';
 
 export const BuiltWithSection = () => {
   const [titleVisible, setTitleVisible] = useState(false);
+  const [visibleCards, setVisibleCards] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -17,23 +18,27 @@ export const BuiltWithSection = () => {
           if (entry.isIntersecting) {
             if (entry.target.id === 'built-with-title') {
               setTitleVisible(true);
+            } else if (entry.target.id.startsWith('tool-card-')) {
+              const toolTitle = entry.target.getAttribute('data-tool-title');
+              if (toolTitle) {
+                setVisibleCards(prev => ({ ...prev, [toolTitle]: true }));
+              }
             }
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
 
     const titleElement = document.getElementById('built-with-title');
+    const toolCards = document.querySelectorAll('[id^="tool-card-"]');
     
-    if (titleElement) {
-      observer.observe(titleElement);
-    }
+    if (titleElement) observer.observe(titleElement);
+    toolCards.forEach(card => observer.observe(card));
 
     return () => {
-      if (titleElement) {
-        observer.unobserve(titleElement);
-      }
+      if (titleElement) observer.unobserve(titleElement);
+      toolCards.forEach(card => observer.unobserve(card));
     };
   }, []);
 
@@ -48,7 +53,7 @@ export const BuiltWithSection = () => {
       image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/MCP-functionalities.png",
       background: "/blue-background.jpeg",
       color: "",
-      svg: <MCPNativeFeaturesSVG />
+      svg: (isInView: boolean) => <MCPNativeFeaturesSVG isInView={isInView} />
     },
     {
       title: "Interactive MCP Apps",
@@ -60,7 +65,7 @@ export const BuiltWithSection = () => {
       image: "https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/funcionalidades2/MCP-UI.png",
       background: "/orange-background.jpeg",
       color: "",
-      svg: <InteractiveMCPAppsSVG />
+      svg: (isInView: boolean) => <InteractiveMCPAppsSVG isInView={isInView} />
     },
     {
       title: "Image models via generative models",
@@ -72,7 +77,7 @@ export const BuiltWithSection = () => {
       image: "/person-walking-dog.png",
       background: "/green-background.jpeg",
       color: "",
-      svg: <GenerativeModelsSVG />
+      svg: (isInView: boolean) => <GenerativeModelsSVG isInView={isInView} />
     },
   ];
 
@@ -91,6 +96,8 @@ export const BuiltWithSection = () => {
         {tools.map((tool, index) => (
           <div
             key={tool.title}
+            id={`tool-card-${index}`}
+            data-tool-title={tool.title}
             className={`sticky w-full max-w-6xl h-[500px] md:h-[600px] mb-12 rounded-2xl overflow-hidden shadow-2xl transition-transform duration-500`}
             style={{ 
               top: `${30 + (index * 60)}px`,
@@ -122,7 +129,7 @@ export const BuiltWithSection = () => {
                 {/* Card Image */}
                 <div className="flex-1 w-full h-full relative hidden md:block transition-transform duration-700">
                   {tool.svg ? (
-                    tool.svg
+                    tool.svg(visibleCards[tool.title])
                   ) : (
                     <Image
                       src={tool.image}

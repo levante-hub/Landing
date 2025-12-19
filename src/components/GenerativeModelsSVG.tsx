@@ -3,39 +3,49 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-export const GenerativeModelsSVG = () => {
+export const GenerativeModelsSVG = ({ isInView = false }: { isInView?: boolean }) => {
   const [step, setStep] = useState(0);
   const [typedText, setTypedText] = useState('');
   const fullText = "a man walking his dog on the street";
 
   useEffect(() => {
+    let isMounted = true;
     const sequence = async () => {
+      if (!isMounted) return;
       // Step 0: Initial wait
       setStep(0);
       setTypedText('');
       await new Promise(r => setTimeout(r, 800));
 
+      if (!isMounted) return;
       // Step 1: Show bubble
       setStep(1);
       await new Promise(r => setTimeout(r, 400));
 
+      if (!isMounted) return;
       // Step 2: Typing animation
       setStep(2);
       for (let i = 0; i <= fullText.length; i++) {
+        if (!isMounted) return;
         setTypedText(fullText.slice(0, i));
         await new Promise(r => setTimeout(r, 40));
       }
       await new Promise(r => setTimeout(r, 300));
 
+      if (!isMounted) return;
       // Step 3: Show image
       setStep(3);
       await new Promise(r => setTimeout(r, 4000));
 
       // Loop
-      sequence();
+      if (isMounted) sequence();
     };
 
     sequence();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-export const InteractiveMCPAppsSVG = () => {
+export const InteractiveMCPAppsSVG = ({ isInView = false }: { isInView?: boolean }) => {
   const [step, setStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const [time, setTime] = useState('12:00 PM');
@@ -35,9 +35,7 @@ export const InteractiveMCPAppsSVG = () => {
     <div className="w-full h-full flex items-center justify-center p-4">
       <svg
         viewBox="0 0 600 450"
-        className={`w-full h-full max-w-lg drop-shadow-2xl transition-all duration-[1000ms] [transition-timing-function:cubic-bezier(0.34,1.56,0.64,1)] ${
-          isVisible && step < 5 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-        }`}
+        className="w-full h-full max-w-lg drop-shadow-2xl"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
