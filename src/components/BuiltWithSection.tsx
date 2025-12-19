@@ -115,10 +115,10 @@ export const BuiltWithSection = () => {
             />
 
             <div className="relative h-full flex flex-col p-8 sm:p-12 md:p-16 z-10 max-w-7xl mx-auto w-full">
-              <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-16 flex-1 h-full">
+              <div className="flex flex-col md:flex-row items-stretch gap-8 md:gap-16 flex-1 min-h-0">
                 {/* Text Content */}
-                <div className="flex-1 flex flex-col justify-between text-left h-full">
-                  <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold mb-6 tracking-tight">
+                <div className="flex-1 flex flex-col justify-start md:justify-between text-left gap-2 md:gap-0">
+                  <h3 className="text-white text-2xl sm:text-3xl md:text-4xl font-semibold mb-1 md:mb-6 tracking-tight">
                     {tool.title}
                   </h3>
                   <p className="text-gray-100 text-base sm:text-lg md:text-xl leading-relaxed max-w-xl opacity-100">
@@ -127,18 +127,20 @@ export const BuiltWithSection = () => {
                 </div>
 
                 {/* Card Image */}
-                <div className="flex-1 w-full h-full relative hidden md:block transition-transform duration-700">
-                  {tool.svg ? (
-                    tool.svg(visibleCards[tool.title])
-                  ) : (
-                    <Image
-                      src={tool.image}
-                      alt={tool.title}
-                      fill
-                      className="object-contain object-right"
-                      priority={index === 0}
-                    />
-                  )}
+                <div className="flex-1 w-full relative transition-transform duration-700 min-h-[200px] md:min-h-0">
+                  <div className="w-full h-full flex items-center justify-center">
+                    {tool.svg ? (
+                      tool.svg(visibleCards[tool.title])
+                    ) : (
+                      <Image
+                        src={tool.image}
+                        alt={tool.title}
+                        fill
+                        className="object-contain object-right"
+                        priority={index === 0}
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
