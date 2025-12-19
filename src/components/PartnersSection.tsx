@@ -11,13 +11,17 @@ export const PartnersSection = () => {
       logo: '/minte-logo.svg',
     },
     {
+      name: 'CLAi',
+      logo: '/clai-logo.webp',
+    },
+    {
       name: 'Product Makers',
       logo: 'https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/logos%20empresas/logo_product_makers%20%281%29.png',
     },
   ];
 
   // Duplicate partners for seamless loop
-  const marqueePartners = [...partners, ...partners, ...partners];
+  const marqueePartners = [...partners, ...partners];
 
   return (
     <section className="pt-12 pb-12 overflow-hidden">
@@ -32,7 +36,7 @@ export const PartnersSection = () => {
 
       {/* Mobile Marquee */}
       <div className="md:hidden relative w-full">
-        <div className="flex animate-marquee">
+        <div className="flex animate-marquee w-max">
           {marqueePartners.map((partner, index) => (
             <div
               key={index}
@@ -60,7 +64,7 @@ export const PartnersSection = () => {
         <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#FEFEFE] to-transparent z-10 pointer-events-none" />
         
         {/* Marquee container */}
-        <div className="flex animate-marquee">
+        <div className="flex animate-marquee w-max">
           {marqueePartners.map((partner, index) => (
             <div
               key={index}
@@ -71,7 +75,7 @@ export const PartnersSection = () => {
                 alt={partner.name}
                 width={66}
                 height={26}
-                className={`object-contain grayscale opacity-60 ${index % partners.length === 2 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-5' : index % partners.length === 2 ? 'h-3' : 'h-4'}`}
+                className={`object-contain grayscale opacity-60 ${[2, 3].includes(index % partners.length) ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-5' : index % partners.length === 2 ? 'h-3' : index % partners.length === 3 ? 'h-5' : 'h-4'}`}
                 style={{ height: 'auto' }}
               />
             </div>
