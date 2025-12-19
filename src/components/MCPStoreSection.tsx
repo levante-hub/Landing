@@ -117,19 +117,31 @@ export const MCPStoreSection = () => {
   const centerX = 50; // percentage
   const centerY = 50; // percentage
   
-  const iconPositions = services.map((service, index) => {
+  const desktopIconPositions = services.map((service, index) => {
     // Start at -90 degrees (top) and go clockwise
     const angle = (-90 + (360 / services.length) * index) * (Math.PI / 180);
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle);
+    const x = (centerX + radius * Math.cos(angle)) * 12; // convert to viewBox 1200
+    const y = (centerY + radius * Math.sin(angle)) * 6;  // convert to viewBox 600
     
     return {
-      x: `${x}%`,
-      y: `${y}%`,
+      x,
+      y,
       name: service,
       color: colors[service] || '#6B7280'
     };
   });
+
+  const mobileIconPositions = [
+    { name: services[0], x: 80, y: 60 },
+    { name: services[1], x: 200, y: 40 },
+    { name: services[2], x: 320, y: 60 },
+    { name: services[3], x: 80, y: 740 },
+    { name: services[4], x: 200, y: 760 },
+    { name: services[5], x: 320, y: 740 },
+  ].map(pos => ({
+    ...pos,
+    color: colors[pos.name] || '#6B7280'
+  }));
 
   return (
     <section className="mt-16 sm:mt-24 lg:mt-32 mb-16 sm:mb-24 lg:mb-32 relative">
@@ -140,27 +152,95 @@ export const MCPStoreSection = () => {
         }`}
         style={{ aspectRatio: '2/1', minHeight: '600px' }}
       >
-        {/* SVG with icons and connection lines */}
+        {/* SVG with icons and connection lines - Mobile */}
         <svg 
-          className="absolute inset-0 w-full h-full overflow-visible z-10 pointer-events-none"
+          className="md:hidden absolute inset-0 w-full h-full overflow-visible z-10 pointer-events-none"
+          viewBox="0 0 400 800"
+          preserveAspectRatio="xMidYMid meet"
+        >
+          {/* Connection lines - Mobile */}
+          {mobileIconPositions.map((icon, index) => {
+            const centerXCoord = 200;
+            const centerYCoord = 400;
+
+            return (
+              <line
+                key={`line-mobile-${index}`}
+                x1={centerXCoord}
+                y1={centerYCoord}
+                x2={icon.x}
+                y2={icon.y}
+                stroke="#D1D5DB"
+                strokeWidth="1"
+                strokeDasharray="4 4"
+                opacity={isVisible ? 0.4 : 0}
+                className="transition-opacity duration-1000"
+                style={{
+                  transitionDelay: `${index * 50}ms`,
+                }}
+              />
+            );
+          })}
+
+          {/* Service logos - Mobile */}
+          {mobileIconPositions.map((icon, index) => {
+            const logoSize = 36;
+            const animationDuration = 3 + (index % 3) * 0.5;
+            const animationDelay = index * 0.2;
+
+            return (
+              <g
+                key={`icon-mobile-${index}`}
+                opacity={isVisible ? 1 : 0}
+                className="transition-opacity duration-700"
+                style={{
+                  transitionDelay: `${(mobileIconPositions.length - index) * 50}ms`,
+                  transformOrigin: `${icon.x}px ${icon.y}px`,
+                }}
+              >
+                <animateTransform
+                  attributeName="transform"
+                  type="translate"
+                  values={`0,0; 0,-6; 0,0`}
+                  dur={`${animationDuration}s`}
+                  begin={`${animationDelay}s`}
+                  repeatCount="indefinite"
+                />
+                
+                <circle
+                  cx={icon.x}
+                  cy={icon.y}
+                  r={logoSize/2 + 4}
+                  fill="white"
+                  stroke="#E5E7EB"
+                  strokeWidth="1"
+                />
+                <g style={{ transformOrigin: `${icon.x}px ${icon.y}px` }}>
+                  {renderServiceLogo(icon.name, icon.x, icon.y, logoSize)}
+                </g>
+              </g>
+            );
+          })}
+        </svg>
+
+        {/* SVG with icons and connection lines - Desktop */}
+        <svg 
+          className="hidden md:block absolute inset-0 w-full h-full overflow-visible z-10 pointer-events-none"
           viewBox="0 0 1200 600"
           preserveAspectRatio="xMidYMid meet"
         >
-          {/* Connection lines */}
-          {iconPositions.map((icon, index) => {
-            // Calculate actual positions in viewBox coordinates
-            const iconX = parseFloat(icon.x) * 12; // 1200 / 100
-            const iconY = parseFloat(icon.y) * 6; // 600 / 100
+          {/* Connection lines - Desktop */}
+          {desktopIconPositions.map((icon, index) => {
             const centerXCoord = 600;
             const centerYCoord = 300;
 
             return (
               <line
-                key={`line-${index}`}
+                key={`line-desktop-${index}`}
                 x1={centerXCoord}
                 y1={centerYCoord}
-                x2={iconX}
-                y2={iconY}
+                x2={icon.x}
+                y2={icon.y}
                 stroke="#D1D5DB"
                 strokeWidth="1"
                 strokeDasharray="4 4"
@@ -173,26 +253,22 @@ export const MCPStoreSection = () => {
             );
           })}
 
-          {/* Service logos */}
-          {iconPositions.map((icon, index) => {
-            const iconX = parseFloat(icon.x) * 12;
-            const iconY = parseFloat(icon.y) * 6;
+          {/* Service logos - Desktop */}
+          {desktopIconPositions.map((icon, index) => {
             const logoSize = 40;
-            // Vary animation duration and delay for each logo to create natural floating effect
-            const animationDuration = 3 + (index % 3) * 0.5; // 3s, 3.5s, or 4s
-            const animationDelay = index * 0.2; // Stagger the start
+            const animationDuration = 3 + (index % 3) * 0.5;
+            const animationDelay = index * 0.2;
 
             return (
               <g
-                key={`icon-${index}`}
+                key={`icon-desktop-${index}`}
                 opacity={isVisible ? 1 : 0}
                 className="transition-opacity duration-700 cursor-pointer"
                 style={{
-                  transitionDelay: `${(iconPositions.length - index) * 50}ms`,
-                  transformOrigin: `${iconX}px ${iconY}px`,
+                  transitionDelay: `${(desktopIconPositions.length - index) * 50}ms`,
+                  transformOrigin: `${icon.x}px ${icon.y}px`,
                 }}
               >
-                {/* Floating animation */}
                 <animateTransform
                   attributeName="transform"
                   type="translate"
@@ -202,28 +278,24 @@ export const MCPStoreSection = () => {
                   repeatCount="indefinite"
                 />
                 
-                {/* Background circle with white border */}
                 <circle
-                  cx={iconX}
-                  cy={iconY}
+                  cx={icon.x}
+                  cy={icon.y}
                   r={logoSize/2 + 4}
                   fill="white"
                   stroke="#E5E7EB"
                   strokeWidth="1"
                   className="transition-transform duration-300"
                 />
-                {/* Service logo */}
-                <g className="hover:scale-110 transition-transform duration-300" style={{ transformOrigin: `${iconX}px ${iconY}px` }}>
-                  {renderServiceLogo(icon.name, iconX, iconY, logoSize)}
+                <g className="hover:scale-110 transition-transform duration-300" style={{ transformOrigin: `${icon.x}px ${icon.y}px` }}>
+                  {renderServiceLogo(icon.name, icon.x, icon.y, logoSize)}
                 </g>
-                {/* Icon label (optional, can be hidden on small screens) */}
                 <text
-                  x={iconX}
-                  y={iconY + logoSize/2 + 20}
+                  x={icon.x}
+                  y={icon.y + logoSize/2 + 20}
                   textAnchor="middle"
                   fontSize="10"
                   fill="#6B7280"
-                  className="hidden md:block"
                 >
                   {icon.name}
                 </text>
