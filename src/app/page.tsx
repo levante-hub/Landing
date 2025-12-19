@@ -16,6 +16,8 @@ import { ContributeSection } from "@/components/ContributeSection";
 import { TryNowSection } from "@/components/TryNowSection";
 import { Questionnaire } from "@/components/questionnaire";
 import { useLatestRelease } from "@/hooks/useLatestRelease";
+import { MCPConfigurationSVG } from "@/components/MCPConfigurationSVG";
+import { ModelSelectorSVG } from "@/components/ModelSelectorSVG";
 
 export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
@@ -371,7 +373,7 @@ export default function Home() {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
           {/* Feature 01 */}
-          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${
+          <div className={`relative rounded-xl overflow-hidden min-h-[546px] sm:min-h-[624px] md:min-h-[600px] transition-all duration-800 ${
             featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           } delay-100`}>
             {/* Background Image */}
@@ -381,21 +383,15 @@ export default function Home() {
               width={640}
               height={640}
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="w-full h-full object-cover absolute inset-0 md:relative md:h-auto"
+              className="w-full h-full object-cover absolute inset-0"
             />
 
             {/* Overlay Content */}
             <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 md:p-8">
-              {/* Mockup Image */}
-              <div className="flex-1 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
-                <div className="w-[90%] sm:w-[85%] md:w-[85%] max-w-[500px]">
-                  <Image
-                    src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Captura%20de%20pantalla%202025-10-29%20a%20las%2010.38.07.png"
-                    alt="Feature 01 Mockup"
-                    width={600}
-                    height={400}
-                    className="w-full h-auto rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
-                  />
+              {/* Mockup Image Area */}
+              <div className="flex-1 flex items-center justify-center overflow-visible">
+                <div className="w-full max-w-[400px] aspect-[1.4/1] relative">
+                  <MCPConfigurationSVG />
                 </div>
               </div>
 
@@ -411,7 +407,7 @@ export default function Home() {
           </div>
 
           {/* Feature 02 */}
-          <div className={`relative rounded-xl overflow-hidden min-h-[420px] sm:min-h-[480px] md:min-h-0 transition-all duration-800 ${
+          <div className={`relative rounded-xl overflow-hidden min-h-[546px] sm:min-h-[624px] md:min-h-[600px] transition-all duration-800 ${
             featuresVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
           } delay-300`}>
             {/* Background Image */}
@@ -421,21 +417,15 @@ export default function Home() {
               width={640}
               height={640}
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="w-full h-full object-cover absolute inset-0 md:relative md:h-auto"
+              className="w-full h-full object-cover absolute inset-0"
             />
 
             {/* Overlay Content */}
             <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 md:p-8">
-              {/* Mockup Image */}
-              <div className="flex-1 flex items-start justify-center pt-4 sm:pt-6 md:pt-8">
-                <div className="w-[90%] sm:w-[85%] md:w-[85%] max-w-[500px]">
-                  <Image
-                    src="https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/img-fondo/Captura%20de%20pantalla%202025-10-29%20a%20las%2010.40.45.png"
-                    alt="Feature 02 Mockup"
-                    width={600}
-                    height={400}
-                    className="w-full h-auto rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.4)]"
-                  />
+              {/* Mockup Image Area */}
+              <div className="flex-1 flex items-center justify-center overflow-visible">
+                <div className="w-full max-w-[400px] aspect-[1.4/1] relative">
+                  <ModelSelectorSVG />
                 </div>
               </div>
 

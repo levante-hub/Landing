@@ -40,14 +40,14 @@ export const PartnersSection = () => {
           {marqueePartners.map((partner, index) => (
             <div
               key={index}
-              className="flex-shrink-0 px-8 h-14 flex items-center justify-center"
+              className="flex-shrink-0 px-8 h-10 flex items-center justify-center"
             >
               <Image
                 src={partner.logo}
                 alt={partner.name}
-                width={120}
-                height={48}
-                className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-6' : index % partners.length === 2 ? 'h-3' : 'h-5'}`}
+                width={78}
+                height={31}
+                className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-4' : index % partners.length === 2 ? 'h-2' : 'h-3'}`}
                 style={{ height: 'auto' }}
               />
             </div>
@@ -68,14 +68,14 @@ export const PartnersSection = () => {
           {marqueePartners.map((partner, index) => (
             <div
               key={index}
-              className="flex-shrink-0 px-12 h-14 flex items-center justify-center"
+              className="flex-shrink-0 px-12 h-10 flex items-center justify-center"
             >
               <Image
                 src={partner.logo}
                 alt={partner.name}
-                width={140}
-                height={56}
-                className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-8' : index % partners.length === 2 ? 'h-4' : 'h-6'}`}
+                width={90}
+                height={36}
+                className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-5' : index % partners.length === 2 ? 'h-2.5' : 'h-4'}`}
                 style={{ height: 'auto' }}
               />
             </div>
