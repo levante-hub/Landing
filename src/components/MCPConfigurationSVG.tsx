@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { FileText, Code, ChevronDown } from 'lucide-react';
+import { FileText, Code, ChevronDown, CheckCircle2 } from 'lucide-react';
 
 export const MCPConfigurationSVG = () => {
   const [serverName, setServerName] = useState('');
   const [url, setUrl] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
   const [step, setStep] = useState(0);
 
   const fullServerName = "mcp-levante";
@@ -19,6 +20,7 @@ export const MCPConfigurationSVG = () => {
       // Reset
       setServerName('');
       setUrl('');
+      setIsSuccess(false);
       setStep(0);
       await new Promise(r => setTimeout(r, 1000));
 
@@ -38,9 +40,16 @@ export const MCPConfigurationSVG = () => {
         setUrl(fullUrl.slice(0, i));
         await new Promise(r => setTimeout(r, 50));
       }
+      await new Promise(r => setTimeout(r, 800));
+
+      // Click Add Server
+      if (!isMounted) return;
+      setStep(1); // Visual click state
+      await new Promise(r => setTimeout(r, 200));
+      setIsSuccess(true);
       
       // Pause at the end
-      await new Promise(r => setTimeout(r, 3000));
+      await new Promise(r => setTimeout(r, 3500));
       if (isMounted) sequence();
     };
 
@@ -49,8 +58,8 @@ export const MCPConfigurationSVG = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center font-sans relative">
-      <div className="w-full h-[264px] bg-white rounded-lg shadow-xl overflow-hidden flex flex-col p-1">
+    <div className="w-full h-full flex flex-col items-center justify-center font-sans relative group">
+      <div className="w-full h-[264px] bg-white rounded-lg shadow-xl overflow-hidden flex flex-col p-1 relative">
         {/* Header */}
         <div className="px-4 pt-3 pb-1 flex items-center justify-start">
           <h3 className="text-[13px] font-bold text-gray-900 leading-tight tracking-tight">Add MCP Integration</h3>
@@ -79,7 +88,7 @@ export const MCPConfigurationSVG = () => {
             </label>
             <div className="w-full h-8 bg-white border border-gray-200 rounded px-2 flex items-center text-[11px] text-gray-800">
               {serverName}
-              <span className="w-[1px] h-3.5 bg-gray-400 ml-0.5 animate-caret"></span>
+              {!isSuccess && <span className="w-[1px] h-3.5 bg-gray-400 ml-0.5 animate-caret"></span>}
             </div>
           </div>
 
@@ -95,7 +104,7 @@ export const MCPConfigurationSVG = () => {
               </div>
               <div className="flex-1 h-8 bg-white border border-gray-200 rounded px-2 flex items-center text-[11px] text-gray-800 overflow-hidden">
                 <span className="truncate">{url}</span>
-                {serverName.length === fullServerName.length && (
+                {serverName.length === fullServerName.length && !isSuccess && (
                   <span className="w-[1px] h-3.5 bg-gray-400 ml-0.5 animate-caret"></span>
                 )}
               </div>
@@ -107,12 +116,35 @@ export const MCPConfigurationSVG = () => {
             <button className="px-3 py-1.5 border border-gray-200 rounded text-[11px] font-medium text-gray-700">
               Cancel
             </button>
-            <button className="px-3 py-1.5 bg-black rounded text-[11px] font-medium text-white shadow-sm">
+            <button className={`px-3 py-1.5 rounded text-[11px] font-medium text-white shadow-sm transition-all duration-200 ${
+              step === 1 ? 'bg-black scale-95' : 'bg-black hover:bg-gray-900'
+            }`}>
               Add Server
             </button>
           </div>
         </div>
+
+        {/* Success Overlay */}
+        <div className={`absolute inset-0 bg-white/95 flex flex-col items-center justify-center transition-all duration-500 z-20 ${
+          isSuccess ? 'opacity-100' : 'opacity-0 pointer-events-none translate-y-2'
+        }`}>
+          <div className="flex flex-col items-center gap-3 animate-in fade-in zoom-in duration-500">
+            <CheckCircle2 className="text-green-500 w-12 h-12" strokeWidth={1.5} />
+            <span className="text-[14px] font-bold text-gray-900">New MCP is added</span>
+          </div>
+        </div>
       </div>
+
+      {/* Simulated Cursor */}
+      {!isSuccess && serverName.length === fullServerName.length && url.length === fullUrl.length && (
+        <div className={`absolute right-[40px] bottom-[25px] transition-all duration-700 pointer-events-none z-30 ${
+          step === 1 ? 'scale-90 translate-y-1' : ''
+        }`}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="black" className="drop-shadow-md">
+            <path d="M0,0 L12,12 L7,12 L10,18 L8,19 L5,13 L0,18 Z" stroke="white" strokeWidth="1.5" />
+          </svg>
+        </div>
+      )}
 
       <style jsx>{`
         @keyframes caret {
