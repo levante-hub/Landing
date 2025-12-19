@@ -47,7 +47,7 @@ export const PartnersSection = () => {
                 alt={partner.name}
                 width={66}
                 height={26}
-                className={`object-contain grayscale opacity-60 ${index % partners.length === 2 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-3.5' : index % partners.length === 2 ? 'h-2.5' : 'h-3'}`}
+                className={`object-contain grayscale opacity-60 ${[2, 3].includes(index % partners.length) ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-3.5' : index % partners.length === 2 ? 'h-2.5' : index % partners.length === 3 ? 'h-4' : 'h-3'}`}
                 style={{ height: 'auto' }}
               />
             </div>

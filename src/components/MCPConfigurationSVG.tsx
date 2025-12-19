@@ -1,43 +1,51 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { FileText, Code, ChevronDown } from 'lucide-react';
 
 export const MCPConfigurationSVG = () => {
-  const [lines, setLines] = useState<string[]>([]);
-  const fullJson = [
-    '{',
-    '  "mcpServers": {',
-    '    "ree": {',
-    '      "name": "ree",',
-    '      "transport": "stdio",',
-    '      "command": "/Users/...",',
-    '      "args": ["-m", "ree_mcp"],',
-    '      "env": {',
-    '        "REE_API_TOKEN": "9053..."',
-    '      }',
-    '    }',
-    '  }',
-    '}'
-  ];
+  const [serverName, setServerName] = useState('');
+  const [url, setUrl] = useState('');
+  const [step, setStep] = useState(0);
+
+  const fullServerName = "mcp-levante";
+  const fullUrl = "https://levanteapp.com/mcp";
 
   useEffect(() => {
-    let currentLine = 0;
-    const animate = () => {
-      if (currentLine < fullJson.length) {
-        setLines(prev => [...prev, fullJson[currentLine]]);
-        currentLine++;
-        setTimeout(animate, 100);
-      } else {
-        setTimeout(() => {
-          setLines([]);
-          currentLine = 0;
-          setTimeout(animate, 500);
-        }, 4000);
+    let isMounted = true;
+    const sequence = async () => {
+      if (!isMounted) return;
+
+      // Reset
+      setServerName('');
+      setUrl('');
+      setStep(0);
+      await new Promise(r => setTimeout(r, 1000));
+
+      // Type Server Name
+      if (!isMounted) return;
+      for (let i = 1; i <= fullServerName.length; i++) {
+        if (!isMounted) return;
+        setServerName(fullServerName.slice(0, i));
+        await new Promise(r => setTimeout(r, 80));
       }
+      await new Promise(r => setTimeout(r, 500));
+
+      // Type URL
+      if (!isMounted) return;
+      for (let i = 1; i <= fullUrl.length; i++) {
+        if (!isMounted) return;
+        setUrl(fullUrl.slice(0, i));
+        await new Promise(r => setTimeout(r, 50));
+      }
+      
+      // Pause at the end
+      await new Promise(r => setTimeout(r, 3000));
+      if (isMounted) sequence();
     };
 
-    animate();
-    return () => { currentLine = 999; }; // Simple way to stop the chain on unmount
+    sequence();
+    return () => { isMounted = false; };
   }, []);
 
   return (
@@ -51,57 +59,72 @@ export const MCPConfigurationSVG = () => {
         {/* Tabs */}
         <div className="px-4 py-2 flex gap-1.5">
           <div className="flex-1 flex bg-[#F3F4F6] rounded-md p-0.5">
-            <button className="flex-1 flex items-center justify-center gap-1.5 py-1 text-[11px] font-medium text-gray-500 rounded">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M12 3l1.912 5.886h6.191l-5.007 3.638 1.912 5.886-5.008-3.638-5.008 3.638 1.912-5.886-5.007-3.638h6.191z" />
-              </svg>
-              Automatic
-            </button>
             <button className="flex-1 flex items-center justify-center gap-1.5 py-1 text-[11px] font-semibold text-gray-900 bg-white shadow-sm rounded">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" />
-              </svg>
-              Custom
+              <FileText size={12} strokeWidth={2.5} />
+              Form
+            </button>
+            <button className="flex-1 flex items-center justify-center gap-1.5 py-1 text-[11px] font-medium text-gray-500 rounded">
+              <Code size={12} strokeWidth={2.5} />
+              JSON
             </button>
           </div>
         </div>
 
-        {/* Configuration Area */}
-        <div className="px-4 py-2 flex flex-col flex-1 min-h-0 mb-2">
-          <label className="text-[11px] font-medium text-gray-900 mb-1">
-            Complete MCP Configuration (.mcp.json)
-          </label>
-          <div className="flex-1 bg-white rounded border border-gray-200 p-2.5 font-mono text-[9px] sm:text-[10px] text-gray-800 overflow-hidden relative">
-            <div className="space-y-0.5">
-              {lines.map((line, i) => (
-                <div 
-                  key={i} 
-                  className="whitespace-pre transition-all duration-300 opacity-0 animate-fade-in-down"
-                >
-                  {line}
-                </div>
-              ))}
+        {/* Form Content */}
+        <div className="px-4 py-2 flex flex-col flex-1 gap-3">
+          {/* Server Name Field */}
+          <div>
+            <label className="text-[11px] font-medium text-gray-900 mb-1 block">
+              Server Name
+            </label>
+            <div className="w-full h-8 bg-white border border-gray-200 rounded px-2 flex items-center text-[11px] text-gray-800">
+              {serverName}
+              <span className="w-[1px] h-3.5 bg-gray-400 ml-0.5 animate-caret"></span>
             </div>
+          </div>
+
+          {/* Connection Type Field */}
+          <div>
+            <label className="text-[11px] font-medium text-gray-900 mb-1 block">
+              Connection Type
+            </label>
+            <div className="flex gap-2">
+              <div className="w-20 h-8 bg-white border border-gray-200 rounded px-2 flex items-center justify-between text-[11px] text-gray-800">
+                HTTP
+                <ChevronDown size={12} className="text-gray-400" />
+              </div>
+              <div className="flex-1 h-8 bg-white border border-gray-200 rounded px-2 flex items-center text-[11px] text-gray-800 overflow-hidden">
+                <span className="truncate">{url}</span>
+                {serverName.length === fullServerName.length && (
+                  <span className="w-[1px] h-3.5 bg-gray-400 ml-0.5 animate-caret"></span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Buttons */}
+          <div className="mt-auto flex justify-end gap-2 pb-1">
+            <button className="px-3 py-1.5 border border-gray-200 rounded text-[11px] font-medium text-gray-700">
+              Cancel
+            </button>
+            <button className="px-3 py-1.5 bg-black rounded text-[11px] font-medium text-white shadow-sm">
+              Add Server
+            </button>
           </div>
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes fade-in-down {
-          from {
-            opacity: 0;
-            transform: translateY(-4px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+        @keyframes caret {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
         }
-        .animate-fade-in-down {
-          animation: fade-in-down 0.2s ease-out forwards;
+        .animate-caret {
+          animation: caret 1s infinite;
         }
       `}</style>
     </div>
   );
 };
+
 
