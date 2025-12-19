@@ -7,10 +7,6 @@ export const PartnersSection = () => {
       logo: 'https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/logos%20empresas/Cloud-Levante.png',
     },
     {
-      name: 'Partner 2',
-      logo: 'https://1y03izjmgsaiyedf.public.blob.vercel-storage.com/logos%20empresas/Logo%20completo%20PNG.png',
-    },
-    {
       name: 'Minte',
       logo: '/minte-logo.svg',
     },
@@ -21,7 +17,7 @@ export const PartnersSection = () => {
   ];
 
   // Duplicate partners for seamless loop
-  const marqueePartners = [...partners, ...partners];
+  const marqueePartners = [...partners, ...partners, ...partners];
 
   return (
     <section className="pt-12 pb-12 overflow-hidden">
@@ -45,9 +41,9 @@ export const PartnersSection = () => {
               <Image
                 src={partner.logo}
                 alt={partner.name}
-                width={78}
-                height={31}
-                className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-4' : index % partners.length === 2 ? 'h-2' : 'h-3'}`}
+                width={66}
+                height={26}
+                className={`object-contain grayscale opacity-60 ${index % partners.length === 2 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-3.5' : index % partners.length === 2 ? 'h-2.5' : 'h-3'}`}
                 style={{ height: 'auto' }}
               />
             </div>
@@ -73,9 +69,9 @@ export const PartnersSection = () => {
               <Image
                 src={partner.logo}
                 alt={partner.name}
-                width={90}
-                height={36}
-                className={`object-contain w-auto grayscale opacity-60 ${index % partners.length === 3 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-5' : index % partners.length === 2 ? 'h-2.5' : 'h-4'}`}
+                width={66}
+                height={26}
+                className={`object-contain grayscale opacity-60 ${index % partners.length === 2 ? '' : 'brightness-0'} ${index % partners.length === 1 ? 'h-5' : index % partners.length === 2 ? 'h-3' : 'h-4'}`}
                 style={{ height: 'auto' }}
               />
             </div>
