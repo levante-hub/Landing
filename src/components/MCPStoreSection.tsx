@@ -111,9 +111,10 @@ export const MCPStoreSection = () => {
   const desktopIconPositions = services.map((service, index) => {
     // Start at -90 degrees (top) and go clockwise
     const angle = (-90 + (360 / services.length) * index) * (Math.PI / 180);
-    const x = (centerX + radius * Math.cos(angle)) * 12; // convert to viewBox 1200
-    const y = (centerY + radius * Math.sin(angle)) * 6;  // convert to viewBox 600
-    
+    // Round to 2 decimal places to avoid hydration mismatch from floating point differences
+    const x = Math.round((centerX + radius * Math.cos(angle)) * 12 * 100) / 100;
+    const y = Math.round((centerY + radius * Math.sin(angle)) * 6 * 100) / 100;
+
     return {
       x,
       y,

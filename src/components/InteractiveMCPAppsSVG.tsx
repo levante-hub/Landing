@@ -2,7 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 
-export const InteractiveMCPAppsSVG = () => {
+interface InteractiveMCPAppsSVGProps {
+  isInView?: boolean;
+}
+
+export const InteractiveMCPAppsSVG = ({ isInView }: InteractiveMCPAppsSVGProps) => {
+  void isInView; // Reserved for future animation triggers
   const [step, setStep] = useState(0);
   const [time, setTime] = useState('12:00 PM');
 
