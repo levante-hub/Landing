@@ -1,5 +1,6 @@
 'use client';
 
+import { Snowflake } from 'lucide-react';
 import { deepLinkBuilder } from '@/lib/deeplink/builder';
 import { MCPServerExtended } from '@/lib/registry/types';
 
@@ -17,11 +18,16 @@ export function MCPBadges({
   className = '',
 }: MCPBadgesProps) {
   const requiresConfig = deepLinkBuilder.requiresConfiguration(mcp);
+  const categoryClass =
+    mcp.category === 'christmas'
+      ? 'bg-[#fff0f0] text-[#d0021b] border border-[#e5b8b8] shadow-sm'
+      : 'bg-slate-100 text-slate-700 border border-slate-200';
 
   return (
     <div className={`flex flex-wrap gap-2 ${className}`}>
       {showCategory && (
-        <span className="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
+        <span className={`text-xs px-2 py-1 rounded-full flex items-center gap-1 ${categoryClass}`}>
+          {mcp.category === 'christmas' && <Snowflake className="w-3 h-3" />}
           {mcp.category}
         </span>
       )}
