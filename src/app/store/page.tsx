@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, ExternalLink, Database, Code, FileText, Zap, MessageSquare, Briefcase, Package, Snowflake } from 'lucide-react';
+import { Menu, X, ExternalLink, Database, Code, FileText, Zap, MessageSquare, Briefcase, Package, Snowflake, type LucideIcon } from 'lucide-react';
 import { useLatestRelease } from '@/hooks/useLatestRelease';
 import { useDeepLink } from '@/hooks/useDeepLink';
 import { safeCapture } from '@/lib/posthog';
@@ -24,7 +24,7 @@ interface MCPStoreResponse {
   servers: MCPServer[];
 }
 
-const categoryIcons: Record<string, any> = {
+const categoryIcons: Record<string, LucideIcon> = {
   documentation: FileText,
   development: Code,
   database: Database,
@@ -52,7 +52,7 @@ export default function MCPStorePage() {
   const { openDeepLink, isOpening, showFallback, closeFallback, currentMCP } = useDeepLink({
     detectProtocol: true,
   });
-  const MCP_STORE_URL = process.env.NEXT_PUBLIC_MCP_STORE_URL || 'http://localhost:5180/api/mcps.json';
+  const MCP_STORE_URL = process.env.NEXT_PUBLIC_MCP_STORE_URL || 'https://services.levanteapp.com/api/mcps.json';
 
   useEffect(() => {
     fetchMCPs();
@@ -110,7 +110,7 @@ export default function MCPStorePage() {
   const categories = ['all', ...Array.from(new Set(mcps.map(mcp => mcp.category)))];
   const christmasMCPs = mcps.filter(mcp => mcp.category === 'christmas');
   const nonChristmasMCPs = mcps.filter(mcp => mcp.category !== 'christmas');
-  
+
   const filteredMCPs = nonChristmasMCPs.filter(mcp => {
     const categoryMatch = selectedCategory === 'all' || mcp.category === selectedCategory;
     const sourceMatch = selectedSource === 'all' || mcp.source === selectedSource;
@@ -232,9 +232,8 @@ export default function MCPStorePage() {
         )}
 
         <div
-          className={`fixed top-0 right-0 h-full w-[280px] bg-[#1a1a1a] z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
-            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+          className={`fixed top-0 right-0 h-full w-[280px] bg-[#1a1a1a] z-50 transform transition-transform duration-300 ease-in-out md:hidden ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
         >
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
@@ -327,7 +326,7 @@ export default function MCPStorePage() {
                 <Snowflake className="w-4 h-4" />
                 Explore Christmas MCPs
               </button>
-                <span className="text-white/80 text-sm">Seasonal kits for the holidays</span>
+              <span className="text-white/80 text-sm">Seasonal kits for the holidays</span>
             </div>
           )}
         </div>
@@ -524,11 +523,10 @@ export default function MCPStorePage() {
               return (
                 <div
                   key={mcp.id}
-                  className={`relative rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer group ${
-                    isChristmas
+                  className={`relative rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer group ${isChristmas
                       ? 'bg-gradient-to-br from-emerald-50 via-white to-rose-50 border border-emerald-100 shadow-[0_12px_40px_-28px_rgba(16,185,129,0.6)]'
                       : 'bg-white border border-slate-200'
-                  }`}
+                    }`}
                   onClick={() => {
                     safeCapture('mcp_card_clicked', { mcp_id: mcp.id, mcp_name: mcp.name });
                     if (isChristmas) {
@@ -563,9 +561,8 @@ export default function MCPStorePage() {
                       </div>
                     ) : (
                       <div
-                        className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                          isChristmas ? 'bg-emerald-50 border border-emerald-100' : 'bg-slate-100'
-                        }`}
+                        className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${isChristmas ? 'bg-emerald-50 border border-emerald-100' : 'bg-slate-100'
+                          }`}
                       >
                         <Icon className={`w-6 h-6 ${isChristmas ? 'text-emerald-600' : 'text-slate-600'}`} />
                       </div>
@@ -599,9 +596,8 @@ export default function MCPStorePage() {
                       mcp={mcp}
                       variant="default"
                       size="sm"
-                      className={`w-full justify-center ${
-                        isChristmas ? 'bg-emerald-600 hover:bg-emerald-700' : ''
-                      }`}
+                      className={`w-full justify-center ${isChristmas ? 'bg-emerald-600 hover:bg-emerald-700' : ''
+                        }`}
                       openDeepLink={openDeepLink}
                       isOpeningOverride={currentMCP?.id === mcp.id ? isOpening : false}
                     />
