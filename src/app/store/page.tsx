@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, X, ExternalLink, Database, Code, FileText, Zap, MessageSquare, Briefcase, Package } from 'lucide-react';
+import { Menu, X, ExternalLink, Database, Code, FileText, Zap, MessageSquare, Briefcase, Package, Snowflake } from 'lucide-react';
 import { useLatestRelease } from '@/hooks/useLatestRelease';
 import { useDeepLink } from '@/hooks/useDeepLink';
 import { safeCapture } from '@/lib/posthog';
@@ -32,6 +32,7 @@ const categoryIcons: Record<string, any> = {
   ai: MessageSquare,
   communication: MessageSquare,
   productivity: Briefcase,
+  christmas: Snowflake,
   other: Package,
 };
 
@@ -45,10 +46,13 @@ export default function MCPStorePage() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [selectedMCP, setSelectedMCP] = useState<MCPServer | null>(null);
   const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [trackedChristmasView, setTrackedChristmasView] = useState(false);
+  const christmasCarouselRef = useRef<HTMLDivElement>(null);
   const { downloadUrl, platform } = useLatestRelease();
   const { openDeepLink, isOpening, showFallback, closeFallback, currentMCP } = useDeepLink({
     detectProtocol: true,
   });
+  const MCP_STORE_URL = process.env.NEXT_PUBLIC_MCP_STORE_URL || 'http://localhost:5180/api/mcps.json';
 
   useEffect(() => {
     fetchMCPs();
@@ -56,7 +60,7 @@ export default function MCPStorePage() {
 
   const fetchMCPs = async () => {
     try {
-      const response = await fetch('https://services.levanteapp.com/api/mcps.json');
+      const response = await fetch(MCP_STORE_URL);
       if (!response.ok) throw new Error('Failed to fetch MCPs');
       const data: MCPStoreResponse = await response.json();
       // Debug: inspeccionar qué viene en configuration/template desde la API
@@ -67,7 +71,8 @@ export default function MCPStorePage() {
         });
       }
       setMcps(data.servers);
-      safeCapture('mcp_store_loaded', { count: data.servers.length });
+      const christmasCount = data.servers.filter(server => server.category === 'christmas').length;
+      safeCapture('mcp_store_loaded', { count: data.servers.length, christmasCount });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load MCPs');
       safeCapture('mcp_store_error', { error: err });
@@ -103,14 +108,48 @@ export default function MCPStorePage() {
   };
 
   const categories = ['all', ...Array.from(new Set(mcps.map(mcp => mcp.category)))];
+  const christmasMCPs = mcps.filter(mcp => mcp.category === 'christmas');
+  const nonChristmasMCPs = mcps.filter(mcp => mcp.category !== 'christmas');
   
-  const filteredMCPs = mcps.filter(mcp => {
+  const filteredMCPs = nonChristmasMCPs.filter(mcp => {
     const categoryMatch = selectedCategory === 'all' || mcp.category === selectedCategory;
     const sourceMatch = selectedSource === 'all' || mcp.source === selectedSource;
     return categoryMatch && sourceMatch;
   });
+  const showEmptyState = !loading && !error && filteredMCPs.length === 0 && selectedCategory !== 'christmas';
+
+  useEffect(() => {
+    if (!loading && !error && christmasMCPs.length > 0 && !trackedChristmasView) {
+      safeCapture('christmas_section_viewed', { count: christmasMCPs.length });
+      setTrackedChristmasView(true);
+    }
+  }, [loading, error, christmasMCPs.length, trackedChristmasView]);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  const focusChristmasSection = () => {
+    const section = document.getElementById('christmas');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handleChristmasFilter = (source: string) => {
+    setSelectedCategory('christmas');
+    safeCapture('christmas_filter_clicked', { source });
+    focusChristmasSection();
+  };
+
+  const scrollChristmasCarousel = (direction: 'prev' | 'next') => {
+    const container = christmasCarouselRef.current;
+    if (!container) return;
+    const scrollAmount = container.clientWidth * 0.9;
+    container.scrollBy({
+      left: direction === 'next' ? scrollAmount : -scrollAmount,
+      behavior: 'smooth',
+    });
+    safeCapture('christmas_carousel_navigated', { direction });
+  };
 
   const openInfoSheet = (mcp: MCPServer) => {
     setSelectedMCP(mcp);
@@ -279,6 +318,18 @@ export default function MCPStorePage() {
           <p className="text-lg md:text-xl text-white/90 max-w-2xl">
             Discover and integrate Model Context Protocol servers to extend your AI workspace
           </p>
+          {christmasMCPs.length > 0 && (
+            <div className="mt-6 flex flex-wrap justify-center gap-3">
+              <button
+                onClick={() => handleChristmasFilter('hero_cta')}
+                className="bg-[#d0021b] text-white px-5 py-2 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-[#b70117] transition-colors shadow-sm"
+              >
+                <Snowflake className="w-4 h-4" />
+                Explore Christmas MCPs
+              </button>
+                <span className="text-white/80 text-sm">Seasonal kits for the holidays</span>
+            </div>
+          )}
         </div>
       </section>
 
@@ -327,6 +378,128 @@ export default function MCPStorePage() {
           </div>
         </div>
 
+        {/* Christmas Highlight Section */}
+        {!loading && !error && christmasMCPs.length > 0 && (
+          <div id="christmas" className="mb-12">
+            <div className="relative overflow-hidden rounded-3xl border border-[#e5b8b8] bg-[#fff5f5] p-6 sm:p-8 shadow-[0_20px_60px_-40px_rgba(208,2,27,0.45)]">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-6">
+                <div className="flex items-start gap-3">
+                  <div className="p-3 rounded-2xl bg-white border border-[#e5b8b8] shadow-sm">
+                    <Snowflake className="w-6 h-6 text-[#d0021b]" />
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.2em] text-[#d0021b] font-semibold">
+                      Seasonal drop
+                    </p>
+                    <h2 className="text-2xl font-semibold text-slate-900 leading-tight">Christmas MCPs</h2>
+                    <p className="text-sm text-slate-700 mt-1 max-w-2xl">
+                      Kits invernavidosos listos para usar: data, ecommerce y experiencias con temática navideña.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-3" />
+              </div>
+
+              <div className="relative">
+                <div className="absolute right-0 -top-14 flex gap-2">
+                  <button
+                    onClick={() => scrollChristmasCarousel('prev')}
+                    className="w-9 h-9 rounded-full bg-white border border-[#e5b8b8] text-[#d0021b] hover:bg-[#fff0f0] transition-colors shadow-sm"
+                    aria-label="Previous"
+                  >
+                    {'<'}
+                  </button>
+                  <button
+                    onClick={() => scrollChristmasCarousel('next')}
+                    className="w-9 h-9 rounded-full bg-white border border-[#e5b8b8] text-[#d0021b] hover:bg-[#fff0f0] transition-colors shadow-sm"
+                    aria-label="Next"
+                  >
+                    {'>'}
+                  </button>
+                </div>
+                <div
+                  ref={christmasCarouselRef}
+                  className="flex gap-4 overflow-x-auto pb-2 scroll-smooth snap-x snap-mandatory"
+                  style={{ scrollBehavior: 'smooth' }}
+                >
+                  {christmasMCPs.map((mcp) => {
+                    const Icon = categoryIcons[mcp.category] || Package;
+
+                    return (
+                      <div
+                        key={mcp.id}
+                        className="min-w-[280px] md:min-w-[320px] lg:min-w-[360px] snap-start relative bg-white border border-[#e5b8b8] rounded-2xl p-5 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+                        onClick={() => {
+                          safeCapture('christmas_mcp_clicked', { mcp_id: mcp.id, source: 'christmas_section' });
+                          openInfoSheet(mcp);
+                        }}
+                      >
+                        <div className="relative flex items-start gap-4 mb-4">
+                          {mcp.logoUrl ? (
+                            <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-white border border-[#e5b8b8] shadow-sm">
+                              <img
+                                src={mcp.logoUrl}
+                                alt={mcp.name}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <div className="w-12 h-12 rounded-xl bg-[#fff0f0] border border-[#e5b8b8] flex items-center justify-center flex-shrink-0">
+                              <Icon className="w-6 h-6 text-[#d0021b]" />
+                            </div>
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-lg font-semibold text-slate-900 leading-tight">
+                                {mcp.name}
+                              </h3>
+                              <span className="text-[11px] px-2 py-1 rounded-full bg-[#ffe5e5] text-[#b70117] border border-[#e5b8b8]">
+                                Nuevo
+                              </span>
+                            </div>
+                            <MCPBadges mcp={mcp} className="mt-2" />
+                          </div>
+                        </div>
+
+                        <p className="relative text-sm text-slate-600 mb-4 line-clamp-3">
+                          {mcp.description}
+                        </p>
+
+                        <div className="relative flex items-center justify-between text-xs text-slate-500">
+                          <span className="capitalize">{mcp.transport}</span>
+                          {mcp.version && <span>v{mcp.version}</span>}
+                        </div>
+
+                        <div className="relative mt-4 flex gap-2">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              safeCapture('christmas_mcp_clicked', { mcp_id: mcp.id, source: 'christmas_section_info' });
+                              openInfoSheet(mcp);
+                            }}
+                            className="px-4 py-2 rounded-full bg-white text-[#d0021b] border border-[#e5b8b8] text-xs font-semibold hover:bg-[#fff0f0] transition-colors"
+                          >
+                            Ver info
+                          </button>
+                          <MCPInstallButton
+                            mcp={mcp}
+                            variant="default"
+                            size="sm"
+                            className="flex-1 justify-center bg-[#d0021b] hover:bg-[#b70117]"
+                            openDeepLink={openDeepLink}
+                            isOpeningOverride={currentMCP?.id === mcp.id ? isOpening : false}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+
         {/* Loading State */}
         {loading && (
           <div className="flex justify-center items-center py-20">
@@ -346,16 +519,29 @@ export default function MCPStorePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredMCPs.map((mcp) => {
               const Icon = categoryIcons[mcp.category] || Package;
+              const isChristmas = mcp.category === 'christmas';
 
               return (
                 <div
                   key={mcp.id}
-                  className="relative bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer group"
+                  className={`relative rounded-2xl p-6 hover:shadow-lg transition-all cursor-pointer group ${
+                    isChristmas
+                      ? 'bg-gradient-to-br from-emerald-50 via-white to-rose-50 border border-emerald-100 shadow-[0_12px_40px_-28px_rgba(16,185,129,0.6)]'
+                      : 'bg-white border border-slate-200'
+                  }`}
                   onClick={() => {
                     safeCapture('mcp_card_clicked', { mcp_id: mcp.id, mcp_name: mcp.name });
+                    if (isChristmas) {
+                      safeCapture('christmas_mcp_clicked', { mcp_id: mcp.id, source: 'grid' });
+                    }
                     openInfoSheet(mcp);
                   }}
                 >
+                  {isChristmas && (
+                    <span className="absolute -top-3 left-4 text-[11px] px-2 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-sm">
+                      Christmas
+                    </span>
+                  )}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -376,8 +562,12 @@ export default function MCPStorePage() {
                         />
                       </div>
                     ) : (
-                      <div className="w-12 h-12 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-6 h-6 text-slate-600" />
+                      <div
+                        className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                          isChristmas ? 'bg-emerald-50 border border-emerald-100' : 'bg-slate-100'
+                        }`}
+                      >
+                        <Icon className={`w-6 h-6 ${isChristmas ? 'text-emerald-600' : 'text-slate-600'}`} />
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
@@ -409,7 +599,9 @@ export default function MCPStorePage() {
                       mcp={mcp}
                       variant="default"
                       size="sm"
-                      className="w-full justify-center"
+                      className={`w-full justify-center ${
+                        isChristmas ? 'bg-emerald-600 hover:bg-emerald-700' : ''
+                      }`}
                       openDeepLink={openDeepLink}
                       isOpeningOverride={currentMCP?.id === mcp.id ? isOpening : false}
                     />
@@ -421,7 +613,7 @@ export default function MCPStorePage() {
         )}
 
         {/* Empty State */}
-        {!loading && !error && filteredMCPs.length === 0 && (
+        {showEmptyState && (
           <div className="text-center py-20">
             <p className="text-slate-600 text-lg">No MCPs found matching your filters</p>
           </div>
