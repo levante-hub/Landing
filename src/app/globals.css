@@ -131,3 +131,16 @@ body {
   filter: blur(10px);
   animation: hero-image-fade 0.8s ease-out 0.8s forwards;
 }
+
+@keyframes full-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-rotate-full {
+  animation: full-rotate 10s linear infinite;
+}

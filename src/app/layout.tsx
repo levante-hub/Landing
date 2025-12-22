@@ -20,10 +20,7 @@ const jsonLd = {
 export const metadata: Metadata = {
   title: "Use MCPs easily",
   description: "Join the open-source mission to democratize Model Context Protocols",
-  metadataBase:
-    process.env.NEXT_PUBLIC_SITE_URL !== undefined
-      ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
-      : undefined,
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   alternates: {
     canonical: "/",
   },
@@ -61,7 +58,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <script
           type="application/ld+json"
