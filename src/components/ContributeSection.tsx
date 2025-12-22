@@ -42,7 +42,7 @@ export const ContributeSection = ({ onOpenQuestionnaire }: ContributeSectionProp
 
             {/* Subtitle */}
             <p className="text-black text-lg md:text-xl mb-8">
-              Inspire, innovate, drive. Let's build Levante together
+              Inspire, innovate, drive. Let&apos;s build Levante together
             </p>
 
             {/* CTA Buttons */}

@@ -2,14 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 
-export const InteractiveMCPAppsSVG = ({ isInView = false }: { isInView?: boolean }) => {
+export const InteractiveMCPAppsSVG = () => {
   const [step, setStep] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
   const [time, setTime] = useState('12:00 PM');
 
   useEffect(() => {
-    setIsVisible(true);
-    
     const timer = setInterval(() => {
       setStep((prev) => (prev + 1) % 6);
     }, 1000);

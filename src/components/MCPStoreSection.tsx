@@ -67,7 +67,6 @@ const renderServiceLogo = (serviceName: string, x: number, y: number, size: numb
 
 export const MCPStoreSection = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [mcpCount, setMcpCount] = useState(0);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -84,25 +83,6 @@ export const MCPStoreSection = () => {
     const section = document.getElementById('mcp-store-section');
     if (section) {
       observer.observe(section);
-    }
-
-    // Fetch MCP count - simplified to prevent errors
-    if (typeof window !== 'undefined') {
-      try {
-        fetch('https://services.levanteapp.com/api/mcps/stats')
-          .then(res => res.ok ? res.json() : null)
-          .then(data => {
-            if (data && typeof data.total === 'number') {
-              setMcpCount(data.total);
-            }
-          })
-          .catch(() => {
-            // Silently fail, use default value
-            setMcpCount(0);
-          });
-      } catch (error) {
-        setMcpCount(0);
-      }
     }
 
     return () => {
@@ -331,7 +311,7 @@ export const MCPStoreSection = () => {
             
             {/* Description */}
             <p className="text-gray-600 text-lg md:text-xl mb-12 max-w-3xl mx-auto">
-              Unlock your AI's full potential
+              Unlock your AI&apos;s full potential
             </p>
             
             {/* Button */}
