@@ -2,40 +2,66 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Cloud, Play } from 'lucide-react';
 import { safeCapture } from '@/lib/posthog';
+import { 
+  SiGoogle, SiGithub, SiSupabase, 
+  SiN8N, SiShopify, SiAtlassian, SiNotion, 
+  SiHubspot, SiZapier, SiCloudflare
+} from 'react-icons/si';
+import { FaAws } from 'react-icons/fa';
+import { RiSearchLine, RiFileTextLine, RiStackLine } from 'react-icons/ri';
 
-// Helper function to render logo SVG for each service - simplified
+const serviceIcons: Record<string, React.ElementType> = {
+  'Google': SiGoogle,
+  'AWS': FaAws,
+  'Microsoft': Cloud,
+  'Github': SiGithub,
+  'Supabase': SiSupabase,
+  'n8n': SiN8N,
+  'Playwright': Play,
+  'Shopify': SiShopify,
+  'Atlassian': SiAtlassian,
+  'Notion': SiNotion,
+  'HubSpot': SiHubspot,
+  'Zapier': SiZapier,
+  'Cloudflare': SiCloudflare,
+  'Context7': RiStackLine,
+  'Docling': RiFileTextLine,
+  'Exa': RiSearchLine,
+};
+
+const serviceColors: Record<string, string> = {
+  'Google': '#4285F4',
+  'AWS': '#FF9900',
+  'Microsoft': '#00A4EF',
+  'Github': '#181717',
+  'Supabase': '#3ECF8E',
+  'n8n': '#FF6D5B',
+  'Playwright': '#2EAD33',
+  'Shopify': '#7AB55C',
+  'Atlassian': '#0052CC',
+  'Notion': '#000000',
+  'HubSpot': '#FF7A59',
+  'Zapier': '#FF4F00',
+  'Cloudflare': '#F38020',
+  'Context7': '#6366F1',
+  'Docling': '#0062ff',
+  'Exa': '#8B5CF6',
+};
+
+// Helper function to render logo for each service
 const renderServiceLogo = (serviceName: string, x: number, y: number, size: number = 40): React.ReactElement => {
+  const Icon = serviceIcons[serviceName] || RiStackLine;
+  const color = serviceColors[serviceName] || '#6B7280';
   const half = size / 2;
-  const radius = half * 0.9;
-  
-  // Simple circle logos - color map
-  const colorMap: Record<string, string> = {
-    'OpenAI': '#10A37F',
-    'Anthropic': '#D4A574',
-    'Google AI': '#4285F4',
-    'Microsoft': '#0078D4',
-    'Hugging Face': '#FFD21E',
-    'Stability AI': '#000000',
-    'Cohere': '#FF6B35',
-    'Perplexity': '#000000',
-    'Mistral AI': '#FF6B00',
-    'Claude': '#D4A574',
-    'Groq': '#00C853',
-    'Freepik': '#0C75F0',
-    'Replicate': '#3C3C3C',
-    'ElevenLabs': '#000000',
-  };
-  
-  const color = colorMap[serviceName] || '#6B7280';
-  const translateX = x - half;
-  const translateY = y - half;
   
   return (
-    <g transform={`translate(${translateX}, ${translateY})`}>
-      <circle cx={half} cy={half} r={radius} fill={color}/>
-    </g>
+    <foreignObject x={x - half} y={y - half} width={size} height={size}>
+      <div className="flex items-center justify-center w-full h-full">
+        <Icon style={{ color, width: '100%', height: '100%' }} />
+      </div>
+    </foreignObject>
   );
 };
 
@@ -87,30 +113,15 @@ export const MCPStoreSection = () => {
   }, []);
 
   // Icon positions around the center - AI SaaS services (circular pattern wrapping the text, no duplicates)
-  // 14 unique services distributed evenly in a circle (360/14 = ~25.7 degrees apart)
+  // 16 unique services distributed evenly in a circle (360/16 = 22.5 degrees apart)
   // Using polar coordinates converted to percentages
   const services = [
-    'OpenAI', 'Anthropic', 'Google AI', 'Microsoft', 'Hugging Face', 
-    'Stability AI', 'Cohere', 'Perplexity', 'Mistral AI', 'Claude',
-    'Groq', 'Freepik', 'ElevenLabs', 'Replicate'
+    'Context7', 'Google', 'AWS', 'Microsoft', 'Docling', 'Github', 
+    'Supabase', 'n8n', 'Exa', 'Playwright', 'Shopify', 'Atlassian', 
+    'Notion', 'HubSpot', 'Zapier', 'Cloudflare'
   ];
-  
-  const colors: Record<string, string> = {
-    'OpenAI': '#10A37F',
-    'Anthropic': '#D4A574',
-    'Google AI': '#4285F4',
-    'Microsoft': '#0078D4',
-    'Hugging Face': '#FFD21E',
-    'Stability AI': '#000000',
-    'Cohere': '#FF6B35',
-    'Perplexity': '#000000',
-    'Mistral AI': '#FF6B00',
-    'Claude': '#D4A574',
-    'Groq': '#00C853',
-    'Freepik': '#0C75F0',
-    'ElevenLabs': '#000000',
-    'Replicate': '#3C3C3C',
-  };
+
+  const servicesToReduce = ['Atlassian', 'Notion', 'HubSpot', 'Zapier', 'Shopify', 'Google', 'AWS', 'Docling', 'Playwright'];
 
   // Calculate positions in a circle (radius increased to separate from center text)
   const radius = 48; // percentage - increased to create more space from center
@@ -127,21 +138,23 @@ export const MCPStoreSection = () => {
       x,
       y,
       name: service,
-      color: colors[service] || '#6B7280'
+      color: serviceColors[service] || '#6B7280'
     };
   });
 
-  const mobileIconPositions = [
-    { name: services[0], x: 80, y: 60 },
-    { name: services[1], x: 200, y: 40 },
-    { name: services[2], x: 320, y: 60 },
-    { name: services[3], x: 80, y: 740 },
-    { name: services[4], x: 200, y: 760 },
-    { name: services[5], x: 320, y: 740 },
-  ].map(pos => ({
-    ...pos,
-    color: colors[pos.name] || '#6B7280'
-  }));
+  const mobileIconPositions = services.slice(0, 8).map((service, index) => {
+    // For mobile, we take a subset and arrange them in two rows or a smaller circle
+    // Let's use a simpler distribution for mobile
+    const row = Math.floor(index / 3);
+    const col = index % 3;
+    
+    // Top group
+    if (row === 0) {
+      return { name: service, x: 80 + col * 120, y: 60 + (col % 2 === 0 ? 0 : 20), color: serviceColors[service] };
+    }
+    // Bottom group
+    return { name: service, x: 80 + col * 120, y: 740 - (col % 2 === 0 ? 0 : 20), color: serviceColors[service] };
+  });
 
   return (
     <section className="mt-16 sm:mt-24 lg:mt-32 mb-16 sm:mb-24 lg:mb-32 relative">
@@ -184,7 +197,8 @@ export const MCPStoreSection = () => {
 
           {/* Service logos - Mobile */}
           {mobileIconPositions.map((icon, index) => {
-            const logoSize = 36;
+            const baseLogoSize = 33;
+            const logoSize = servicesToReduce.includes(icon.name) ? Math.round(baseLogoSize * 0.75) : baseLogoSize;
             const animationDuration = 3 + (index % 3) * 0.5;
             const animationDelay = index * 0.2;
 
@@ -210,7 +224,7 @@ export const MCPStoreSection = () => {
                 <circle
                   cx={icon.x}
                   cy={icon.y}
-                  r={logoSize/2 + 4}
+                  r={baseLogoSize/2 + 4}
                   fill="white"
                   stroke="#E5E7EB"
                   strokeWidth="1"
@@ -255,7 +269,8 @@ export const MCPStoreSection = () => {
 
           {/* Service logos - Desktop */}
           {desktopIconPositions.map((icon, index) => {
-            const logoSize = 40;
+            const baseLogoSize = 26;
+            const logoSize = servicesToReduce.includes(icon.name) ? Math.round(baseLogoSize * 0.75) : baseLogoSize;
             const animationDuration = 3 + (index % 3) * 0.5;
             const animationDelay = index * 0.2;
 
@@ -281,7 +296,7 @@ export const MCPStoreSection = () => {
                 <circle
                   cx={icon.x}
                   cy={icon.y}
-                  r={logoSize/2 + 4}
+                  r={baseLogoSize/2 + 4}
                   fill="white"
                   stroke="#E5E7EB"
                   strokeWidth="1"
@@ -292,7 +307,7 @@ export const MCPStoreSection = () => {
                 </g>
                 <text
                   x={icon.x}
-                  y={icon.y + logoSize/2 + 20}
+                  y={icon.y + baseLogoSize/2 + 20}
                   textAnchor="middle"
                   fontSize="10"
                   fill="#6B7280"
@@ -311,12 +326,12 @@ export const MCPStoreSection = () => {
           <div className="text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-30">
             {/* Main heading */}
             <h3 className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-[-1.92px] text-slate-900 mb-8 leading-tight">
-              Explore the MCP Store
+              Levante MCP Store
             </h3>
             
             {/* Description */}
             <p className="text-gray-600 text-lg md:text-xl mb-12 max-w-3xl mx-auto">
-              Discover and integrate {mcpCount > 0 ? `${mcpCount}+ ` : ''}Model Context Protocol servers to extend your AI workspace
+              Unlock your AI's full potential
             </p>
             
             {/* Button */}

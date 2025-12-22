@@ -393,7 +393,7 @@ export default function Home() {
             <div className="absolute inset-0 flex flex-col justify-between p-5 sm:p-6 md:p-8">
               {/* Mockup Image Area */}
               <div className="flex-1 flex items-center justify-center overflow-visible">
-                <div className="w-full max-w-[400px] aspect-[1.4/1] relative">
+                <div className="w-full max-w-[400px] aspect-[1/1] sm:aspect-[1.4/1] relative">
                   <MCPConfigurationSVG />
                 </div>
               </div>

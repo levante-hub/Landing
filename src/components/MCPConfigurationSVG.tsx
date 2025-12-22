@@ -59,7 +59,7 @@ export const MCPConfigurationSVG = () => {
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center font-sans relative group">
-      <div className="w-full h-[264px] bg-white rounded-lg shadow-xl overflow-hidden flex flex-col p-1 relative">
+      <div className="w-full h-[300px] sm:h-[264px] bg-white rounded-lg shadow-xl overflow-hidden flex flex-col p-1 relative">
         {/* Header */}
         <div className="px-4 pt-3 pb-1 flex items-center justify-start">
           <h3 className="text-[13px] font-bold text-gray-900 leading-tight tracking-tight">Add MCP Integration</h3>
