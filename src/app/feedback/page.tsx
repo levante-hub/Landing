@@ -7,6 +7,7 @@ import { FeedbackForm } from "@/components/feedback/FeedbackForm";
 import { FeedbackList } from "@/components/feedback/FeedbackList";
 import { RoadmapList } from "@/components/feedback/RoadmapList";
 import { FeedbackNav } from "@/components/feedback/FeedbackNav";
+import { FeedbackContactDialog } from "@/components/feedback/FeedbackContactDialog";
 import { TryNowSection } from "@/components/TryNowSection";
 import { Questionnaire } from "@/components/questionnaire";
 import { useLatestRelease } from "@/hooks/useLatestRelease";
@@ -19,6 +20,8 @@ export default function FeedbackPage() {
     const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
     const [isFeedbackFormOpen, setIsFeedbackFormOpen] = useState(false);
+    const [pendingFeedbackId, setPendingFeedbackId] = useState<string | null>(null);
+    const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
     const { downloadUrl, platform } = useLatestRelease();
 
     const openQuestionnaire = () => {
@@ -147,9 +150,18 @@ export default function FeedbackPage() {
                                 isOpen={isFeedbackFormOpen} 
                                 setIsOpen={setIsFeedbackFormOpen}
                                 hideButton={true}
+                                onSubmitted={(id) => {
+                                    setPendingFeedbackId(id);
+                                    setIsContactDialogOpen(true);
+                                }}
                             />
                             
                             <FeedbackList />
+                            <FeedbackContactDialog
+                                open={isContactDialogOpen}
+                                feedbackId={pendingFeedbackId}
+                                onClose={() => setIsContactDialogOpen(false)}
+                            />
                         </div>
                     </>
                 ) : (

@@ -3,36 +3,41 @@ import { safeCapture, getUTMParams } from '@/lib/posthog'
 
 export const useUTMTracking = () => {
   useEffect(() => {
-    // Track page view with UTM parameters
-    const utmParams = getUTMParams()
-    const fragment = window.location.hash.substring(1)
+    // Small delay to ensure PostHog is fully initialized
+    const timeoutId = setTimeout(() => {
+      // Track page view with UTM parameters
+      const utmParams = getUTMParams()
+      const fragment = window.location.hash.substring(1)
 
-    // Track page view with source attribution
-    safeCapture('$pageview', {
-      ...utmParams,
-      fragment,
-      landing_page: true
-    })
-
-    // If there's a UTM source, track traffic source
-    if (utmParams.utm_source) {
-      safeCapture('traffic_source_visit', {
-        source: utmParams.utm_source,
-        medium: utmParams.utm_medium,
-        campaign: utmParams.utm_campaign,
-        content: utmParams.utm_content
+      // Track page view with source attribution
+      safeCapture('$pageview', {
+        ...utmParams,
+        fragment,
+        landing_page: true
       })
-    }
 
-    // Handle fragment-based actions for social media deep links
-    if (fragment) {
-      handleFragmentAction(fragment, utmParams)
-    }
+      // If there's a UTM source, track traffic source
+      if (utmParams.utm_source) {
+        safeCapture('traffic_source_visit', {
+          source: utmParams.utm_source,
+          medium: utmParams.utm_medium,
+          campaign: utmParams.utm_campaign,
+          content: utmParams.utm_content
+        })
+      }
 
-    // Store UTM data in session for attribution
-    if (utmParams.utm_source) {
-      sessionStorage.setItem('levante_utm_data', JSON.stringify(utmParams))
-    }
+      // Handle fragment-based actions for social media deep links
+      if (fragment) {
+        handleFragmentAction(fragment, utmParams)
+      }
+
+      // Store UTM data in session for attribution
+      if (utmParams.utm_source) {
+        sessionStorage.setItem('levante_utm_data', JSON.stringify(utmParams))
+      }
+    }, 100)
+
+    return () => clearTimeout(timeoutId)
   }, [])
 
   const handleFragmentAction = (fragment: string, utmParams: any) => {

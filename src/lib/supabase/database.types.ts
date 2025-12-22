@@ -82,6 +82,26 @@ export type Database = {
           created_at?: string
         }
       }
+      feedback_contacts: {
+        Row: {
+          feedback_id: string
+          contact: string
+          privacy_accepted_at: string
+          created_at: string
+        }
+        Insert: {
+          feedback_id: string
+          contact: string
+          privacy_accepted_at: string
+          created_at?: string
+        }
+        Update: {
+          feedback_id?: string
+          contact?: string
+          privacy_accepted_at?: string
+          created_at?: string
+        }
+      }
     }
   }
 }

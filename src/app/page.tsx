@@ -18,6 +18,7 @@ import { Questionnaire } from "@/components/questionnaire";
 import { useLatestRelease } from "@/hooks/useLatestRelease";
 import { MCPConfigurationSVG } from "@/components/MCPConfigurationSVG";
 import { ModelSelectorSVG } from "@/components/ModelSelectorSVG";
+import { getPlatformDisplayName } from "@/lib/platformDetector";
 
 export default function Home() {
   const [isQuestionnaireOpen, setIsQuestionnaireOpen] = useState(false);
@@ -25,7 +26,7 @@ export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [featuresVisible, setFeaturesVisible] = useState(false);
   const router = useRouter();
-  const { downloadUrl, error: releaseError, platform } = useLatestRelease();
+  const { downloadUrl, error: releaseError, platform, version } = useLatestRelease();
 
   // Track UTM parameters and handle social media deep links
   useUTMTracking();
@@ -74,8 +75,14 @@ export default function Home() {
   };
 
   const handleDownload = (location: "navbar" | "hero" | "footer") => {
-    // Track download event with location
-    safeCapture("download_button_clicked", { location });
+    // Track download event with location and OS information
+    safeCapture("download_button_clicked", {
+      location,
+      platform,
+      platform_display: getPlatformDisplayName(platform),
+      download_url: downloadUrl || undefined,
+      version
+    });
 
     if (downloadUrl) {
       setIsDownloading(true);
@@ -199,9 +206,8 @@ export default function Home() {
 
         {/* Mobile Menu */}
         <div
-          className={`fixed top-0 right-0 h-full w-[280px] bg-[#1a1a1a] z-50 transform transition-transform duration-300 ease-in-out md:hidden ${
-            isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`fixed top-0 right-0 h-full w-[280px] bg-[#1a1a1a] z-50 transform transition-transform duration-300 ease-in-out md:hidden ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+            }`}
         >
           <div className="flex flex-col h-full">
             {/* Mobile Menu Header */}
@@ -462,6 +468,8 @@ export default function Home() {
         isDownloading={isDownloading}
         downloadUrl={downloadUrl}
         getPlatformLabel={getPlatformLabel}
+        platform={platform}
+        version={version}
       />
 
       <Questionnaire
