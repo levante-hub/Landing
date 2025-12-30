@@ -34,6 +34,7 @@ export interface MCPConfiguration {
 export interface MCPServer {
   id: string;
   name: string;
+  displayName?: string;
   description: string;
   category: string;
   icon?: string;

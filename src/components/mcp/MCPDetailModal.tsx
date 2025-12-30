@@ -65,7 +65,7 @@ export function MCPDetailModal({
             </div>
 
             <div className="flex-1">
-              <h2 className="text-2xl font-semibold text-slate-900 mb-2">{mcp.name}</h2>
+              <h2 className="text-2xl font-semibold text-slate-900 mb-2">{mcp.displayName || mcp.name}</h2>
 
               <div className="flex flex-wrap gap-2">
                 <span className="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">

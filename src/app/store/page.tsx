@@ -511,7 +511,7 @@ export default function MCPStorePage() {
                             )}
                             <div className="flex-1 min-w-0">
                               <h3 className="text-lg font-semibold text-slate-900 leading-tight">
-                                {mcp.name}
+                                {mcp.displayName || mcp.name}
                               </h3>
                               <MCPBadges mcp={mcp} showCategory={false} showSource={false} className="mt-2" />
                             </div>
@@ -628,7 +628,7 @@ export default function MCPStorePage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-end gap-2">
                         <h3 className="text-lg font-semibold text-slate-900 group-hover:text-black transition-colors leading-tight">
-                          {mcp.name}
+                          {mcp.displayName || mcp.name}
                         </h3>
                         {mcp.maintainer?.name && (
                           <span className="text-xs text-slate-500 leading-tight pb-0.5">
@@ -685,7 +685,7 @@ export default function MCPStorePage() {
       <InstallPromptModal
         isOpen={showFallback}
         onClose={closeFallback}
-        mcpName={currentMCP?.name}
+        mcpName={currentMCP?.displayName || currentMCP?.name}
         downloadUrl={downloadUrl}
       />
 

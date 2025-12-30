@@ -64,7 +64,7 @@ export function MCPInfoSheet({ mcp, open, onClose }: MCPInfoSheetProps) {
               )}
             </div>
             <div className="flex-1">
-              <h2 className="text-xl font-semibold">{mcp.name}</h2>
+              <h2 className="text-xl font-semibold">{mcp.displayName || mcp.name}</h2>
               <p className="text-sm text-slate-600 mt-1">{mcp.description}</p>
               <MCPBadges mcp={mcp} className="mt-3" />
             </div>
